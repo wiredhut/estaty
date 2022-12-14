@@ -1,6 +1,7 @@
-from typing import List
+from typing import List, Union
 
-from estaty.action import SecondaryAction, Action
+from estaty.actions import SecondaryAction, Action
+from estaty.data.data import CommonData
 
 
 class Preprocessor(SecondaryAction):
@@ -10,5 +11,5 @@ class Preprocessor(SecondaryAction):
                  from_actions: List[Action] = None):
         super().__init__(action_name, params, from_actions)
 
-    def execute(self):
-        pass
+    def execute(self, input_data: Union[CommonData, None] = None):
+        data = self.execute_previous_actions(input_data)

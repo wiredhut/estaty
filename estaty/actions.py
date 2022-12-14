@@ -1,5 +1,7 @@
 from abc import abstractmethod
-from typing import List, Union
+from typing import List, Union, Any
+
+from estaty.data.data import CommonData
 
 BASE_EXCEPTION_MESSAGE = 'Does not support action execution for base class'
 
@@ -16,16 +18,19 @@ class Action:
         self.action_name = action_name
         self.params = params
 
-        # Data for pools processing - may be none or list with data from
-        # previous actions
-        self.input_data: Union[List, None] = None
         # Pool with stages to be launched
         self.execution_pool: List = []
 
+        # Object for analysis
+        self.object_for_analysis = None
+
     @abstractmethod
-    def execute(self):
+    def execute(self, input_data: Union[CommonData, None] = None):
         """ Start execute all defined processing stages """
         raise NotImplementedError(BASE_EXCEPTION_MESSAGE)
+
+    def set_object(self, object_for_analysis: Any):
+        self.object_for_analysis = object_for_analysis
 
 
 class SecondaryAction(Action):
@@ -38,15 +43,25 @@ class SecondaryAction(Action):
         self.from_actions = from_actions
 
     @abstractmethod
-    def execute(self):
+    def execute(self, input_data: Union[CommonData, None] = None):
         """ Start execute all defined processing stages """
         raise NotImplementedError(BASE_EXCEPTION_MESSAGE)
 
-    def get_data_from_previous_actions(self):
+    def execute_previous_actions(self, input_data: Union[CommonData, None]):
         """
         There is a need to launch previous actions first and collect data
         from them
         """
-        self.input_data = []
+        input_data_list = []
         for action in self.from_actions:
-            self.input_data.append(action.execute())
+            # Transform data in action and return updated version
+            input_data = action.execute(input_data)
+            input_data_list.append(input_data)
+
+        return input_data_list
+
+    def set_object(self, object_for_analysis: Any):
+        """ Set estate object for analysis """
+        self.object_for_analysis = object_for_analysis
+        for action in self.from_actions:
+            action.set_object(object_for_analysis)

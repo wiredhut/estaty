@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from estaty.action import SecondaryAction
+from estaty.actions import SecondaryAction
 
 
 class Preset:

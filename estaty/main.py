@@ -1,7 +1,8 @@
 from typing import Dict, Union
 
-from estaty.action import SecondaryAction
+from estaty.actions import SecondaryAction
 from estaty.api_utils.property import PropertyObjectConfiguration
+from estaty.data.search import find_location_name
 from estaty.presets.green import GreenCasePreset
 
 
@@ -38,4 +39,8 @@ class EstateModel:
         else:
             # Set as sequence of actions
             final_action = configuration
+
+        # Get location name based on property coordinates
+        self.property_object = find_location_name(self.property_object)
+        final_action.set_object(self.property_object)
         return final_action.execute()
