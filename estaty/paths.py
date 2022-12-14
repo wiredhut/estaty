@@ -6,5 +6,7 @@ def get_project_path() -> Path:
 
 
 def get_tmp_folder_path() -> Path:
-    """ Return path to folder where different files can be stored """
+    """
+    Return path to the temporary folder where different files can be stored
+    """
     return Path(get_project_path(), 'estaty', 'tmp')

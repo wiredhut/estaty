@@ -8,29 +8,21 @@ import warnings
 
 from loguru import logger
 
+from estaty.data_source.load.repository.locations import WGS_LOCATION_BOUNDS
+from estaty.data_source.load.repository.osm_tags import WATER_TAGS, PARKS_TAGS
 from estaty.paths import get_tmp_folder_path
 
 warnings.filterwarnings('ignore')
 
 
-WATER_TAGS = {'natural': ['water', 'strait', 'wetland'],
-              'water': ['river', 'oxbow', 'canal', 'lake', 'ditch', 'lock',
-                        'fish_pass', 'reservoir', 'pond', 'basin']}
-
-PARKS_TAGS = {'boundary': ['national_park', 'forest'],
-              'leisure': ['park'],
-              'landuse': ['forest', 'meadow', 'orchard'],
-              'natural': ['grassland', 'wood']}
-
-
 class LoadOSMData:
-    """ Class for loading OSM data """
+    """
+    Class for loading OSM data. Can be used for loading data within
+    predefined areas boundaries
+    """
 
     tags_by_category = {'water': WATER_TAGS,
                         'parks': PARKS_TAGS}
-
-    # Lower left and upper right coordinates (lat and long) of location in WGS84
-    location_by_name = {'Berlin': [52.68, 52.37, 13.04, 13.75]}
 
     def __init__(self, location: str = None,
                  max_y: Optional[float] = None,
@@ -40,7 +32,7 @@ class LoadOSMData:
                  folder_to_save_data: Union[str, Path] = None):
         if location is not None:
             # Location was defined by name
-            self.max_y, self.min_y, self.min_x, self.max_x = self.location_by_name[location]
+            self.max_y, self.min_y, self.min_x, self.max_x = WGS_LOCATION_BOUNDS[location]
         else:
             # Create name for location
             location = f'Location {str(min_x).replace(".", "_")}, ' \

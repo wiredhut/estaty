@@ -105,6 +105,17 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "exceptiongroup"
+version = "1.0.4"
+description = "Backport of PEP 654 (exception groups)"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+test = ["pytest (>=6)"]
+
+[[package]]
 name = "fiona"
 version = "1.8.22"
 description = "Fiona reads and writes spatial data files"
@@ -171,6 +182,14 @@ description = "Internationalized Domain Names in Applications (IDNA)"
 category = "main"
 optional = false
 python-versions = ">=3.5"
+
+[[package]]
+name = "iniconfig"
+version = "1.1.1"
+description = "iniconfig: brain-dead simple config-ini parsing"
+category = "main"
+optional = false
+python-versions = "*"
 
 [[package]]
 name = "kiwisolver"
@@ -321,6 +340,18 @@ docs = ["furo", "olefile", "sphinx (>=2.4)", "sphinx-copybutton", "sphinx-issues
 tests = ["check-manifest", "coverage", "defusedxml", "markdown2", "olefile", "packaging", "pyroma", "pytest", "pytest-cov", "pytest-timeout"]
 
 [[package]]
+name = "pluggy"
+version = "1.0.0"
+description = "plugin and hook calling mechanisms for python"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.extras]
+dev = ["pre-commit", "tox"]
+testing = ["pytest", "pytest-benchmark"]
+
+[[package]]
 name = "pyparsing"
 version = "3.0.9"
 description = "pyparsing module - Classes and methods to define and execute parsing grammars"
@@ -341,6 +372,26 @@ python-versions = ">=3.8"
 
 [package.dependencies]
 certifi = "*"
+
+[[package]]
+name = "pytest"
+version = "7.2.0"
+description = "pytest: simple powerful testing with Python"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+attrs = ">=19.2.0"
+colorama = {version = "*", markers = "sys_platform == \"win32\""}
+exceptiongroup = {version = ">=1.0.0rc8", markers = "python_version < \"3.11\""}
+iniconfig = "*"
+packaging = "*"
+pluggy = ">=0.12,<2.0"
+tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
+
+[package.extras]
+testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "xmlschema"]
 
 [[package]]
 name = "python-dateutil"
@@ -468,7 +519,7 @@ dev = ["pytest (>=4.6.2)", "black (>=19.3b0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "a301b989537ac10554d714544d9215546535eb5616822a991264a487a791ff63"
+content-hash = "581a1d0a51cdfaa70a3ecee31e8d4773b85ea8c60e85d0ef54d527265828ff5b"
 
 [metadata.files]
 attrs = []
@@ -480,10 +531,12 @@ cligj = []
 colorama = []
 contourpy = []
 cycler = []
+exceptiongroup = []
 fiona = []
 fonttools = []
 geopandas = []
 idna = []
+iniconfig = []
 kiwisolver = []
 loguru = []
 matplotlib = []
@@ -494,8 +547,10 @@ osmnx = []
 packaging = []
 pandas = []
 pillow = []
+pluggy = []
 pyparsing = []
 pyproj = []
+pytest = []
 python-dateutil = []
 pytz = []
 requests = []
