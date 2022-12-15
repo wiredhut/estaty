@@ -13,7 +13,8 @@ from estaty.data.data import CommonData, VectorData
 from estaty.data_source.load.osm_save_load import save_geodataframe_into_file, \
     load_geodataframe_from_file
 from estaty.data_source.load.repository.locations import WGS_LOCATION_BOUNDS
-from estaty.data_source.load.repository.osm_tags import WATER_TAGS, PARKS_TAGS
+from estaty.data_source.load.repository.osm_tags import WATER_TAGS, PARKS_TAGS, \
+    LIGHTS_TAGS
 from estaty.paths import get_tmp_folder_path
 from estaty.stages import Stage
 
@@ -29,7 +30,8 @@ class LoadOSMStage(Stage):
     """
 
     tags_by_category = {'water': WATER_TAGS,
-                        'parks': PARKS_TAGS}
+                        'parks': PARKS_TAGS,
+                        'lights': LIGHTS_TAGS}
 
     allowed_geom_by_category = {'water': ['Linestring', 'Polygon', 'MultiPolygon'],
                                 'parks': ['Polygon', 'MultiPolygon']}
@@ -73,7 +75,10 @@ class LoadOSMStage(Stage):
 
     def filter_data_by_category(self, bbox_info: geopandas.geodataframe.DataFrame):
         """ Remain only desired geometries in OSM data """
-        allowed_geometries = self.allowed_geom_by_category[self.category]
+        allowed_geometries = self.allowed_geom_by_category.get(self.category)
+        if allowed_geometries is None:
+            # All geometries is allowed
+            return bbox_info
 
         # Parse data by geometries types
         geom_types = list(bbox_info.geometry.geometry.type.unique())

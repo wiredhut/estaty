@@ -9,15 +9,11 @@ warnings.filterwarnings('ignore')
 
 def load_data_with_parks_from_osm():
     """
-    Demonstration how to load data from Open Street Map
+    Demonstration how to load data from file in local storage
     In this example we will know how to load parks data in a form of geopandas
-
-    Points to check:
-    Berlin: {'lat': 52.518168945198845, 'lon': 13.385957678169396}
-    Munich: {'lat': 48.13884230541626, 'lon': 11.568211350731131}
     """
     # Define data sources and get data from it as parks
-    osm_source = DataSource('osm', params={'category': 'parks'})
+    osm_source = DataSource('gbif_local', params={'species': ['ambrosia']})
 
     # Launch data loading
     model = EstateModel().for_property({'lat': 52.518168945198845,
@@ -29,7 +25,7 @@ def load_data_with_parks_from_osm():
     # plot and display it
     print(loaded_data.polygons)
     df = loaded_data.polygons.to_crs(epsg=3857)
-    ax = df.plot(color='green', alpha=0.3, edgecolor='k')
+    ax = df.plot(color='red', alpha=0.6, edgecolor='k', markersize=6)
     cx.add_basemap(ax)
     plt.show()
 

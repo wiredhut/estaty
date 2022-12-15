@@ -33,7 +33,7 @@ def launch_green_case_analysis_for_property_manually():
 
     # 1 Stage - define data sources and get data from them
     osm_source = DataSource('osm', params={'category': 'parks'})
-    bio_source = DataSource('gbif', params={'species': ['ambrosia']})
+    bio_source = DataSource('gbif_local', params={'species': ['ambrosia']})
 
     # 2 Stage - re project layers into metric projection
     osm_reprojected = Preprocessor('reproject',

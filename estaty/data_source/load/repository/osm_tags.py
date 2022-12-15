@@ -6,3 +6,6 @@ PARKS_TAGS = {'boundary': ['national_park', 'forest'],
               'leisure': ['park'],
               'landuse': ['forest', 'meadow', 'orchard'],
               'natural': ['grassland', 'wood']}
+
+LIGHTS_TAGS = {'highway': ['street_lamp'],
+               'lit': ['yes']}

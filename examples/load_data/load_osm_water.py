@@ -1,6 +1,7 @@
 from estaty.data_source.action import DataSource
 from estaty.main import EstateModel
 import matplotlib.pyplot as plt
+import contextily as cx
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -23,7 +24,9 @@ def load_data_with_water_from_osm():
     # Take a look at the obtained data - it take several seconds to generate
     # plot and display it
     print(loaded_data.polygons)
-    loaded_data.polygons.plot(color='blue')
+    df = loaded_data.polygons.to_crs(epsg=3857)
+    ax = df.plot(color='blue', alpha=0.5, edgecolor='k')
+    cx.add_basemap(ax)
     plt.show()
 
 
