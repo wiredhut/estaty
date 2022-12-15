@@ -8,17 +8,19 @@ warnings.filterwarnings('ignore')
 
 
 def save_geodataframe_into_file(dataframe: geodataframe.DataFrame,
-                                path_to_file: Path):
+                                path_to_file: Path,
+                                save_only_geometries: bool = False):
     """ Save geopandas DataFrame into desired file locally """
     dataframe = remove_non_serializable_columns(dataframe)
-
+    if save_only_geometries:
+        dataframe = dataframe[['geometry']]
     try:
         if '.geojson' in path_to_file.name:
             # Save as geojson
-            dataframe[['geometry']].to_file(path_to_file)
+            dataframe.to_file(path_to_file)
         elif '.gpkg' in path_to_file.name:
             # Save empty file as gpkg - only geometries without attributes
-            dataframe[['geometry']].to_file(path_to_file,  driver='GPKG')
+            dataframe.to_file(path_to_file,  driver='GPKG')
         else:
             raise ValueError('Unknown file extension for file.')
     except Exception as ex:

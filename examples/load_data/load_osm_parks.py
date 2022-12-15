@@ -28,9 +28,10 @@ def load_data_with_parks_from_osm():
     # Take a look at the obtained data - it take several seconds to generate
     # plot and display it
     print(loaded_data.polygons)
-    df = loaded_data.polygons.to_crs(epsg=3857)
-    ax = df.plot(color='green', alpha=0.3, edgecolor='k')
+    loaded_data.to_crs(3857)
+    ax = loaded_data.all.plot(color='green', alpha=0.3, edgecolor='k')
     cx.add_basemap(ax)
+    plt.suptitle('Parks according to Open Street Map data')
     plt.show()
 
 

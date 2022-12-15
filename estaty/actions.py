@@ -52,13 +52,11 @@ class SecondaryAction(Action):
         There is a need to launch previous actions first and collect data
         from them
         """
-        input_data_list = []
         for action in self.from_actions:
             # Transform data in action and return updated version
             input_data = action.execute(input_data)
-            input_data_list.append(input_data)
 
-        return input_data_list
+        return input_data
 
     def set_object(self, object_for_analysis: Any):
         """ Set estate object for analysis """

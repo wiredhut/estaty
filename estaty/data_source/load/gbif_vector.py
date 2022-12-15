@@ -23,7 +23,16 @@ class LoadGBIFLocallyStage(Stage):
     def __init__(self, **params):
         super().__init__(**params)
         self.location = params['location']
-        self.path_to_file = Path(get_local_files_storage_path(), 'gbif_ambrosia.csv')
+        # TODO improve to allow several species processing
+        self.plant = params['species'][0]
+        path_to_files = Path(get_local_files_storage_path(), 'gbif')
+
+        # Get path to file with species data
+        self.path_to_file = None
+        for file in path_to_files.iterdir():
+            if self.plant in file.name:
+                self.path_to_file = file
+                break
 
     def apply(self, input_data: Union[CommonData, None]) -> CommonData:
         """ Load data from local file """

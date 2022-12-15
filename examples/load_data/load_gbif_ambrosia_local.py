@@ -25,8 +25,9 @@ def load_data_with_parks_from_osm():
     # plot and display it
     print(loaded_data.polygons)
     df = loaded_data.polygons.to_crs(epsg=3857)
-    ax = df.plot(color='red', alpha=0.6, edgecolor='k', markersize=6)
+    ax = df.plot(color='red', alpha=0.6, edgecolor='k', markersize=15)
     cx.add_basemap(ax)
+    plt.suptitle('Ambrosia artemisiifolia occurrences')
     plt.show()
 
 

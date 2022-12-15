@@ -11,6 +11,10 @@ def load_data_with_lights_from_osm():
     """
     Demonstration how to load data from Open Street Map
     In this example we will know how to load street lights in a form of geopandas
+
+    Points to check:
+    Berlin: {'lat': 52.518168945198845, 'lon': 13.385957678169396}
+    Munich: {'lat': 48.13884230541626, 'lon': 11.568211350731131}
     """
     # Define data sources and get data from it as parks
     osm_source = DataSource('osm', params={'category': 'lights'})
@@ -24,9 +28,12 @@ def load_data_with_lights_from_osm():
     # Take a look at the obtained data - it take several seconds to generate
     # plot and display it
     print(loaded_data.polygons)
-    df = loaded_data.polygons.to_crs(epsg=3857)
-    ax = df.plot(color='orange', alpha=0.5, edgecolor='k', markersize=3)
+    loaded_data.to_crs(3857)
+    poly = loaded_data.polygons.plot(color='#F1FF4C', alpha=0.9)
+    lines = loaded_data.lines.plot(ax=poly, color='#F1FF4C', alpha=0.5)
+    ax = loaded_data.points.plot(ax=lines, color='orange', alpha=0.5, markersize=5)
     cx.add_basemap(ax)
+    plt.suptitle('Street lights according to Open Street Map data')
     plt.show()
 
 

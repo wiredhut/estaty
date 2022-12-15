@@ -3,7 +3,7 @@ from typing import Dict, Union
 from estaty.actions import SecondaryAction
 from estaty.api_utils.property import PropertyObjectConfiguration
 from estaty.data_source.load.osm_vector_utils import find_location_name_for_point
-from estaty.presets.green import GreenCasePreset
+from estaty.presets.green import GreenCaseAdvancedPreset
 
 
 class EstateModel:
@@ -11,7 +11,7 @@ class EstateModel:
     Class for aggregating information from different sources for desired
     object (particular building - properties) or area
     """
-    preset_by_name = {'green': GreenCasePreset}
+    preset_by_name = {'green_advanced': GreenCaseAdvancedPreset}
 
     def __init__(self):
         self.area_object = None

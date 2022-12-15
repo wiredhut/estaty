@@ -6,7 +6,7 @@ from estaty.preprocessing.action import Preprocessor
 from estaty.report.action import Report
 
 
-class GreenCasePreset(Preset):
+class GreenCaseAdvancedPreset(Preset):
     """ Preset for processing green areas case """
 
     def return_final_action(self):

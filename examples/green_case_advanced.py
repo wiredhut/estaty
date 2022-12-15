@@ -11,18 +11,18 @@ warnings.filterwarnings('ignore')
 
 def launch_green_case_analysis_for_property():
     """
-    Demonstration of estaty functionality on green case with parks for
-    particular real estate object (property)
+    Demonstration of estaty functionality on green case advanced version with
+    parks for particular real estate object (property)
     """
     # Example for Berlin, Neustädtische Kirchstraße 4-7
     model = EstateModel().for_property({'lat': 52.518168945198845,
                                         'lon': 13.385957678169396})
-    model.compose('green')
+    model.compose('green_advanced')
 
 
 def launch_green_case_analysis_for_property_manually():
     """
-    Demonstration how to launch green case manually from nodes.
+    Demonstration how to launch green case advanced version manually from nodes.
     There are several actions to construct analysis pipelines from:
         * DataSource - sources of data, API or files
         * Preprocessor - preprocessing obtained data
@@ -37,10 +37,10 @@ def launch_green_case_analysis_for_property_manually():
 
     # 2 Stage - re project layers into metric projection
     osm_reprojected = Preprocessor('reproject',
-                                   params={'from': '4326', 'to': '4685'},
+                                   params={'to': 32633},
                                    from_actions=[osm_source])
     bio_reprojected = Preprocessor('reproject',
-                                   params={'from': '4326', 'to': '4685'},
+                                   params={'to': 32633},
                                    from_actions=[bio_source])
 
     # 3 Stage - merge data into OSM polygons (method match) - order is important

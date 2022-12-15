@@ -24,16 +24,14 @@ warnings.filterwarnings('ignore')
 class LoadOSMStage(Stage):
     """
     Class for loading OSM data. Can be used for loading data within
-    predefined areas boundaries.
-
-    Process only polygons
+    predefined areas boundaries
     """
 
     tags_by_category = {'water': WATER_TAGS,
                         'parks': PARKS_TAGS,
                         'lights': LIGHTS_TAGS}
 
-    allowed_geom_by_category = {'water': ['Linestring', 'Polygon', 'MultiPolygon'],
+    allowed_geom_by_category = {'water': ['LineString', 'Polygon', 'MultiPolygon'],
                                 'parks': ['Polygon', 'MultiPolygon']}
 
     def __init__(self, **params):
@@ -68,10 +66,14 @@ class LoadOSMStage(Stage):
             logger.debug(f'Successfully get data via osmnx')
 
             # Save data into gpkg file
-            save_geodataframe_into_file(osm_data, file_path)
+            if self.category == 'lights':
+                save_geodataframe_into_file(osm_data, file_path,
+                                            save_only_geometries=True)
+            else:
+                save_geodataframe_into_file(osm_data, file_path)
 
         # Always load vector data
-        return VectorData(polygons=osm_data)
+        return self.compose_vector_data(osm_data)
 
     def filter_data_by_category(self, bbox_info: geopandas.geodataframe.DataFrame):
         """ Remain only desired geometries in OSM data """
@@ -90,3 +92,24 @@ class LoadOSMStage(Stage):
 
         osm_data = pd.concat(osm_data)
         return osm_data
+
+    def compose_vector_data(self, osm_data: geopandas.geodataframe.DataFrame) -> VectorData:
+        """ Generate VectorData with desired fields """
+        vector_data = VectorData()
+
+        geom_types = list(osm_data.geometry.geometry.type.unique())
+        for geom_type in geom_types:
+            geom_df = osm_data.loc[osm_data.geometry.geometry.type == geom_type]
+            if geom_type == 'Point':
+                vector_data.points = geom_df
+            elif geom_type == 'LineString':
+                vector_data.lines = geom_df
+            elif geom_type == 'Polygon' or geom_type == 'MultiPolygon':
+                if vector_data.polygons is not None:
+                    vector_data.polygons = pd.concat([vector_data.polygons, geom_df])
+                else:
+                    vector_data.polygons = geom_df
+            else:
+                raise ValueError(f'Unknown type {geom_type} of geometries detected.')
+
+        return vector_data
