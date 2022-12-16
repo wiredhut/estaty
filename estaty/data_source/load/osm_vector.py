@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional, Union
+from typing import Union
 
 import geopandas
 import osmnx as ox
@@ -12,7 +12,6 @@ from loguru import logger
 from estaty.data.data import CommonData, VectorData
 from estaty.data_source.load.osm_save_load import save_geodataframe_into_file, \
     load_geodataframe_from_file
-from estaty.data_source.load.repository.locations import WGS_LOCATION_BOUNDS
 from estaty.data_source.load.repository.osm_tags import WATER_TAGS, PARKS_TAGS, \
     LIGHTS_TAGS
 from estaty.paths import get_tmp_folder_path
@@ -37,11 +36,15 @@ class LoadOSMStage(Stage):
     def __init__(self, **params):
         super().__init__(**params)
         self.category = params['category']
-        self.location = params['location']
-        self.max_y, self.min_y, self.min_x, self.max_x = WGS_LOCATION_BOUNDS[self.location]
+        analysis_point = params['object_for_analysis']
+        self.object_for_analysis = analysis_point
 
         # Use temporary folder to save results
-        self.folder = Path(get_tmp_folder_path(), self.location)
+        lat = str(round(analysis_point["lat"], 3)).replace('.', '_')
+        lon = str(round(analysis_point["lon"], 3)).replace('.', '_')
+        self.location_name = f'Point_{lat}_{lon}_with_buffer_{analysis_point["radius"]}'
+
+        self.folder = Path(get_tmp_folder_path(), self.location_name)
         self.folder.mkdir(parents=True, exist_ok=True)
 
     def apply(self, input_data: Union[CommonData, None]) -> CommonData:
@@ -54,14 +57,15 @@ class LoadOSMStage(Stage):
         else:
             # Request data from Open Street Map
             desired_tags = self.tags_by_category[self.category]
-            bbox_info = ox.geometries_from_bbox(self.max_y, self.min_y,
-                                                self.min_x, self.max_x,
-                                                tags=desired_tags)
+            bbox_info = ox.geometries_from_point((self.object_for_analysis['lat'],
+                                                  self.object_for_analysis['lon']),
+                                                 tags=desired_tags,
+                                                 dist=self.object_for_analysis['radius'])
             # Parse data by geometries types
             osm_data = self.filter_data_by_category(bbox_info)
 
             if osm_data is None or len(osm_data) < 1:
-                raise ValueError(f'Can not obtain any data for {self.location} and {self.category}')
+                raise ValueError(f'Can not obtain any data for {self.location_name} and {self.category}')
             osm_data = osm_data.reset_index()
             logger.debug(f'Successfully get data via osmnx')
 
@@ -93,7 +97,8 @@ class LoadOSMStage(Stage):
         osm_data = pd.concat(osm_data)
         return osm_data
 
-    def compose_vector_data(self, osm_data: geopandas.geodataframe.DataFrame) -> VectorData:
+    @staticmethod
+    def compose_vector_data(osm_data: geopandas.geodataframe.DataFrame) -> VectorData:
         """ Generate VectorData with desired fields """
         vector_data = VectorData()
 
@@ -112,4 +117,6 @@ class LoadOSMStage(Stage):
             else:
                 raise ValueError(f'Unknown type {geom_type} of geometries detected.')
 
+        # Always return Vector data with WSG 84 CRS
+        vector_data.to_crs(4326)
         return vector_data

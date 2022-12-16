@@ -17,15 +17,16 @@ def load_data_with_parks_from_osm():
 
     # Launch data loading
     model = EstateModel().for_property({'lat': 52.518168945198845,
-                                        'lon': 13.385957678169396})
+                                        'lon': 13.385957678169396},
+                                       radius=3000)
 
     loaded_data = model.compose(osm_source)
 
     # Take a look at the obtained data - it take several seconds to generate
     # plot and display it
-    print(loaded_data.polygons)
-    df = loaded_data.polygons.to_crs(epsg=3857)
-    ax = df.plot(color='red', alpha=0.6, edgecolor='k', markersize=15)
+    print(loaded_data.all)
+    loaded_data.to_crs(3857)
+    ax = loaded_data.all.plot(color='red', alpha=0.6, edgecolor='k', markersize=15)
     cx.add_basemap(ax)
     plt.suptitle('Ambrosia artemisiifolia occurrences')
     plt.show()

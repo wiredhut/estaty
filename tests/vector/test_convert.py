@@ -1,7 +1,7 @@
 import pandas as pd
 from geopandas import GeoDataFrame
 
-from estaty.engine.vector.vector import prepare_points_layer
+from estaty.engine.vector.convert import prepare_points_layer
 
 
 def get_pandas_dataframe():

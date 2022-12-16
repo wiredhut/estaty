@@ -11,9 +11,12 @@ def save_geodataframe_into_file(dataframe: geodataframe.DataFrame,
                                 path_to_file: Path,
                                 save_only_geometries: bool = False):
     """ Save geopandas DataFrame into desired file locally """
-    dataframe = remove_non_serializable_columns(dataframe)
+    dataframe = correct_non_serializable_columns(dataframe)
     if save_only_geometries:
-        dataframe = dataframe[['geometry']]
+        columns_to_take = ['geometry']
+        if 'nodes' in list(dataframe.columns):
+            columns_to_take.append('nodes')
+        dataframe = dataframe[columns_to_take]
     try:
         if '.geojson' in path_to_file.name:
             # Save as geojson
@@ -33,11 +36,20 @@ def load_geodataframe_from_file(path_to_file: Path):
     return spatial_objects
 
 
-def remove_non_serializable_columns(dataframe: geodataframe.DataFrame) -> geodataframe.DataFrame:
+def replace_list_with_tuple(cell):
+    if isinstance(cell, list):
+        return tuple(cell)
+    return cell
+
+
+def correct_non_serializable_columns(dataframe: geodataframe.DataFrame) -> geodataframe.DataFrame:
     """ Find columns with list in cells. Remove that columns from table """
     list_columns = []
     for col in dataframe.columns:
         if any(isinstance(val, list) for val in dataframe[col]):
             list_columns.append(col)
 
+    # Replace list with nodes with tuples for serialization
+    for col in list_columns:
+        dataframe[col] = dataframe[col].apply(replace_list_with_tuple)
     return dataframe.drop(columns=list_columns)

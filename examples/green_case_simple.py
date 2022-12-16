@@ -1,7 +1,6 @@
 from estaty.analysis.action import Analyzer
 from estaty.data_source.action import DataSource
 from estaty.main import EstateModel
-from estaty.merge.action import Merger
 from estaty.preprocessing.action import Preprocessor
 from estaty.report.action import Report
 
@@ -16,7 +15,8 @@ def launch_green_case_analysis_for_property():
     """
     # Example for Berlin, Neustädtische Kirchstraße 4-7
     model = EstateModel().for_property({'lat': 52.518168945198845,
-                                        'lon': 13.385957678169396})
+                                        'lon': 13.385957678169396,
+                                        'radius': 500})
     model.compose('green')
 
 
@@ -42,16 +42,16 @@ def launch_green_case_analysis_for_property_manually():
                                    from_actions=[osm_source])
 
     # 4 Stage - calculate distances from open source
-    analysis = Analyzer('distance', params={'restriction': 'only_roads',
-                                            'radius': 500},
+    analysis = Analyzer('distance', params={'network_type': 'walk'},
                         from_actions=[osm_reprojected])
 
     # 5 Stage - display all prepared output calculations into console
     report = Report('stdout', from_actions=[analysis])
 
-    # Launch model
+    # Launch model for desired location
     model = EstateModel().for_property({'lat': 52.518168945198845,
-                                        'lon': 13.385957678169396})
+                                        'lon': 13.385957678169396},
+                                       radius=500)
 
     model.compose(report)
 

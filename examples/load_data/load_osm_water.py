@@ -21,7 +21,8 @@ def load_data_with_water_from_osm():
 
     # Launch data loading
     model = EstateModel().for_property({'lat': 52.518168945198845,
-                                        'lon': 13.385957678169396})
+                                        'lon': 13.385957678169396},
+                                       radius=1000)
 
     loaded_data = model.compose(osm_source)
 

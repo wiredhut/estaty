@@ -2,7 +2,7 @@ import numpy as np
 
 from estaty.data_source.load.osm_vector_utils import convert_osm_bbox_coordinates
 from estaty.engine.vector.crop import crop_points_by_polygon
-from estaty.engine.vector.vector import prepare_points_layer
+from estaty.engine.vector.convert import prepare_points_layer
 from tests.vector.test_convert import get_pandas_dataframe
 
 

@@ -2,7 +2,6 @@ from typing import Dict, Union
 
 from estaty.actions import SecondaryAction
 from estaty.api_utils.property import PropertyObjectConfiguration
-from estaty.data_source.load.osm_vector_utils import find_location_name_for_point
 from estaty.presets.green import GreenCaseAdvancedPreset
 
 
@@ -21,13 +20,22 @@ class EstateModel:
         """ Add area for analysis """
         raise NotImplementedError('estaty does not support area processing for now')
 
-    def for_property(self, coordinates: Dict = None, address: str = None):
+    def for_property(self, coordinates: Dict = None, address: str = None,
+                     radius: int = None):
         """
         Add property for analysis. Can be defined as point with coordinates
         in WGS84 or address of building
+
+        :param coordinates: dictionary with 'lat' 'lon' coordinates
+        :param address: string with address
+        :param radius: radius for buffer in metres
         """
         preparer = PropertyObjectConfiguration(coordinates, address)
         self.property_object = preparer.configure_object()
+
+        if radius is None or not isinstance(radius, int):
+            raise ValueError('Parameter radius must be defined as int value (meters) buffer')
+        self.property_object['radius'] = radius
         return self
 
     def compose(self, configuration: Union[str, SecondaryAction]):
@@ -40,7 +48,5 @@ class EstateModel:
             # Set as sequence of actions
             final_action = configuration
 
-        # Get location name based on property coordinates
-        self.property_object = find_location_name_for_point(self.property_object)
         final_action.set_object(self.property_object)
         return final_action.execute()

@@ -1,7 +1,8 @@
 from abc import abstractmethod
-from typing import List, Union, Any
+from typing import List, Union, Any, Callable
 
 from estaty.data.data import CommonData
+from estaty.repository.labels import DATA_SOURCE_POOL_BY_NAME
 
 BASE_EXCEPTION_MESSAGE = 'Does not support action execution for base class'
 
@@ -19,7 +20,7 @@ class Action:
         self.params = params
 
         # Pool with stages to be launched
-        self.execution_pool: List = []
+        self.execution_pool: Union[List, Callable] = DATA_SOURCE_POOL_BY_NAME[action_name]
 
         # Object for analysis
         self.object_for_analysis = None
