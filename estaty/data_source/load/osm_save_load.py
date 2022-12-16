@@ -36,9 +36,9 @@ def load_geodataframe_from_file(path_to_file: Path):
     return spatial_objects
 
 
-def replace_list_with_tuple(cell):
+def replace_list_with_str(cell):
     if isinstance(cell, list):
-        return tuple(cell)
+        return str(cell)
     return cell
 
 
@@ -51,5 +51,5 @@ def correct_non_serializable_columns(dataframe: geodataframe.DataFrame) -> geoda
 
     # Replace list with nodes with tuples for serialization
     for col in list_columns:
-        dataframe[col] = dataframe[col].apply(replace_list_with_tuple)
-    return dataframe.drop(columns=list_columns)
+        dataframe[col] = dataframe[col].apply(replace_list_with_str)
+    return dataframe

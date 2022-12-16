@@ -51,7 +51,7 @@ def launch_green_case_analysis_for_property_manually():
     # Launch model for desired location
     model = EstateModel().for_property({'lat': 52.518168945198845,
                                         'lon': 13.385957678169396},
-                                       radius=500)
+                                       radius=1000)
 
     model.compose(report)
 
