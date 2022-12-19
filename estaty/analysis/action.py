@@ -11,12 +11,12 @@ class Analyzer(SecondaryAction):
                  from_actions: List[SecondaryAction] = None):
         super().__init__(action_name, params, from_actions)
 
-    def execute(self, input_data: Union[CommonData, None] = None):
+    def execute(self):
         """ Launch desired analysis """
         if isinstance(self.execution_pool, list):
             raise ValueError('Analyzer does not support multiple stages processing')
 
-        data = self.execute_previous_actions(input_data)
+        data = self.execute_previous_actions()
 
         # Launch analysis on obtained data
         params = {**self.params, **{'object_for_analysis': self.object_for_analysis}}

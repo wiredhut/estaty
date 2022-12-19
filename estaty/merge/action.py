@@ -11,5 +11,5 @@ class Merger(SecondaryAction):
                  from_actions: List[SecondaryAction] = None):
         super().__init__(action_name, params, from_actions)
 
-    def execute(self, input_data: Union[CommonData, None] = None):
-        data = self.execute_previous_actions(input_data)
+    def execute(self):
+        data = self.execute_previous_actions()

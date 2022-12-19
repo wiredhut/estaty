@@ -26,7 +26,7 @@ class Action:
         self.object_for_analysis = None
 
     @abstractmethod
-    def execute(self, input_data: Union[CommonData, None] = None):
+    def execute(self):
         """ Start execute all defined processing stages """
         raise NotImplementedError(BASE_EXCEPTION_MESSAGE)
 
@@ -44,20 +44,22 @@ class SecondaryAction(Action):
         self.from_actions = from_actions
 
     @abstractmethod
-    def execute(self, input_data: Union[CommonData, None] = None):
+    def execute(self):
         """ Start execute all defined processing stages """
         raise NotImplementedError(BASE_EXCEPTION_MESSAGE)
 
-    def execute_previous_actions(self, input_data: Union[CommonData, None]):
+    def execute_previous_actions(self) -> List[CommonData]:
         """
         There is a need to launch previous actions first and collect data
         from them
         """
+        output_from_previous_actions = []
         for action in self.from_actions:
             # Transform data in action and return updated version
-            input_data = action.execute(input_data)
+            input_data = action.execute()
+            output_from_previous_actions.append(input_data)
 
-        return input_data
+        return output_from_previous_actions
 
     def set_object(self, object_for_analysis: Any):
         """ Set estate object for analysis """

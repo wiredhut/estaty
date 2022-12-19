@@ -10,6 +10,7 @@ class CommonData:
     """ Common dataclass to store information """
     # Optional path to the file with desired data
     path_to_file: Optional[str] = None
+    description: Optional[str] = None
 
     # Current EPSG code
     epsg: int = None
