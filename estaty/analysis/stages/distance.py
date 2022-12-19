@@ -36,7 +36,6 @@ class DistanceAnalysisStage(Stage):
         Launch analysis with distance metrics calculation
         Analysis steps:
             * Get street network graph from OSM
-            * Find nearest node from OSM graph to start point (property)
             * Convert all objects in vector data into points (not centroids!)
             * For each point in vector data search for nearest street path
             * Calculate distances of that paths
@@ -58,7 +57,8 @@ class DistanceAnalysisStage(Stage):
 
         # Replace all polygons and lines with points objects
         points_converter = VectorToPointsRepresentation(**{'reduce': 'nearest'})
-        input_data = points_converter.to_points(input_data, self.object_for_analysis)
+        input_data = points_converter.to_points(input_data, self.object_for_analysis,
+                                                network_graph=streets_graph)
 
         paths = []
         for row_id, row in input_data.points.iterrows():

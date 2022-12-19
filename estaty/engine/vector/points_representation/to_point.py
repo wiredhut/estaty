@@ -1,9 +1,12 @@
 from typing import Optional
+import networkx as nx
+import osmnx as ox
 
 import pandas as pd
 from geopandas import GeoDataFrame
 
 from estaty.data.data import VectorData
+from estaty.engine.vector.convert import transform_coordinates_in_dataframe
 from estaty.engine.vector.points_representation.to_points_reduce.common import \
     ReducerToPoint
 
@@ -27,16 +30,23 @@ class VectorToPointsRepresentation:
         self.params = params
 
     def to_points(self, vector_data: VectorData,
-                  target_point_info: Optional[dict] = None) -> VectorData:
+                  target_point_info: Optional[dict] = None,
+                  network_graph: Optional[nx.MultiDiGraph] = None) -> VectorData:
         """
         Transform each geometry into point in dataframe. So sequentially process
         each row in GeoPandas DataFrame
 
         :param vector_data: dataclass with vector data in it
         :param target_point_info: dictionary with information about first point
+        :param network_graph: graph from Open Street Map
         """
-        if vector_data.lines is not None:
-            pass
+        metric_epsg = vector_data.epsg
+        # Get information about nodes coordinates
+        gdf_nodes, _ = ox.graph_to_gdfs(network_graph)
+        gdf_nodes = gdf_nodes.to_crs(metric_epsg)
+        gdf_nodes = transform_coordinates_in_dataframe(gdf_nodes, 4326, metric_epsg,
+                                                       'y', 'x')
+        # For each polygon object reduce to point
 
     @staticmethod
     def use_reducer(reducer: ReducerToPoint, vector_data: VectorData,

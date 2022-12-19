@@ -76,12 +76,13 @@ def get_utm_code_from_extent(lat_coord: float, lon_coord: float):
     return metric_point_coordinates, utm_code
 
 
-def transform_coordinates_in_dataframe(dataframe: pd.DataFrame,
+def transform_coordinates_in_dataframe(dataframe: Union[pd.DataFrame, GeoDataFrame],
                                        current_projection_code: Union[int, str],
                                        new_projection_code: Union[int, str],
                                        lat_column: str = 'lat',
                                        lon_column: str = 'lon'):
-    """ Transform coordinates from one coordinate system into another using
+    """
+    Transform coordinates from one coordinate system into another using
     simple Pandas Dataframes
     """
     # Source projection
