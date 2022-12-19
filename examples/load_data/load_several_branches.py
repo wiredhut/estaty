@@ -15,6 +15,7 @@ def load_data_in_several_branches():
     parks_source = DataSource('osm', params={'category': 'parks'})
     lights_source = DataSource('osm', params={'category': 'lights'})
 
+    # set dummy action just to pass data through it
     dummy_preprocessing = Preprocessor('dummy', {},
                                        from_actions=[parks_source, lights_source])
 

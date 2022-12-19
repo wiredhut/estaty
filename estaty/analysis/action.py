@@ -1,7 +1,6 @@
 from typing import List, Union
 
 from estaty.actions import SecondaryAction
-from estaty.data.data import CommonData
 
 
 class Analyzer(SecondaryAction):

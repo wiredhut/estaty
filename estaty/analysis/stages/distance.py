@@ -5,13 +5,10 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-from loguru import logger
-
 from estaty.data.data import VectorData
-from estaty.engine.vector.extract.osm_nodes import NodesExtractor
 from estaty.engine.vector.points_representation.to_point import \
     VectorToPointsRepresentation
-from estaty.stages import Stage
+from estaty.stages import Stage, SPATIAL_DATA_LIST
 
 warnings.filterwarnings('ignore')
 
@@ -34,7 +31,7 @@ class DistanceAnalysisStage(Stage):
         # "all_private", "all", "bike", "drive", "drive_service", "walk"
         self.network_type = params['network_type']
 
-    def apply(self, input_data: VectorData) -> VectorData:
+    def apply(self, input_data: SPATIAL_DATA_LIST) -> VectorData:
         """
         Launch analysis with distance metrics calculation
         Analysis steps:
@@ -45,6 +42,7 @@ class DistanceAnalysisStage(Stage):
             * Calculate distances of that paths
             * Store into new vector data paths and their lengths as attributes
         """
+        input_data = self.take_first_element_from_list(input_data)
         # Get MultiDiGraph (networkx object) neat POI
         point = (self.object_for_analysis['lat'], self.object_for_analysis['lon'])
         streets_graph = ox.graph_from_point(point, dist=self.radius,

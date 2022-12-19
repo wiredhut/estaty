@@ -57,7 +57,11 @@ class SecondaryAction(Action):
         for action in self.from_actions:
             # Transform data in action and return updated version
             input_data = action.execute()
-            output_from_previous_actions.append(input_data)
+            # Action may return list with outputs
+            if isinstance(input_data, list):
+                output_from_previous_actions.extend(input_data)
+            else:
+                output_from_previous_actions.append(input_data)
 
         return output_from_previous_actions
 

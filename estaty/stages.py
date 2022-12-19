@@ -3,7 +3,7 @@ from typing import Union, List
 
 from estaty.data.data import CommonData
 
-INPUT_LIST = List[CommonData]
+SPATIAL_DATA_LIST = List[CommonData]
 
 
 class Stage:
@@ -13,7 +13,7 @@ class Stage:
         self.params = params
 
     @abstractmethod
-    def apply(self, input_data: INPUT_LIST) -> Union[CommonData, INPUT_LIST]:
+    def apply(self, input_data: SPATIAL_DATA_LIST) -> Union[CommonData, SPATIAL_DATA_LIST]:
         """
         Apply processing stage on desired data.
 
@@ -21,6 +21,16 @@ class Stage:
         Pass as list with input data classes
         """
         raise NotImplementedError()
+
+    @staticmethod
+    def take_first_element_from_list(input_data: SPATIAL_DATA_LIST):
+        """ Take first element in the list """
+        if isinstance(input_data, list):
+            if len(input_data) > 1:
+                raise ValueError('There is no option to take first element from list with several objects!')
+            return input_data[0]
+
+        return input_data
 
 
 class DummyStage(Stage):
@@ -31,6 +41,6 @@ class DummyStage(Stage):
     def __init__(self, **params):
         super().__init__(**params)
 
-    def apply(self, input_data: INPUT_LIST) -> Union[CommonData, INPUT_LIST]:
+    def apply(self, input_data: SPATIAL_DATA_LIST) -> Union[CommonData, SPATIAL_DATA_LIST]:
         """ Pass data further 'as is' """
         return input_data
