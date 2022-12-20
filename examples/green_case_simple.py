@@ -42,7 +42,8 @@ def launch_green_case_analysis_for_property_manually():
                                    from_actions=[osm_source])
 
     # 4 Stage - calculate distances from open source
-    analysis = Analyzer('distance', params={'network_type': 'walk'},
+    analysis = Analyzer('distance', params={'network_type': 'walk',
+                                            'visualize': 'all'},
                         from_actions=[osm_reprojected])
 
     # 5 Stage - display all prepared output calculations into console

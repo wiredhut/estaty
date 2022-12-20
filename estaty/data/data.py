@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from dataclasses import dataclass
 from typing import Optional, Union
-from geopandas import geodataframe
+from geopandas import geodataframe, GeoDataFrame
 import pandas as pd
 
 
@@ -23,9 +23,9 @@ class CommonData:
 @dataclass
 class VectorData(CommonData):
     """ Hold vector data. Support three main types: point, lines, polygons """
-    points: Optional[geodataframe.DataFrame] = None
-    lines: Optional[geodataframe.DataFrame] = None
-    polygons: Optional[geodataframe.DataFrame] = None
+    points: Optional[GeoDataFrame] = None
+    lines: Optional[GeoDataFrame] = None
+    polygons: Optional[GeoDataFrame] = None
 
     def to_crs(self, epsg: Union[str, int]):
         """ Assign new CRS to all vector layers in the dataset """

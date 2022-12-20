@@ -2,10 +2,11 @@ import warnings
 import osmnx as ox
 import networkx as nx
 import numpy as np
+import pandas as pd
 
 import matplotlib.pyplot as plt
 
-from estaty.data.data import VectorData
+from estaty.data.data import VectorData, CommonData
 from estaty.engine.vector.points_representation.to_point import \
     VectorToPointsRepresentation
 from estaty.stages import Stage, SPATIAL_DATA_LIST
@@ -27,11 +28,15 @@ class DistanceAnalysisStage(Stage):
         self.object_for_analysis = params['object_for_analysis']
         self.radius = self.object_for_analysis['radius']
 
+        self.visualize = False
+        if self.params.get('visualize') is not None:
+            self.visualize = self.params.get('visualize')
+
         # Information about the transport network
         # "all_private", "all", "bike", "drive", "drive_service", "walk"
         self.network_type = params['network_type']
 
-    def apply(self, input_data: SPATIAL_DATA_LIST) -> VectorData:
+    def apply(self, input_data: SPATIAL_DATA_LIST) -> CommonData:
         """
         Launch analysis with distance metrics calculation
         Analysis steps:
@@ -60,30 +65,37 @@ class DistanceAnalysisStage(Stage):
         input_data = points_converter.to_points(input_data, self.object_for_analysis,
                                                 network_graph=streets_graph)
 
+        input_data.to_crs(4326)
+
         paths = []
-        for row_id, row in input_data.points.iterrows():
-            # For each object perform analysis
-            geometry = row['geometry']
+        for row_id, row in input_data.all.iterrows():
+            # For each object perform analysis - calculate path
+            finish_node = ox.nearest_nodes(streets_graph, row.geometry.x, row.geometry.y)
 
-            # TODO get x and y from geometry
-            lat_coord, lon_coord = 0, 0
-            finish_node = ox.nearest_nodes(streets_graph, lon_coord, lat_coord)
-
-            # TODO Calculate residual distance from finish node to actual finish
-            #  location
-            residual_distance = 0
-
+            # Distance from node to desired point
+            residual_distance = row['residual_distance']
             route = nx.shortest_path(streets_graph, origin_node,
                                      finish_node, weight='length')
-            fig, ax = ox.plot_graph_route(streets_graph, route, route_linewidth=6,
-                                          node_size=0, bgcolor='k')
-            plt.show()
 
-            # Calculate
+            # Calculate path length
             path_length = nx.shortest_path_length(streets_graph, origin_node,
                                                   finish_node, weight='length')
-            paths.append([path_length + residual_distance, route])
+            if self.visualize is not False:
+                print(f'Path length: {path_length}')
+                print(f'Residual metres: {residual_distance}')
+                fig, ax = ox.plot_graph_route(streets_graph, route,
+                                              route_linewidth=6,
+                                              node_size=0, bgcolor='k')
+                plt.show()
 
-        # Generate new vector data with lengths attributes
-        input_data = 0
-        return None
+            # Generate geo dataframe with line object
+
+            paths.append([path_length + residual_distance])
+        paths = np.array(paths)
+
+        print(f'Mean path length: {np.mean(paths)}')
+        print(f'Min path length: {np.min(paths)}')
+        exit()
+        # Generate new vector data with lines objects (founded paths)
+        input_data = VectorData(lines=pd.concat(paths), epsg=4326)
+        return input_data
