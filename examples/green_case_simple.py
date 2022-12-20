@@ -43,18 +43,19 @@ def launch_green_case_analysis_for_property_manually():
 
     # 4 Stage - calculate distances from open source
     analysis = Analyzer('distance', params={'network_type': 'walk',
-                                            'visualize': 'all'},
+                                            'visualize': True},
                         from_actions=[osm_reprojected])
-
-    # 5 Stage - display all prepared output calculations into console
-    report = Report('stdout', from_actions=[analysis])
 
     # Launch model for desired location
     model = EstateModel().for_property({'lat': 52.518168945198845,
                                         'lon': 13.385957678169396},
                                        radius=1000)
 
-    model.compose(report)
+    founded_routes = model.compose(analysis)
+
+    print(founded_routes.lines)
+    print(f'Min length: {founded_routes.lines["Length"].min():.2f}, m')
+    print(f'Mean length: {founded_routes.lines["Length"].mean():.2f}, m')
 
 
 if __name__ == '__main__':

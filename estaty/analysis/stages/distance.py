@@ -1,10 +1,16 @@
 import warnings
+from copy import deepcopy
+
+import geopandas
 import osmnx as ox
 import networkx as nx
 import numpy as np
 import pandas as pd
+import contextily as cx
 
 import matplotlib.pyplot as plt
+from geopandas import GeoDataFrame
+from shapely.geometry import LineString, Point
 
 from estaty.data.data import VectorData, CommonData
 from estaty.engine.vector.points_representation.to_point import \
@@ -46,7 +52,12 @@ class DistanceAnalysisStage(Stage):
             * Calculate distances of that paths
             * Store into new vector data paths and their lengths as attributes
         """
+        source_geometries = None
         input_data = self.take_first_element_from_list(input_data)
+        if self.visualize:
+            # Get copy of source data
+            source_geometries = deepcopy(input_data)
+
         # Get MultiDiGraph (networkx object) neat POI
         point = (self.object_for_analysis['lat'], self.object_for_analysis['lon'])
         streets_graph = ox.graph_from_point(point, dist=self.radius,
@@ -80,22 +91,41 @@ class DistanceAnalysisStage(Stage):
             # Calculate path length
             path_length = nx.shortest_path_length(streets_graph, origin_node,
                                                   finish_node, weight='length')
-            if self.visualize is not False:
-                print(f'Path length: {path_length}')
-                print(f'Residual metres: {residual_distance}')
-                fig, ax = ox.plot_graph_route(streets_graph, route,
-                                              route_linewidth=6,
-                                              node_size=0, bgcolor='k')
-                plt.show()
-
             # Generate geo dataframe with line object
+            line_object = []
+            for node in route:
+                node_info = streets_graph.nodes[node]
+                line_object.append([node_info['x'], node_info['y']])
+            # Add final destination point
+            line_object.append([row.geometry.x, row.geometry.y])
 
-            paths.append([path_length + residual_distance])
-        paths = np.array(paths)
+            line_object = LineString(line_object)
+            line_df = GeoDataFrame(pd.DataFrame({'Length': [path_length + residual_distance]}),
+                                   geometry=[line_object], crs=4326)
+            paths.append(line_df)
 
-        print(f'Mean path length: {np.mean(paths)}')
-        print(f'Min path length: {np.min(paths)}')
-        exit()
         # Generate new vector data with lines objects (founded paths)
         input_data = VectorData(lines=pd.concat(paths), epsg=4326)
+        if self.visualize and source_geometries is not None:
+            # Prepare visualizations with founded routes
+            source_geometries.to_crs(3857)
+            input_data.to_crs(3857)
+
+            # Create layer with central (target) point
+            geometry = Point([self.object_for_analysis['lon'], self.object_for_analysis['lat']])
+            target_point = GeoDataFrame(crs=f"EPSG:4326", geometry=[geometry])
+            target_point = target_point.to_crs(epsg=3857)
+
+            ax = source_geometries.all.plot(color='green')
+            ax = input_data.lines.plot(ax=ax, column='Length', alpha=0.6, legend=True,
+                                       cmap='Reds', legend_kwds={'label': "Route length, m"},
+                                       zorder=1)
+            ax = target_point.plot(ax=ax, color='red', alpha=1.0, markersize=40,
+                                   edgecolor='black')
+            cx.add_basemap(ax)
+            plt.show()
+
+            # Return WGS 84 projection
+            input_data.to_crs(4326)
+
         return input_data

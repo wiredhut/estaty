@@ -18,7 +18,7 @@ class DistanceToPointsCalculator:
                                        coordinate_columns_second: list,
                                        name_for_distance_column: str = 'distance'):
         """
-        Calculate distances in dataframe with coordinates
+        Calculate Euclidean distances in dataframe with coordinates
 
         :param coordinates_columns_first: list with names of coordinates columns
         for points batch number 1
@@ -39,4 +39,5 @@ class DistanceToPointsCalculator:
 
             self.table[name_for_distance_column] = self.table[name_for_distance_column] + coordinate_diff
 
+        self.table[name_for_distance_column] = self.table[name_for_distance_column] ** 0.5
         return self.table
