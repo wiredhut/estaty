@@ -85,8 +85,12 @@ class DistanceAnalysisStage(Stage):
 
             # Distance from node to desired point
             residual_distance = row['residual_distance']
-            route = nx.shortest_path(streets_graph, origin_node,
-                                     finish_node, weight='length')
+            try:
+                route = nx.shortest_path(streets_graph, origin_node,
+                                         finish_node, weight='length')
+            except nx.NetworkXNoPath:
+                # There is no networkx path between this nodes
+                continue
 
             # Calculate path length
             path_length = nx.shortest_path_length(streets_graph, origin_node,
