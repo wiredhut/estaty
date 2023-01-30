@@ -18,7 +18,7 @@ warnings.filterwarnings('ignore')
 def prepare_points_layer(spatial_dataframe: pd.DataFrame,
                          epsg_code: str = "4326",
                          lon: str = 'lon',
-                         lat: str = 'lat') -> geopandas.geodataframe:
+                         lat: str = 'lat') -> GeoDataFrame:
     """
     Prepare geopandas dataframe with points and spatial geometries from simple
     pandas DataFrame
@@ -34,12 +34,14 @@ def prepare_points_layer(spatial_dataframe: pd.DataFrame,
 
 
 def create_polygon_from_point(point_coordinates: dict, buffer: int) -> Polygon:
-    """ Generate polygon from point coordinates
+    """
+    Generate polygon from point coordinates with buffer in metres
+    First re-project point into desired UTM CRS, then extend with buffer (create
+    polygon), then convert all polygon coordinates into WGS84
 
     :param point_coordinates: dictionary with 'lat' 'lon' coordinates in WGS 84
     :param buffer: buffer in metres
     """
-    # TODO fix this function - does not work
     # Convert coordinates from WGS into appropriate metric projection
     metric_point_coordinates, utm_code = get_utm_code_from_extent(point_coordinates['lat'],
                                                                   point_coordinates['lon'])

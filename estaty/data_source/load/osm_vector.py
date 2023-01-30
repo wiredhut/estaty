@@ -14,6 +14,7 @@ from estaty.data_source.load.osm_save_load import save_geodataframe_into_file, \
     load_geodataframe_from_file
 from estaty.data_source.load.repository.osm_tags import WATER_TAGS, PARKS_TAGS, \
     LIGHTS_TAGS
+from estaty.engine.vector.clip import clip_dataframe_by_polygon
 from estaty.engine.vector.convert import create_polygon_from_point
 from estaty.paths import get_tmp_folder_path
 from estaty.stages import Stage
@@ -56,6 +57,12 @@ class LoadOSMStage(Stage):
             # File exists - load it
             osm_data = load_geodataframe_from_file(file_path)
             logger.debug(f'Successfully load file {file_path} from temporary folder')
+
+            # Clip all the data if required
+            polygon = create_polygon_from_point(self.object_for_analysis,
+                                                buffer=self.object_for_analysis[
+                                                    'radius'])
+            osm_data = clip_dataframe_by_polygon(osm_data, polygon)
         else:
             # Request data from Open Street Map
             desired_tags = self.tags_by_category[self.category]
@@ -65,6 +72,7 @@ class LoadOSMStage(Stage):
                                                 buffer=self.object_for_analysis['radius'])
             bbox_info = ox.geometries_from_polygon(polygon=polygon,
                                                    tags=desired_tags)
+            bbox_info = clip_dataframe_by_polygon(bbox_info, polygon)
 
             # Parse data by geometries types
             osm_data = self.filter_data_by_category(bbox_info)
@@ -83,7 +91,9 @@ class LoadOSMStage(Stage):
                 save_geodataframe_into_file(osm_data, file_path)
 
         # Always load vector data
-        return self.compose_vector_data(osm_data)
+        vector_data = self.compose_vector_data(osm_data)
+        vector_data.area_of_interest = polygon
+        return vector_data
 
     def filter_data_by_category(self, bbox_info: geopandas.geodataframe.DataFrame):
         """ Remain only desired geometries in OSM data """

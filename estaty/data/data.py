@@ -1,8 +1,9 @@
 from abc import abstractmethod
 from dataclasses import dataclass
 from typing import Optional, Union
-from geopandas import geodataframe, GeoDataFrame
+from geopandas import GeoDataFrame
 import pandas as pd
+from shapely.geometry import Polygon
 
 
 @dataclass
@@ -11,6 +12,7 @@ class CommonData:
     # Optional path to the file with desired data
     path_to_file: Optional[str] = None
     description: Optional[str] = None
+    area_of_interest: Optional[Polygon] = None
 
     # Current EPSG code
     epsg: int = None
