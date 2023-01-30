@@ -1,7 +1,7 @@
 <img src="./docs/media/estaty_logo.png" width="750"/>
 
 Module for spatial data fusion and processing for real estate objects.
-**estaty** it is Python-based platform to obtain and merge open spatial data with not very open and not very spatial to create “real estate use cases”.
+**estaty** is Python-based platform to obtain and merge open spatial data with not very open and not very spatial to create “real estate use cases”.
 Library provide tools for loaded data merging, pairwise source verification, proximity analysis, etc. 
 
 ## Documentation 
@@ -12,7 +12,7 @@ The variety of spatial data can be reduced to two large groups: raster and vecto
 Vector data can be presented as follows: point data, lines, polygons (Figure 1). So, 
 **estaty** reduces completely all assimilated data to the following four types.
 
-<img src="./docs/media/spatial_data.png" width="600"/>
+<img src="./docs/media/spatial_data.png" width="650"/>
 
 Figure 1. Possible types of spatial data
 
@@ -30,7 +30,7 @@ and generalising the data. So, there are exists the following 5 layers:
 
 All above submodules can be flexibly configured to create custom data analysis pipelines:
 
-<img src="./docs/media/arc_animation.gif" width="600"/>
+<img src="./docs/media/arc_animation.gif" width="650"/>
 
 ## Usage examples 
 

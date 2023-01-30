@@ -9,7 +9,7 @@ from geopandas import GeoDataFrame
 
 import warnings
 
-from pyproj import Proj, transform
+from pyproj import Transformer
 from shapely.geometry import Polygon, Point
 
 warnings.filterwarnings('ignore')
@@ -44,7 +44,8 @@ def create_polygon_from_point(point_coordinates: dict, buffer: int) -> Polygon:
     metric_point_coordinates, utm_code = get_utm_code_from_extent(point_coordinates['lat'],
                                                                   point_coordinates['lon'])
     # Lat ang lon coordinates
-    metric_polygon = Point((metric_point_coordinates[1], metric_point_coordinates[0])).buffer(buffer)
+    metric_polygon = Point((metric_point_coordinates['lat'],
+                            metric_point_coordinates['lon'])).buffer(buffer)
 
     # Convert coordinates into WGS84 projection
     lats, lons = metric_polygon.exterior.coords.xy
@@ -70,10 +71,11 @@ def get_utm_code_from_extent(lat_coord: float, lon_coord: float):
     zone = int(((lon_coord + 180) / 6.0) % 60) + 1
     utm_code = base_code + zone
 
-    wgs = Proj(init='epsg:4326')
-    utm = Proj(init=f'epsg:{utm_code}')
-    metric_point_coordinates = transform(wgs, utm, *[lon_coord, lat_coord])
-    return metric_point_coordinates, utm_code
+    transformer = Transformer.from_crs("EPSG:4326", f"EPSG:{utm_code}",
+                                       always_xy=True)
+    metric_point_coordinates = transformer.transform(*[lon_coord, lat_coord])
+    return {'lat': metric_point_coordinates[-1],
+            'lon': metric_point_coordinates[0]}, utm_code
 
 
 def transform_coordinates_in_dataframe(dataframe: Union[pd.DataFrame, GeoDataFrame],
@@ -85,14 +87,12 @@ def transform_coordinates_in_dataframe(dataframe: Union[pd.DataFrame, GeoDataFra
     Transform coordinates from one coordinate system into another using
     simple Pandas Dataframes
     """
-    # Source projection
-    wgs = Proj(init=f"epsg:{current_projection_code}")
-    # Metric projection to transform into
-    utm = Proj(init=f"epsg:{new_projection_code}")
-
     current_long = np.array(dataframe[lon_column])
     current_lat = np.array(dataframe[lat_column])
-    new_long, new_lat = transform(wgs, utm, *[current_long, current_lat])
+    transformer = Transformer.from_crs(f"EPSG:{current_projection_code}",
+                                       f"EPSG:{new_projection_code}",
+                                       always_xy=True)
+    new_long, new_lat = transformer.transform(*[current_long, current_lat])
     dataframe[lon_column] = new_long
     dataframe[lat_column] = new_lat
 

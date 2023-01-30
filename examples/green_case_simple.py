@@ -2,7 +2,6 @@ from estaty.analysis.action import Analyzer
 from estaty.data_source.action import DataSource
 from estaty.main import EstateModel
 from estaty.preprocessing.action import Preprocessor
-from estaty.report.action import Report
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -15,8 +14,8 @@ def launch_green_case_analysis_for_property():
     """
     # Example for Berlin, Neustädtische Kirchstraße 4-7
     model = EstateModel().for_property({'lat': 52.518168945198845,
-                                        'lon': 13.385957678169396,
-                                        'radius': 500})
+                                        'lon': 13.385957678169396},
+                                       radius=1000)
     model.compose('green')
 
 

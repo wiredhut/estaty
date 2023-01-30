@@ -23,6 +23,7 @@ def launch_green_case_analysis_for_property():
 def launch_green_case_analysis_for_property_manually():
     """
     Demonstration how to launch green case advanced version manually from nodes.
+    There are using several data sources to perform analysis
     There are several actions to construct analysis pipelines from:
         * DataSource - sources of data, API or files
         * Preprocessor - preprocessing obtained data

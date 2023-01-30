@@ -14,6 +14,7 @@ from estaty.data_source.load.osm_save_load import save_geodataframe_into_file, \
     load_geodataframe_from_file
 from estaty.data_source.load.repository.osm_tags import WATER_TAGS, PARKS_TAGS, \
     LIGHTS_TAGS
+from estaty.engine.vector.convert import create_polygon_from_point
 from estaty.paths import get_tmp_folder_path
 from estaty.stages import Stage
 
@@ -30,6 +31,7 @@ class LoadOSMStage(Stage):
                         'parks': PARKS_TAGS,
                         'lights': LIGHTS_TAGS}
 
+    # Several spatial objects must include only particular geometries types
     allowed_geom_by_category = {'water': ['LineString', 'Polygon', 'MultiPolygon'],
                                 'parks': ['Polygon', 'MultiPolygon']}
 
@@ -57,15 +59,19 @@ class LoadOSMStage(Stage):
         else:
             # Request data from Open Street Map
             desired_tags = self.tags_by_category[self.category]
-            bbox_info = ox.geometries_from_point((self.object_for_analysis['lat'],
-                                                  self.object_for_analysis['lon']),
-                                                 tags=desired_tags,
-                                                 dist=self.object_for_analysis['radius'])
+
+            # Configure polygon for request and define tags
+            polygon = create_polygon_from_point(self.object_for_analysis,
+                                                buffer=self.object_for_analysis['radius'])
+            bbox_info = ox.geometries_from_polygon(polygon=polygon,
+                                                   tags=desired_tags)
+
             # Parse data by geometries types
             osm_data = self.filter_data_by_category(bbox_info)
 
             if osm_data is None or len(osm_data) < 1:
                 raise ValueError(f'Can not obtain any data for {self.location_name} and {self.category}')
+
             osm_data = osm_data.reset_index()
             logger.debug(f'Successfully get data via osmnx')
 

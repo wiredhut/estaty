@@ -12,6 +12,13 @@ class PropertyObjectConfiguration:
             raise ValueError('Property locations must be defined by coordinates'
                              ' or address, not by both fields')
 
+        if coordinates is not None and len(coordinates.keys()) != 2:
+            raise ValueError('"coordinates" parameter must contain exactly two pairs - '
+                             'coordinates "lat" and "lon" and they values')
+
+        elif coordinates is not None and any(coord_name not in coordinates.keys() for coord_name in ['lat', 'lon']):
+            raise ValueError(f'Keys in "coordinates" dictionary must be "lat" and "lon"')
+
         self.coordinates = coordinates
         self.address = address
 

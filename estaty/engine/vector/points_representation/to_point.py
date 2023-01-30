@@ -4,7 +4,7 @@ import osmnx as ox
 
 import pandas as pd
 from geopandas import GeoDataFrame
-from pyproj import Proj, transform
+from pyproj import Transformer
 from shapely.geometry import MultiPolygon
 
 from estaty.data.data import VectorData
@@ -51,9 +51,10 @@ class VectorToPointsRepresentation:
         gdf_nodes = transform_coordinates_in_dataframe(gdf_nodes, 4326, metric_epsg,
                                                        'y', 'x')
         # Add information about target point coordinates
-        new_long, new_lat = transform(Proj(init=f"epsg:{4326}"),
-                                      Proj(init=f"epsg:{metric_epsg}"),
-                                      *[target_point_info['lon'], target_point_info['lat']])
+        transformer = Transformer.from_crs("EPSG:4326", f"EPSG:{metric_epsg}",
+                                           always_xy=True)
+        new_long, new_lat = transformer.transform(*[target_point_info['lon'], target_point_info['lat']])
+
         gdf_nodes['x_target'] = [new_long] * len(gdf_nodes)
         gdf_nodes['y_target'] = [new_lat] * len(gdf_nodes)
 

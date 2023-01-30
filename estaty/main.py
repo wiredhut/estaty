@@ -20,7 +20,8 @@ class EstateModel:
         """ Add area for analysis """
         raise NotImplementedError('estaty does not support area processing for now')
 
-    def for_property(self, coordinates: Dict = None, address: str = None,
+    def for_property(self, coordinates: Dict = None,
+                     address: str = None,
                      radius: int = None):
         """
         Add property for analysis. Can be defined as point with coordinates
@@ -34,7 +35,8 @@ class EstateModel:
         self.property_object = preparer.configure_object()
 
         if radius is None or not isinstance(radius, int):
-            raise ValueError('Parameter radius must be defined as int value (meters) buffer')
+            raise ValueError('Parameter radius must be defined as int value '
+                             '(meters) buffer to start analysis')
         self.property_object['radius'] = radius
         return self
 
