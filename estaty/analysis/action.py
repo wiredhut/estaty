@@ -4,7 +4,14 @@ from estaty.actions import SecondaryAction
 
 
 class Analyzer(SecondaryAction):
-    """ Action for performing analysis on obtained data """
+    """
+    Action for performing analysis on obtained data
+
+    Possible analyses:
+        - 'distance':
+            - network_type - calculate distances using only specific roads
+            - visualize - is there a need to create visualizations
+    """
 
     def __init__(self, action_name: str, params: dict = None,
                  from_actions: List[SecondaryAction] = None):

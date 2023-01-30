@@ -35,3 +35,10 @@ All above submodules can be flexibly configured to create custom data analysis p
 ## Usage examples 
 
 Some use cases presented in a form of Python scripts - check [examples](./examples) folder for details.
+
+## Cases 
+
+The service is designed to provide a cases. Therefore, all existing demonstration cases are located separately:
+check folder [cases](./cases):
+- [green_area_simple.py](./cases/green_area_simple.py) - calculate "green" are nearby property 
+  using only open street map data.

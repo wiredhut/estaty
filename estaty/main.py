@@ -1,5 +1,8 @@
 from typing import Dict, Union
 
+from geopandas import GeoDataFrame
+from shapely.geometry import Point
+
 from estaty.actions import SecondaryAction
 from estaty.api_utils.property import PropertyObjectConfiguration
 from estaty.presets.green import GreenCaseAdvancedPreset
@@ -52,3 +55,9 @@ class EstateModel:
 
         final_action.set_object(self.property_object)
         return final_action.execute()
+
+    def get_property_as_dataframe(self):
+        """ Return property as spatial object in a form of spatial dataframe """
+        geometry = Point([self.property_object['lon'], self.property_object['lat']])
+        target_point = GeoDataFrame(index=[0], crs=f"EPSG:4326", geometry=[geometry])
+        return target_point

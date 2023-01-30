@@ -12,7 +12,7 @@ def launch_green_case_analysis_for_property():
     Demonstration of estaty functionality on green case simple version with
     parks for particular real estate object (property)
     """
-    # Example for Berlin, Neustädtische Kirchstraße 4-7
+    # Example for 'Berlin, Neustädtische Kirchstraße 4-7'
     model = EstateModel().for_property({'lat': 52.5171411,
                                         'lon': 13.3857187},
                                        radius=1000)

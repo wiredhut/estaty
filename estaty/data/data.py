@@ -1,6 +1,8 @@
 from abc import abstractmethod
 from dataclasses import dataclass
 from typing import Optional, Union
+
+import geopandas
 from geopandas import GeoDataFrame
 import pandas as pd
 from shapely.geometry import Polygon
@@ -12,6 +14,7 @@ class CommonData:
     # Optional path to the file with desired data
     path_to_file: Optional[str] = None
     description: Optional[str] = None
+    # Shapely Polygon always with WGS84 coordinates
     area_of_interest: Optional[Polygon] = None
 
     # Current EPSG code
@@ -20,6 +23,15 @@ class CommonData:
     @abstractmethod
     def to_crs(self, epsg_code: int):
         raise NotImplementedError()
+
+    @property
+    def area_of_interest_as_dataframe(self):
+        """ Return polygon in a form of Geo dataframe """
+        area = geopandas.GeoDataFrame(index=[0], crs='epsg:4326',
+                                      geometry=[self.area_of_interest])
+        # Assign the same projection
+        area = area.to_crs(self.epsg)
+        return area
 
 
 @dataclass

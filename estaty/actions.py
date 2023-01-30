@@ -18,6 +18,8 @@ class Action:
     def __init__(self, action_name: str, params: dict = None):
         self.action_name = action_name
         self.params = params
+        if self.params is None:
+            self.params = {}
 
         # Pool with stages to be launched
         self.execution_pool: Union[List, Callable] = DATA_SOURCE_POOL_BY_NAME[action_name]

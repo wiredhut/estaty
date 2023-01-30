@@ -4,6 +4,7 @@ import osmnx as ox
 
 import pandas as pd
 from geopandas import GeoDataFrame
+from loguru import logger
 from pyproj import Transformer
 from shapely.geometry import MultiPolygon
 
@@ -48,12 +49,13 @@ class VectorToPointsRepresentation:
         # Get information about nodes coordinates
         gdf_nodes, _ = ox.graph_to_gdfs(network_graph)
         gdf_nodes = gdf_nodes.to_crs(metric_epsg)
-        gdf_nodes = transform_coordinates_in_dataframe(gdf_nodes, 4326, metric_epsg,
-                                                       'y', 'x')
+        gdf_nodes = transform_coordinates_in_dataframe(gdf_nodes, 4326,
+                                                       metric_epsg, 'y', 'x')
         # Add information about target point coordinates
         transformer = Transformer.from_crs("EPSG:4326", f"EPSG:{metric_epsg}",
                                            always_xy=True)
-        new_long, new_lat = transformer.transform(*[target_point_info['lon'], target_point_info['lat']])
+        new_long, new_lat = transformer.transform(*[target_point_info['lon'],
+                                                    target_point_info['lat']])
 
         gdf_nodes['x_target'] = [new_long] * len(gdf_nodes)
         gdf_nodes['y_target'] = [new_lat] * len(gdf_nodes)
@@ -85,7 +87,8 @@ class VectorToPointsRepresentation:
         updated_rows = []
         for row_id, row in vector_dataframe.iterrows():
             if isinstance(row.geometry, MultiPolygon):
-                print('Pass multipolygon')
+                logger.debug(f'Multipolygon was detected during vector to '
+                             f'points representation procedure')
                 continue
             updated_row = reducer.reduce_to_point(row, nodes_information)
             updated_rows.append(updated_row)
