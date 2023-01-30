@@ -23,7 +23,7 @@ warnings.filterwarnings('ignore')
 class DistanceAnalysisStage(Stage):
     """
     Class to perform accessibility analysis by using distance metrics to
-    objects.
+    objects. Distance calculation is performing
 
     Useful links:
     https://geoffboeing.com/2016/11/osmnx-python-street-networks/

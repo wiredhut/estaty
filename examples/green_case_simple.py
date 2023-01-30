@@ -13,8 +13,8 @@ def launch_green_case_analysis_for_property():
     parks for particular real estate object (property)
     """
     # Example for Berlin, Neustädtische Kirchstraße 4-7
-    model = EstateModel().for_property({'lat': 52.518168945198845,
-                                        'lon': 13.385957678169396},
+    model = EstateModel().for_property({'lat': 52.5171411,
+                                        'lon': 13.3857187},
                                        radius=1000)
     model.compose('green')
 
@@ -35,7 +35,7 @@ def launch_green_case_analysis_for_property_manually():
     # 1 Stage - define data sources and get data from them
     osm_source = DataSource('osm', params={'category': 'parks'})
 
-    # 2 Stage - re project layers obtained from OSM
+    # 2 Stage - re project layers obtained from OSM: UTM zone 33N - EPSG:32633
     osm_reprojected = Preprocessor('reproject',
                                    params={'to': 32633},
                                    from_actions=[osm_source])
@@ -46,10 +46,8 @@ def launch_green_case_analysis_for_property_manually():
                         from_actions=[osm_reprojected])
 
     # Launch model for desired location
-    model = EstateModel().for_property({'lat': 52.518168945198845,
-                                        'lon': 13.385957678169396},
+    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187},
                                        radius=1000)
-
     founded_routes = model.compose(analysis)
 
     print(founded_routes.lines)

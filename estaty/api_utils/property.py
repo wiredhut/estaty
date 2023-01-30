@@ -1,5 +1,8 @@
 from typing import Dict, Union
 
+import requests
+from loguru import logger
+
 
 class PropertyObjectConfiguration:
     """
@@ -25,6 +28,8 @@ class PropertyObjectConfiguration:
     def configure_object(self):
         if self.address is not None:
             self.coordinates = self._get_coordinates_by_address()
+            logger.debug(f'Successfully determined coordinates for '
+                         f'address {self.address}: {self.coordinates}')
 
         if all(coord_name in self.coordinates.keys() for coord_name in ['lat', 'lon']):
             return self.coordinates
@@ -32,6 +37,11 @@ class PropertyObjectConfiguration:
             raise ValueError('Coordinates must be set by dictionary with keys '
                              '"lat" for latitude and "lon" for longitude')
 
-    def _get_coordinates_by_address(self):
-        raise NotImplementedError('Getting location by address is not available'
-                                  'for now')
+    def _get_coordinates_by_address(self) -> Dict:
+        """ Use Nominatim API for geocoding """
+        params = {'q': self.address, 'format': 'json'}
+        response = requests.get('https://nominatim.openstreetmap.org/search',
+                                params=params)
+        poi_information = eval(response.text)[0]
+        return {'lat': float(poi_information['lat']),
+                'lon': float(poi_information['lon'])}

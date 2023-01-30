@@ -15,8 +15,8 @@ def launch_green_case_analysis_for_property():
     parks for particular real estate object (property)
     """
     # Example for Berlin, Neustädtische Kirchstraße 4-7
-    model = EstateModel().for_property({'lat': 52.518168945198845,
-                                        'lon': 13.385957678169396})
+    model = EstateModel().for_property({'lat': 52.5171411,
+                                        'lon': 13.3857187})
     model.compose('green_advanced')
 
 
@@ -57,8 +57,7 @@ def launch_green_case_analysis_for_property_manually():
     report = Report('stdout', from_actions=[analysis])
 
     # Launch model
-    model = EstateModel().for_property({'lat': 52.518168945198845,
-                                        'lon': 13.385957678169396})
+    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187})
 
     model.compose(report)
 
