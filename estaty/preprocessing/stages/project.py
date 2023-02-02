@@ -9,9 +9,9 @@ from estaty.stages import Stage, SPATIAL_DATA_LIST
 warnings.filterwarnings('ignore')
 
 
-class VectorProjectionStage(Stage):
+class CommonProjectionStage(Stage):
     """
-    Class to perform projection operations on vector data
+    Class to perform projection operations on both vector and raster data
     """
 
     def __init__(self, **params):
@@ -19,7 +19,7 @@ class VectorProjectionStage(Stage):
         self.to_epsg = int(params['to'])
 
     def apply(self, input_data: SPATIAL_DATA_LIST) -> Union[CommonData, SPATIAL_DATA_LIST]:
-        """ Transform vector data into desired projection """
+        """ Transform vector or raster data into desired projection """
         for data in input_data:
             data.to_crs(self.to_epsg)
 

@@ -1,9 +1,9 @@
 from abc import abstractmethod
 from typing import Union, List
 
-from estaty.data.data import CommonData
+from estaty.data.data import CommonData, RasterData, VectorData
 
-SPATIAL_DATA_LIST = List[CommonData]
+SPATIAL_DATA_LIST = List[Union[RasterData, VectorData]]
 
 
 class Stage:

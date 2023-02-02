@@ -10,10 +10,10 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-def calculate_green_area(radius: int = 1000):
+def calculate_green_area_advanced_approach(radius: int = 1000):
     """
     Example how to perform "green" area calculation using only Open Street Map
-    data
+    data and additional sources
 
     Possible addresses to try:
         - 'Berlin, Neustädtische Kirchstraße 4-7' or {'lat': 52.5171411, 'lon': 13.3857187}
@@ -21,15 +21,22 @@ def calculate_green_area(radius: int = 1000):
         or {'lat': 48.1558976, 'lon': 11.5858327}
     """
 
-    # 1 Stage - load data about parks
+    # Branch 1 - prepare vector data
     osm_source = DataSource('osm', params={'category': 'parks'})
-
-    # 2 Stage - re project layers obtained from OSM into UTM zone 33N
     osm_reprojected = Preprocessor('reproject', params={'to': 32633},
                                    from_actions=[osm_source])
 
-    # 4 Stage - calculate area
-    analysis = Analyzer('area', from_actions=[osm_reprojected])
+    # Branch 2 - prepare images from satellites
+    landsat_source = DataSource('ndvi_local')
+    ndvi_reprojected = Preprocessor('reproject', params={'to': 32633},
+                                    from_actions=[landsat_source])
+
+    # Compare borders from OSM with ndvi values
+    clarified_boundaries = Analyzer('extend_clarification', params={'visualize': False},
+                                    from_actions=[osm_reprojected, ndvi_reprojected])
+
+    # Final stage - calculate area
+    analysis = Analyzer('area', from_actions=[clarified_boundaries])
 
     # Launch model for desired location
     model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187},
@@ -58,4 +65,4 @@ def calculate_green_area(radius: int = 1000):
 
 
 if __name__ == '__main__':
-    calculate_green_area(1500)
+    calculate_green_area_advanced_approach(1500)
