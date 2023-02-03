@@ -32,7 +32,7 @@ def calculate_green_area_advanced_approach(radius: int = 1000):
                                     from_actions=[landsat_source])
 
     # Compare borders from OSM with ndvi values
-    clarified_boundaries = Analyzer('extend_clarification', params={'visualize': False},
+    clarified_boundaries = Analyzer('extend_clarification', params={'visualize': True},
                                     from_actions=[osm_reprojected, ndvi_reprojected])
 
     # Final stage - calculate area

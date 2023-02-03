@@ -4,7 +4,7 @@ WATER_TAGS = {'natural': ['water', 'strait', 'wetland'],
 
 PARKS_TAGS = {'boundary': ['national_park', 'forest'],
               'leisure': ['park'],
-              'landuse': ['forest', 'meadow', 'orchard'],
+              'landuse': ['forest', 'meadow', 'orchard', 'grass'],
               'natural': ['grassland', 'wood']}
 
 LIGHTS_TAGS = {'highway': ['street_lamp'],

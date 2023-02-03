@@ -1,5 +1,3 @@
-import geopandas
-
 from estaty.data.data import VectorData
 from estaty.stages import Stage, SPATIAL_DATA_LIST
 
@@ -26,6 +24,10 @@ class AreaAnalysisStage(Stage):
         Launch analysis with area calculation. Ignore all non-polygons elements
         """
         input_data = self.take_first_element_from_list(input_data)
+
+        # Perform polygons merging into single geometry
+        input_data.polygons['new_column'] = 0
+        input_data.polygons = input_data.polygons.dissolve(by='new_column')
 
         if int(input_data.epsg) == 4326:
             raise ValueError(f'Area calculation must be performed not with WGS coordinates')
