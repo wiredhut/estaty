@@ -81,10 +81,18 @@ class ExtendClarificationAnalysisStage(Stage):
         target_matrix[extracted_geometries > MIN_VALID_THRESHOLD] = 1
 
         # Apply conv and generate features matrices
+        # TODO change names of columns in dataframe
         source_sample = pd.DataFrame({'Park zone (according to OSM)': np.ravel(target_matrix),
                                       'NDVI value': np.ravel(extracted_full_area)})
         for col in source_sample.columns:
             source_sample = source_sample[source_sample[col] > MIN_VALID_THRESHOLD]
+
+        # Calculate threshold
+        non_parks = source_sample[source_sample['Park zone (according to OSM)'] == 0]
+        parks = source_sample[source_sample['Park zone (according to OSM)'] == 1]
+        ndvi_non_parks = np.array(non_parks['NDVI value'])
+        ndvi_parks = np.array(parks['NDVI value'])
+        proposed_threshold = (np.median(ndvi_non_parks) + np.median(ndvi_parks)) / 2
 
         # Determine threshold
         if self.visualize:
@@ -93,9 +101,6 @@ class ExtendClarificationAnalysisStage(Stage):
                              hue='Park zone (according to OSM)',
                              x="NDVI value", kde=True)
                 plt.show()
-
-        # TODO add automatic determination
-        th = 0.22
 
         if self.visualize:
             # Generate plot with comparison source geometries and other
@@ -116,7 +121,7 @@ class ExtendClarificationAnalysisStage(Stage):
                           interpolation='nearest', cmap=cmap_extend, alpha=1.0)
             axs[0].set_title('Parks extend according to OSM')
 
-            target_matrix[extracted_full_area >= th] = 1
+            target_matrix[extracted_full_area >= proposed_threshold] = 1
 
             axs[1].imshow(masked_array, interpolation='nearest', cmap=cmap_ndvi)
             axs[1].imshow(np.ma.masked_where(target_matrix < 0.5,
@@ -130,7 +135,7 @@ class ExtendClarificationAnalysisStage(Stage):
 
             plt.show()
         else:
-            target_matrix[extracted_full_area >= th] = 1
+            target_matrix[extracted_full_area >= proposed_threshold] = 1
 
         # Create polygons based on defined matrices
         updated_geometries = get_polygons_from_raster(raster_data, bottom_border,

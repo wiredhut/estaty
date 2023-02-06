@@ -1,5 +1,6 @@
 import contextily as cx
 import matplotlib.pyplot as plt
+from geopandas.geodataframe import GeoDataFrame
 
 from estaty.analysis.action import Analyzer
 from estaty.data_source.action import DataSource
@@ -25,7 +26,7 @@ def calculate_green_area(radius: int = 1000):
     osm_source = DataSource('osm', params={'category': 'parks'})
 
     # 2 Stage - re project layers obtained from OSM into UTM zone 33N
-    osm_reprojected = Preprocessor('reproject', params={'to': 32633},
+    osm_reprojected = Preprocessor('reproject', params={'to': 'auto'},
                                    from_actions=[osm_source])
 
     # 4 Stage - calculate area
@@ -35,7 +36,6 @@ def calculate_green_area(radius: int = 1000):
     model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187},
                                        radius=radius)
     calculated_areas = model.compose(analysis)
-
     green_area = calculated_areas.polygons['area'].sum()
     msg = f'"green" area nearby property (buffer {radius} metres): {green_area:.2f}, %'
     print(msg)

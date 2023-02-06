@@ -27,5 +27,6 @@ class Preprocessor(SecondaryAction):
                              f'several sources. Please reduce sources number from {len(data)} to 1')
 
         # Launch preprocessor on obtained data
-        data = self.execution_pool(**self.params).apply(data)
+        params = {**self.params, **{'object_for_analysis': self.object_for_analysis}}
+        data = self.execution_pool(**params).apply(data)
         return data
