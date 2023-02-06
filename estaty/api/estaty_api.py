@@ -33,20 +33,46 @@ class Estaty:
             osm_reprojected = Preprocessor('reproject', params={'to': 'auto'},
                                            from_actions=[osm_source])
             analysis = Analyzer('area', from_actions=[osm_reprojected])
-            if isinstance(self.property_info, dict):
-                model = EstateModel().for_property(coordinates=self.property_info,
-                                                   radius=self.radius)
-            else:
-                model = EstateModel().for_property(address=self.property_info,
-                                                   radius=self.radius)
+            model = self._configure_estaty_model()
             calculated_areas = model.compose(analysis)
 
             green_area = calculated_areas.polygons['area'].sum()
             # Convert into WGS 84
             calculated_areas.to_crs(epsg=4326)
-            return green_area, calculated_areas.polygons.to_json()
+            buffer = calculated_areas.area_of_interest_as_dataframe
+            return green_area, calculated_areas.polygons.to_json(), buffer.to_json()
+
         elif mode_name == 'advanced':
             # Launch advanced pipeline
-            pass
+            osm_source = DataSource('osm', params={'category': 'parks'})
+            osm_reprojected = Preprocessor('reproject', params={'to': 'auto'},
+                                           from_actions=[osm_source])
+            landsat_source = DataSource('ndvi_local')
+            ndvi_reprojected = Preprocessor('reproject', params={'to': 'auto'},
+                                            from_actions=[landsat_source])
+            clarified_boundaries = Analyzer('extend_clarification',
+                                            params={'visualize': False},
+                                            from_actions=[osm_reprojected,
+                                                          ndvi_reprojected])
+            analysis = Analyzer('area', from_actions=[clarified_boundaries])
+
+            # Launch model for desired location
+            model = self._configure_estaty_model()
+            calculated_areas = model.compose(analysis)
+            green_area = calculated_areas.polygons['area'].sum()
+
+            # Convert into WGS 84
+            calculated_areas.to_crs(epsg=4326)
+            buffer = calculated_areas.area_of_interest_as_dataframe
+            return green_area, calculated_areas.polygons.to_json(), buffer.to_json()
         else:
             raise NotImplementedError(f'Does not support mode {mode_name} for green area calculation')
+
+    def _configure_estaty_model(self):
+        if isinstance(self.property_info, dict):
+            model = EstateModel().for_property(coordinates=self.property_info,
+                                               radius=self.radius)
+        else:
+            model = EstateModel().for_property(address=self.property_info,
+                                               radius=self.radius)
+        return model
