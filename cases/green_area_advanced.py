@@ -14,21 +14,16 @@ def calculate_green_area_advanced_approach(radius: int = 1000):
     """
     Example how to perform "green" area calculation using only Open Street Map
     data and additional sources
-
-    Possible addresses to try:
-        - 'Berlin, Neustädtische Kirchstraße 4-7' or {'lat': 52.5171411, 'lon': 13.3857187}
-        - 'Munich, Kaulbachstraße, Alt-Schwabing, Schwabing - Ost, Schwabing-Freimann'
-        or {'lat': 48.1558976, 'lon': 11.5858327}
     """
 
     # Branch 1 - prepare vector data
     osm_source = DataSource('osm', params={'category': 'parks'})
-    osm_reprojected = Preprocessor('reproject', params={'to': 32633},
+    osm_reprojected = Preprocessor('reproject', params={'to': 32636},
                                    from_actions=[osm_source])
 
     # Branch 2 - prepare images from satellites
     landsat_source = DataSource('ndvi_local')
-    ndvi_reprojected = Preprocessor('reproject', params={'to': 32633},
+    ndvi_reprojected = Preprocessor('reproject', params={'to': 32636},
                                     from_actions=[landsat_source])
 
     # Compare borders from OSM with ndvi values
@@ -39,7 +34,7 @@ def calculate_green_area_advanced_approach(radius: int = 1000):
     analysis = Analyzer('area', from_actions=[clarified_boundaries])
 
     # Launch model for desired location
-    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187},
+    model = EstateModel().for_property({'lat': 60.0182, 'lon': 30.2486},
                                        radius=radius)
     calculated_areas = model.compose(analysis)
 
@@ -60,7 +55,7 @@ def calculate_green_area_advanced_approach(radius: int = 1000):
     ax = target_point.plot(ax=ax, color='red', alpha=1.0, markersize=40,
                            edgecolor='black')
     plt.suptitle(msg)
-    cx.add_basemap(ax)
+    cx.add_basemap(ax, zoom=14)
     plt.show()
 
 

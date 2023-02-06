@@ -7,6 +7,7 @@ from shapely.geometry import mapping
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from scipy import stats
 
 from sklearn.ensemble import RandomForestClassifier
 
@@ -95,7 +96,12 @@ class ExtendClarificationAnalysisStage(Stage):
                 plt.show()
 
         # TODO add automatic determination
-        th = 0.22
+        non_parks = source_sample[source_sample['Park zone (according to OSM)'] == 0]
+        parks = source_sample[source_sample['Park zone (according to OSM)'] == 1]
+        ndvi_non_parks = np.array(non_parks['NDVI value'])
+        ndvi_parks = np.array(parks['NDVI value'])
+        th = (np.median(ndvi_non_parks) + np.median(ndvi_parks)) / 2
+        print(th)
 
         if self.visualize:
             # Generate plot with comparison source geometries and other

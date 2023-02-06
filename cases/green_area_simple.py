@@ -14,31 +14,27 @@ def calculate_green_area(radius: int = 1000):
     """
     Example how to perform "green" area calculation using only Open Street Map
     data
-
-    Possible addresses to try:
-        - 'Berlin, Neustädtische Kirchstraße 4-7' or {'lat': 52.5171411, 'lon': 13.3857187}
-        - 'Munich, Kaulbachstraße, Alt-Schwabing, Schwabing - Ost, Schwabing-Freimann'
-        or {'lat': 48.1558976, 'lon': 11.5858327}
     """
 
     # 1 Stage - load data about parks
     osm_source = DataSource('osm', params={'category': 'parks'})
 
     # 2 Stage - re project layers obtained from OSM into UTM zone 33N
-    osm_reprojected = Preprocessor('reproject', params={'to': 32633},
+    osm_reprojected = Preprocessor('reproject', params={'to': 32636},
                                    from_actions=[osm_source])
 
     # 4 Stage - calculate area
     analysis = Analyzer('area', from_actions=[osm_reprojected])
 
     # Launch model for desired location
-    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187},
+    model = EstateModel().for_property({'lat': 60.0182, 'lon': 30.2486},
                                        radius=radius)
     calculated_areas = model.compose(analysis)
 
     green_area = calculated_areas.polygons['area'].sum()
     msg = f'"green" area nearby property (buffer {radius} metres): {green_area:.2f}, %'
     print(msg)
+    calculated_areas.area_of_interest_as_dataframe.to_file('spb_area.gpkg', driver='GPKG')
 
     # Some visualizations
     calculated_areas.to_crs(3857)
@@ -53,7 +49,7 @@ def calculate_green_area(radius: int = 1000):
     ax = target_point.plot(ax=ax, color='red', alpha=1.0, markersize=40,
                            edgecolor='black')
     plt.suptitle(msg)
-    cx.add_basemap(ax)
+    cx.add_basemap(ax, zoom=14)
     plt.show()
 
 

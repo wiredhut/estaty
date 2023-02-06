@@ -44,4 +44,4 @@ class NDVILandsatLocallyStage(Stage):
         return RasterData(raster=self.path_to_file, epsg=int(raster_epsg))
 
     def get_file_name_by_extend(self, path_to_files: Path):
-        self.path_to_file = Path(path_to_files, 'berlin_ndvi.tif')
+        self.path_to_file = Path(path_to_files, 'spb_ndvi.tif')
