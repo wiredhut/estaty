@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import Optional
-from fastapi import FastAPI, Query, HTTPException
+from fastapi import FastAPI, Query, HTTPException, Path
 from pydantic import BaseModel
 
 from estaty.api.default import *
@@ -11,8 +11,8 @@ app = FastAPI()
 
 
 class ModeName(str, Enum):
-    simple = "simple"
-    advanced = "advanced"
+    simple = "OpenStreetMap"
+    advanced = "OpenStreetMap_Landsat"
 
 
 class Place(BaseModel):
@@ -31,8 +31,8 @@ class Place(BaseModel):
 
 class GreenCaseOutput(BaseModel):
     green_zone_area: float = Query(title="Calculated green zone area ratio related to buffer, %")
-    geometries: str = Query(title="Green areas geometries. CRS: WGS84")
-    buffer: str = Query(title="Buffer geometry. CRS: WGS84")
+    geometries: dict = Query(title="Green areas geometries. CRS: WGS84")
+    buffer: dict = Query(title="Buffer geometry. CRS: WGS84")
 
 
 @app.get("/")
@@ -45,23 +45,26 @@ def read_root():
 
 
 @app.post("/green/{mode}", response_model=GreenCaseOutput)
-def green_case(mode: ModeName, place: Place, radius: int = 1000):
+def green_case(mode: ModeName, place: Place,
+               radius: int = Query(title="Buffer radius in metres", default=1000,
+                                   gt=100, le=1500)):
     """
     Launch green area calculation for desired place. The analysis can be
-    launched in two different modes - 'simple' and advanced. 'Simple' mode include
-    area calculation with usage Open Street Map data 'as is'. For 'advanced'
-    mode more complicated processing pipeline is launched: load data from OSM,
-    prepare NDVI data from Landsat and launch polygons clarification
+    launched in two different modes - 'OpenStreetMap' and 'OpenStreetMap_Landsat'.
+    'OpenStreetMap' mode include area calculation with usage Open Street Map data
+    'as is'. For 'OpenStreetMap_Landsat' mode more complicated processing pipeline
+    is launched: load data from OSM, prepare NDVI data from Landsat and launch
+    polygons clarification
     """
     exception_for_advanced_case(mode, place)
     service = Estaty(place, radius)
     calc_area, geometries, buffer = service.launch_green_area_calculation_case(mode)
-    return {"green_zone_area": calc_area, "geometries": geometries, "buffer": buffer}
+    return {"green_zone_area": calc_area, "geometries": eval(geometries), "buffer": eval(buffer)}
 
 
 def exception_for_advanced_case(mode: ModeName, place: Place):
     """ Temporary exception """
-    if mode == 'simple':
+    if mode == 'OpenStreetMap':
         return
 
     property_info = {'lat': place.lat, 'lon': place.lon}

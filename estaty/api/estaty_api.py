@@ -28,7 +28,7 @@ class Estaty:
         """
         Launch green area case calculation
         """
-        if mode_name == 'simple':
+        if mode_name == 'OpenStreetMap':
             osm_source = DataSource('osm', params={'category': 'parks'})
             osm_reprojected = Preprocessor('reproject', params={'to': 'auto'},
                                            from_actions=[osm_source])
@@ -42,7 +42,7 @@ class Estaty:
             buffer = calculated_areas.area_of_interest_as_dataframe
             return green_area, calculated_areas.polygons.to_json(), buffer.to_json()
 
-        elif mode_name == 'advanced':
+        elif mode_name == 'OpenStreetMap_Landsat':
             # Launch advanced pipeline
             osm_source = DataSource('osm', params={'category': 'parks'})
             osm_reprojected = Preprocessor('reproject', params={'to': 'auto'},
