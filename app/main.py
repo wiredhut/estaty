@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import Optional
-from fastapi import FastAPI, Query, HTTPException, Path
+from fastapi import FastAPI, Query, HTTPException
 from pydantic import BaseModel
 
 from estaty.api.default import *
@@ -47,7 +47,7 @@ def read_root():
 @app.post("/green/{mode}", response_model=GreenCaseOutput)
 def green_case(mode: ModeName, place: Place,
                radius: int = Query(title="Buffer radius in metres", default=1000,
-                                   gt=100, le=1500)):
+                                   gt=100, le=2000)):
     """
     Launch green area calculation for desired place. The analysis can be
     launched in two different modes - 'OpenStreetMap' and 'OpenStreetMap_Landsat'.
