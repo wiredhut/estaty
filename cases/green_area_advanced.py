@@ -23,12 +23,12 @@ def calculate_green_area_advanced_approach(radius: int = 1000):
 
     # Branch 1 - prepare vector data
     osm_source = DataSource('osm', params={'category': 'parks'})
-    osm_reprojected = Preprocessor('reproject', params={'to': 32633},
+    osm_reprojected = Preprocessor('reproject', params={'to': 'auto'},
                                    from_actions=[osm_source])
 
     # Branch 2 - prepare images from satellites
     landsat_source = DataSource('ndvi_local')
-    ndvi_reprojected = Preprocessor('reproject', params={'to': 32633},
+    ndvi_reprojected = Preprocessor('reproject', params={'to': 'auto'},
                                     from_actions=[landsat_source])
 
     # Compare borders from OSM with ndvi values

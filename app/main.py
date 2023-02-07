@@ -1,7 +1,9 @@
 from enum import Enum
-from typing import Optional
+from typing import Optional, Dict
+import numpy as np
+
 from fastapi import FastAPI, Query, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, root_validator
 
 from estaty.api.default import *
 from estaty.api.estaty_api import Estaty
@@ -27,6 +29,22 @@ class Place(BaseModel):
     lon: Optional[float] = Query(default=DEFAULT_LON,
                                  title="Longitude (CRS: WGS84) of desired place for analysis",
                                  description="Float object - longitude coordinate. Latitude coordinate is also reqiured")
+
+    @root_validator(pre=True)
+    def check_parameters_correctness(cls, values: Dict):
+        # Check address
+        address_was_set = False
+        if values.get('address') is not None and values['address'] != DEFAULT_ADDRESS:
+            address_was_set = True
+
+        # Check coordinates
+        both_coordinates_not_none = values.get('lat') is not None and values.get('lon') is not None
+        if address_was_set and both_coordinates_not_none:
+            # Coordinates must be default
+            if are_coordinates_default(values['lat'], values['lon']) is False:
+                message = 'If address was defined coordinates must not be passed'
+                raise HTTPException(status_code=404, detail=message)
+        return values
 
 
 class GreenCaseOutput(BaseModel):
@@ -70,7 +88,7 @@ def exception_for_advanced_case(mode: ModeName, place: Place):
     property_info = {'lat': place.lat, 'lon': place.lon}
     if place.address != DEFAULT_ADDRESS and are_coordinates_default(place.lat,
                                                                     place.lon):
-        # New address were assigned
+        # New address was assigned
         property_info = place.address
         preparer = PropertyObjectConfiguration(None, property_info)
         property_info = preparer.configure_object()

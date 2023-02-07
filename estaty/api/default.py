@@ -11,4 +11,4 @@ def are_coordinates_default(current_lat: float, current_lon: float):
     is_lat_default = np.isclose(current_lat, DEFAULT_LAT)
     is_lon_default = np.isclose(current_lon, DEFAULT_LON)
 
-    return is_lat_default and is_lon_default
+    return bool(is_lat_default and is_lon_default)

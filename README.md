@@ -42,7 +42,9 @@ The service is designed to provide a cases. Therefore, all existing demonstratio
 check folder [cases](./cases):
 - [green_area_simple.py](./cases/green_area_simple.py) - calculate "green" are nearby property 
   using only open street map data.
-  
+- [green_area_advanced.py](./cases/green_area_advanced.py) - calculate "green" are nearby property 
+  using open street map data and Landsat NDVi fields.
+    
 ## Docker image
 
 To compose docker image and run container follow instructions:

@@ -7,6 +7,7 @@ import pandas as pd
 
 import warnings
 
+from fastapi import HTTPException
 from loguru import logger
 
 from estaty.data.data import CommonData, VectorData
@@ -113,6 +114,9 @@ class LoadOSMStage(Stage):
                 g_bbox = bbox_info.loc[bbox_info.geometry.geometry.type == geom_type]
                 osm_data.append(g_bbox)
 
+        if len(osm_data) < 1:
+            message = 'There are no requested category data for desired area according to OSM'
+            raise HTTPException(status_code=404, detail=message)
         osm_data = pd.concat(osm_data)
         return osm_data
 
