@@ -60,4 +60,4 @@ def calculate_green_area_advanced_approach(radius: int = 1000):
 
 
 if __name__ == '__main__':
-    calculate_green_area_advanced_approach(1500)
+    calculate_green_area_advanced_approach(2000)

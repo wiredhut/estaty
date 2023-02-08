@@ -82,26 +82,29 @@ class ExtendClarificationAnalysisStage(Stage):
         target_matrix[extracted_geometries > MIN_VALID_THRESHOLD] = 1
 
         # Apply conv and generate features matrices
-        source_sample = pd.DataFrame({'Park zone (according to OSM)': np.ravel(target_matrix),
-                                      'NDVI value': np.ravel(extracted_full_area)})
+        source_sample = pd.DataFrame({'"Зеленые зоны" по данным OSM': np.ravel(target_matrix),
+                                      'NDVI значение': np.ravel(extracted_full_area)})
         for col in source_sample.columns:
             source_sample = source_sample[source_sample[col] > MIN_VALID_THRESHOLD]
+
+        non_parks = source_sample[source_sample['"Зеленые зоны" по данным OSM'] == 0]
+        parks = source_sample[source_sample['"Зеленые зоны" по данным OSM'] == 1]
+        ndvi_non_parks = np.array(non_parks['NDVI значение'])
+        ndvi_parks = np.array(parks['NDVI значение'])
+        th = (np.median(ndvi_non_parks) + np.median(ndvi_parks)) / 2
+        print(th)
 
         # Determine threshold
         if self.visualize:
             with sns.axes_style('darkgrid'):
                 sns.histplot(data=source_sample,
-                             hue='Park zone (according to OSM)',
-                             x="NDVI value", kde=True)
+                             hue='"Зеленые зоны" по данным OSM',
+                             x="NDVI значение", kde=True)
+                line = [0, 600]
+                plt.plot([np.median(ndvi_non_parks), np.median(ndvi_non_parks)], line, c='blue', linewidth=1.5)
+                plt.plot([np.median(ndvi_parks), np.median(ndvi_parks)], line, c='orange', linewidth=1.5)
+                plt.plot([th, th], line, c='black', linewidth=2)
                 plt.show()
-
-        # TODO add automatic determination
-        non_parks = source_sample[source_sample['Park zone (according to OSM)'] == 0]
-        parks = source_sample[source_sample['Park zone (according to OSM)'] == 1]
-        ndvi_non_parks = np.array(non_parks['NDVI value'])
-        ndvi_parks = np.array(parks['NDVI value'])
-        th = (np.median(ndvi_non_parks) + np.median(ndvi_parks)) / 2
-        print(th)
 
         if self.visualize:
             # Generate plot with comparison source geometries and other
