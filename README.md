@@ -47,6 +47,8 @@ check folder [cases](./cases):
     
 ## Docker image
 
+For advanced green are case calculation put NDVI rasters into the folder `estaty/repository/local_data/landsat/ndvi`
+
 To compose docker image and run container follow instructions:
 * Open terminal: set directory with source code, for example `D:/work/estaty>`
 * Image creation command: `docker build -t estatyimage .`
