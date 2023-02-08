@@ -1,3 +1,4 @@
+from estaty.constants import WGS_EPSG
 from estaty.data.data import VectorData
 from estaty.stages import Stage, SPATIAL_DATA_LIST
 
@@ -29,7 +30,7 @@ class AreaAnalysisStage(Stage):
         input_data.polygons['new_column'] = 0
         input_data.polygons = input_data.polygons.dissolve(by='new_column')
 
-        if int(input_data.epsg) == 4326:
+        if int(input_data.epsg) == WGS_EPSG:
             raise ValueError(f'Area calculation must be performed not with WGS coordinates')
 
         input_data.polygons['area'] = input_data.polygons.area

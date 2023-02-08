@@ -12,6 +12,8 @@ from geopandas import GeoDataFrame
 import pandas as pd
 from shapely.geometry import Polygon
 
+from estaty.constants import WGS_EPSG
+
 
 @dataclass
 class CommonData:
@@ -32,7 +34,7 @@ class CommonData:
     @property
     def area_of_interest_as_dataframe(self):
         """ Return polygon in a form of Geo dataframe """
-        area = geopandas.GeoDataFrame(index=[0], crs='epsg:4326',
+        area = geopandas.GeoDataFrame(index=[0], crs=f'epsg:{WGS_EPSG}',
                                       geometry=[self.area_of_interest])
         # Assign the same projection
         area = area.to_crs(self.epsg)
@@ -71,6 +73,7 @@ class RasterData(CommonData):
     raster: Optional[Union[Path, np.ndarray]] = None
 
     def to_crs(self, epsg_code: int):
+        """ Load raster from file and create new file in temporary folder """
         if epsg_code == self.epsg:
             return None
 
@@ -88,14 +91,13 @@ class RasterData(CommonData):
 
             with rasterio.open(new_path, 'w', **kwargs) as dst:
                 for i in range(1, src.count + 1):
-                    reproject(
-                        source=rasterio.band(src, i),
-                        destination=rasterio.band(dst, i),
-                        src_transform=src.transform,
-                        src_crs=src.crs,
-                        dst_transform=transform,
-                        dst_crs=dst_crs,
-                        resampling=Resampling.nearest)
+                    reproject(source=rasterio.band(src, i),
+                              destination=rasterio.band(dst, i),
+                              src_transform=src.transform,
+                              src_crs=src.crs,
+                              dst_transform=transform,
+                              dst_crs=dst_crs,
+                              resampling=Resampling.nearest)
 
         # Assign new file
         self.raster = new_path

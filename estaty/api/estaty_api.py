@@ -2,6 +2,7 @@ from loguru import logger
 
 from estaty.analysis.action import Analyzer
 from estaty.api.default import *
+from estaty.constants import WGS_EPSG
 from estaty.data_source.action import DataSource
 from estaty.main import EstateModel
 from estaty.preprocessing.action import Preprocessor
@@ -38,7 +39,7 @@ class Estaty:
 
             green_area = calculated_areas.polygons['area'].sum()
             # Convert into WGS 84
-            calculated_areas.to_crs(epsg=4326)
+            calculated_areas.to_crs(epsg=WGS_EPSG)
             buffer = calculated_areas.area_of_interest_as_dataframe
             return green_area, calculated_areas.polygons.to_json(), buffer.to_json()
 
@@ -62,7 +63,7 @@ class Estaty:
             green_area = calculated_areas.polygons['area'].sum()
 
             # Convert into WGS 84
-            calculated_areas.to_crs(epsg=4326)
+            calculated_areas.to_crs(epsg=WGS_EPSG)
             buffer = calculated_areas.area_of_interest_as_dataframe
             return green_area, calculated_areas.polygons.to_json(), buffer.to_json()
         else:

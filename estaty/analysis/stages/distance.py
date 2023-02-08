@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from geopandas import GeoDataFrame
 from shapely.geometry import LineString, Point
 
+from estaty.constants import WGS_EPSG
 from estaty.data.data import VectorData, CommonData
 from estaty.engine.vector.points_representation.to_point import \
     VectorToPointsRepresentation
@@ -76,7 +77,7 @@ class DistanceAnalysisStage(Stage):
         input_data = points_converter.to_points(input_data, self.object_for_analysis,
                                                 network_graph=streets_graph)
 
-        input_data.to_crs(4326)
+        input_data.to_crs(WGS_EPSG)
 
         paths = []
         for row_id, row in input_data.all.iterrows():
@@ -105,11 +106,11 @@ class DistanceAnalysisStage(Stage):
 
             line_object = LineString(line_object)
             line_df = GeoDataFrame(pd.DataFrame({'Length': [path_length + residual_distance]}),
-                                   geometry=[line_object], crs=4326)
+                                   geometry=[line_object], crs=WGS_EPSG)
             paths.append(line_df)
 
         # Generate new vector data with lines objects (founded paths)
-        input_data = VectorData(lines=pd.concat(paths), epsg=4326)
+        input_data = VectorData(lines=pd.concat(paths), epsg=WGS_EPSG)
         if self.visualize and source_geometries is not None:
             # Prepare visualizations with founded routes
             source_geometries.to_crs(3857)
@@ -117,7 +118,7 @@ class DistanceAnalysisStage(Stage):
 
             # Create layer with central (target) point
             geometry = Point([self.object_for_analysis['lon'], self.object_for_analysis['lat']])
-            target_point = GeoDataFrame(crs=f"EPSG:4326", geometry=[geometry])
+            target_point = GeoDataFrame(crs=f"EPSG:{WGS_EPSG}", geometry=[geometry])
             target_point = target_point.to_crs(epsg=3857)
 
             ax = source_geometries.all.plot(color='green')
@@ -130,6 +131,6 @@ class DistanceAnalysisStage(Stage):
             plt.show()
 
             # Return WGS 84 projection
-            input_data.to_crs(4326)
+            input_data.to_crs(WGS_EPSG)
 
         return input_data

@@ -3,6 +3,7 @@ from typing import Union
 
 import pandas as pd
 
+from estaty.constants import WGS_EPSG
 from estaty.data.data import CommonData, VectorData
 from estaty.engine.vector.crop import crop_points_by_polygon
 from estaty.engine.vector.convert import prepare_points_layer, \
@@ -38,7 +39,7 @@ class LoadGBIFLocallyStage(Stage):
                                          lon='decimalLongitude',
                                          lat='decimalLatitude')
         # Coordinates must be in WGS
-        dataframe = dataframe.to_crs(4326)
+        dataframe = dataframe.to_crs(WGS_EPSG)
 
         # Crop geo dataframe by location polygon
         polygon = create_polygon_from_point(self.object_for_analysis,
