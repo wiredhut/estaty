@@ -123,7 +123,7 @@ class ExtendClarificationAnalysisStage(Stage):
             axs[0].imshow(np.ma.masked_where(target_matrix < 0.5,
                                              target_matrix),
                           interpolation='nearest', cmap=cmap_extend, alpha=1.0)
-            axs[0].set_title('Parks extend according to OSM')
+            axs[0].set_title('Геометрии "зеленых зон" по данным OSM')
 
             target_matrix[extracted_full_area >= th] = 1
 
@@ -132,11 +132,11 @@ class ExtendClarificationAnalysisStage(Stage):
                                              target_matrix),
                           interpolation='nearest', cmap=cmap_extend, alpha=1.0)
 
-            axs[1].set_title('Extended green zones')
+            axs[1].set_title('Расширенные границы "зеленых зон"')
 
-            axs[2].imshow(masked_array, interpolation='nearest', cmap=cmap_ndvi)
-            axs[2].set_title('NDVI values')
-
+            surf = axs[2].imshow(masked_array, interpolation='nearest', cmap=cmap_ndvi)
+            axs[2].set_title('Значения NDVI')
+            cb = fig.colorbar(surf, shrink=0.8, aspect=22)
             plt.show()
         else:
             target_matrix[extracted_full_area >= th] = 1
