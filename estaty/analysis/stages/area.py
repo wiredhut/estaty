@@ -1,6 +1,7 @@
 import geopandas
 
 from estaty.data.data import VectorData
+from estaty.engine.vector.clip import clip_dataframe_by_polygon
 from estaty.stages import Stage, SPATIAL_DATA_LIST
 
 import warnings
@@ -26,6 +27,13 @@ class AreaAnalysisStage(Stage):
         Launch analysis with area calculation. Ignore all non-polygons elements
         """
         input_data = self.take_first_element_from_list(input_data)
+
+        # Polygon clipping
+        polygon = input_data.area_of_interest_as_dataframe
+        polygon = polygon['geometry'].iloc[0]
+
+        input_data.polygons = clip_dataframe_by_polygon(input_data.polygons, polygon)
+
         # Replace file
         # df = geopandas.read_file("D:/ITMO/estaty/estaty/analysis/stages/clean_manual_green_spb.gpkg")
         # df = df[['geometry']]
