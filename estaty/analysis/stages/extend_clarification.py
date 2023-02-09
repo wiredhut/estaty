@@ -138,6 +138,43 @@ class ExtendClarificationAnalysisStage(Stage):
             axs[2].set_title('Значения NDVI')
             cb = fig.colorbar(surf, shrink=0.8, aspect=22)
             plt.show()
+
+            #######################################
+            # Different thresholds visualizations #
+            #######################################
+            masked_array = np.ma.masked_where(extracted_full_area < MIN_VALID_THRESHOLD, extracted_full_area)
+
+            fig_size = (18, 6.0)
+            fig, axs = plt.subplots(1, 3, figsize=fig_size)
+
+            cmap_ndvi = cm.get_cmap('RdYlGn')
+            cmap_ndvi.set_bad(color='#C0C0C0')
+            cmap_extend = cm.get_cmap('gray')
+            cmap_extend.set_bad(color='#ffffff00')
+
+            first_matrix = np.ma.masked_where(masked_array < 0.15, masked_array)
+            first_matrix[first_matrix >= 0.15] = 1
+            axs[0].imshow(masked_array, interpolation='nearest', cmap=cmap_ndvi)
+            axs[0].imshow(first_matrix,
+                          interpolation='nearest', cmap=cmap_extend, alpha=1.0)
+            axs[0].set_title('Порог 0.15')
+
+            target_matrix[extracted_full_area >= th] = 1
+
+            second_matrix = np.ma.masked_where(masked_array < 0.2, masked_array)
+            second_matrix[second_matrix >= 0.2] = 1
+            axs[1].imshow(masked_array, interpolation='nearest', cmap=cmap_ndvi)
+            axs[1].imshow(second_matrix,
+                          interpolation='nearest', cmap=cmap_extend, alpha=1.0)
+            axs[1].set_title('Порог 0.2')
+
+            third_matrix = np.ma.masked_where(masked_array < 0.25, masked_array)
+            third_matrix[third_matrix >= 0.25] = 1
+            axs[2].imshow(masked_array, interpolation='nearest', cmap=cmap_ndvi)
+            axs[2].imshow(third_matrix,
+                          interpolation='nearest', cmap=cmap_extend, alpha=1.0)
+            axs[2].set_title('Порог 0.25')
+            plt.show()
         else:
             target_matrix[extracted_full_area >= th] = 1
 

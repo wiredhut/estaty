@@ -1,3 +1,5 @@
+import geopandas
+
 from estaty.data.data import VectorData
 from estaty.stages import Stage, SPATIAL_DATA_LIST
 
@@ -24,6 +26,12 @@ class AreaAnalysisStage(Stage):
         Launch analysis with area calculation. Ignore all non-polygons elements
         """
         input_data = self.take_first_element_from_list(input_data)
+        # Replace file
+        # df = geopandas.read_file("D:/ITMO/estaty/estaty/analysis/stages/clean_manual_green_spb.gpkg")
+        # df = df[['geometry']]
+        # df = df.to_crs(32636)
+        # df = df.explode()
+        # input_data = VectorData(polygons=df, epsg=32636, area_of_interest=input_data.area_of_interest)
 
         # Perform polygons merging into single geometry
         input_data.polygons['new_column'] = 0

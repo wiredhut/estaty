@@ -42,6 +42,8 @@ def calculate_green_area_advanced_approach(radius: int = 1000):
     msg = f'"green" area nearby property (buffer {radius} metres): {green_area:.2f}, %'
     print(msg)
 
+    calculated_areas.polygons.to_file('extended.gpkg', driver='GPKG')
+
     # Some visualizations
     calculated_areas.to_crs(3857)
     # Create layer with central (target) point
