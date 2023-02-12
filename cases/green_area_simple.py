@@ -39,8 +39,7 @@ def calculate_green_area(radius: int = 1000):
     green_area = calculated_areas.polygons['area'].sum()
     msg = f'"green" area nearby property (buffer {radius} metres): {green_area:.2f}, %'
     print(msg)
-    calculated_areas.area_of_interest_as_dataframe.to_file('berlin_area.gpkg',
-                                                           driver='GPKG')
+    calculated_areas.polygons.to_file('osm_data_berlin.gpkg', driver='GPKG')
 
     # Some visualizations
     calculated_areas.to_crs(3857)

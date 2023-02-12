@@ -100,6 +100,12 @@ class ExtendClarificationAnalysisStage(Stage):
                 sns.histplot(data=source_sample,
                              hue='Park zone (according to OSM)',
                              x="NDVI value", kde=True)
+                line = [0, 700]
+                plt.plot([np.median(ndvi_non_parks), np.median(ndvi_non_parks)],
+                         line, c='blue', linewidth=1.5)
+                plt.plot([np.median(ndvi_parks), np.median(ndvi_parks)], line,
+                         c='orange', linewidth=1.5)
+                plt.plot([proposed_threshold, proposed_threshold], line, c='black', linewidth=2)
                 plt.show()
 
         if self.visualize:
@@ -123,7 +129,7 @@ class ExtendClarificationAnalysisStage(Stage):
 
             target_matrix[extracted_full_area >= proposed_threshold] = 1
 
-            axs[1].imshow(masked_array, interpolation='nearest', cmap=cmap_ndvi)
+            surf = axs[1].imshow(masked_array, interpolation='nearest', cmap=cmap_ndvi)
             axs[1].imshow(np.ma.masked_where(target_matrix < 0.5,
                                              target_matrix),
                           interpolation='nearest', cmap=cmap_extend, alpha=1.0)
@@ -132,7 +138,46 @@ class ExtendClarificationAnalysisStage(Stage):
 
             axs[2].imshow(masked_array, interpolation='nearest', cmap=cmap_ndvi)
             axs[2].set_title('NDVI values')
+            cb = fig.colorbar(surf, shrink=0.8, aspect=22)
+            plt.show()
 
+            #######################################
+            # Different thresholds visualizations #
+            #######################################
+            masked_array = np.ma.masked_where(
+                extracted_full_area < MIN_VALID_THRESHOLD, extracted_full_area)
+
+            fig_size = (18, 6.0)
+            fig, axs = plt.subplots(1, 3, figsize=fig_size)
+
+            cmap_ndvi = cm.get_cmap('RdYlGn')
+            cmap_ndvi.set_bad(color='#C0C0C0')
+            cmap_extend = cm.get_cmap('gray')
+            cmap_extend.set_bad(color='#ffffff00')
+
+            first_matrix = np.ma.masked_where(masked_array < 0.1, masked_array)
+            first_matrix[first_matrix >= 0.1] = 1
+            axs[0].imshow(masked_array, interpolation='nearest', cmap=cmap_ndvi)
+            axs[0].imshow(first_matrix,
+                          interpolation='nearest', cmap=cmap_extend, alpha=1.0)
+            axs[0].set_title('Threshold 0.10')
+
+            target_matrix[extracted_full_area >= proposed_threshold] = 1
+
+            second_matrix = np.ma.masked_where(masked_array < 0.15, masked_array)
+            second_matrix[second_matrix >= 0.15] = 1
+            axs[1].imshow(masked_array, interpolation='nearest', cmap=cmap_ndvi)
+            axs[1].imshow(second_matrix,
+                          interpolation='nearest', cmap=cmap_extend, alpha=1.0)
+            axs[1].set_title('Threshold 0.15')
+
+            third_matrix = np.ma.masked_where(masked_array < 0.2, masked_array)
+            third_matrix[third_matrix >= 0.2] = 1
+            surf = axs[2].imshow(masked_array, interpolation='nearest', cmap=cmap_ndvi)
+            axs[2].imshow(third_matrix,
+                          interpolation='nearest', cmap=cmap_extend, alpha=1.0)
+            axs[2].set_title('Threshold 0.20')
+            cb = fig.colorbar(surf, shrink=0.8, aspect=22)
             plt.show()
         else:
             target_matrix[extracted_full_area >= proposed_threshold] = 1

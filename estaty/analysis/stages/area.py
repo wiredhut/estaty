@@ -1,3 +1,5 @@
+import geopandas
+
 from estaty.constants import WGS_EPSG
 from estaty.data.data import VectorData
 from estaty.stages import Stage, SPATIAL_DATA_LIST
@@ -29,6 +31,13 @@ class AreaAnalysisStage(Stage):
         # Perform polygons merging into single geometry
         input_data.polygons['new_column'] = 0
         input_data.polygons = input_data.polygons.dissolve(by='new_column')
+
+        # Replace file
+        df = geopandas.read_file("D:/ITMO/estaty/estaty/analysis/stages/clean_manual_green_berlin.gpkg")
+        df = df[['geometry']]
+        df = df.to_crs(32633)
+        df = df.explode()
+        input_data = VectorData(polygons=df, epsg=32633, area_of_interest=input_data.area_of_interest)
 
         if int(input_data.epsg) == WGS_EPSG:
             raise ValueError(f'Area calculation must be performed not with WGS coordinates')

@@ -46,6 +46,7 @@ def calculate_green_area_advanced_approach(radius: int = 1000):
     green_area = calculated_areas.polygons['area'].sum()
     msg = f'"green" area nearby property (buffer {radius} metres): {green_area:.2f}, %'
     print(msg)
+    calculated_areas.polygons.to_file('extended_data_berlin.gpkg', driver='GPKG')
 
     # Some visualizations
     calculated_areas.to_crs(3857)
@@ -65,4 +66,4 @@ def calculate_green_area_advanced_approach(radius: int = 1000):
 
 
 if __name__ == '__main__':
-    calculate_green_area_advanced_approach(1500)
+    calculate_green_area_advanced_approach(2000)
