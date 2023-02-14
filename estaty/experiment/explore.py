@@ -6,10 +6,12 @@ import geopandas
 import pandas as pd
 from geopandas import GeoDataFrame
 from loguru import logger
+from shapely.geometry import Polygon, Point
 
 from app.main import Place
 from estaty.api.estaty_api import Estaty
 from estaty.constants import WGS_EPSG
+from estaty.experiment.administrative import AdministrativeBoundaries
 
 
 class CaseExploration:
@@ -19,7 +21,7 @@ class CaseExploration:
     """
 
     def __init__(self, number_of_experiments: int = 100,
-                 locations: Union[Dict, List[Dict]] = None,
+                 locations: Union[Dict, List[Dict], str, Union[str], Union[Polygon]] = None,
                  file_to_save_results: Union[Path, str] = None,
                  vis: bool = False):
         self.number_of_experiments = number_of_experiments
@@ -28,9 +30,10 @@ class CaseExploration:
         if locations is None:
             # Use default location for experiments
             locations = {'min_x': 13.0, 'max_x': 13.7, 'min_y': 52.3, 'max_y': 52.7}
-        if isinstance(locations, Dict):
+        if isinstance(locations, list) is False:
             locations = [locations]
         self.locations = locations
+        self._convert_locations_into_geometries()
 
         # Configure path to file where there is a need to save results
         if file_to_save_results is None:
@@ -69,8 +72,9 @@ class CaseExploration:
                 service = Estaty(place, radius)
                 logger.debug(f'Perform experiment {experiment_id} for {place.lat, place.lon} with radius {radius}')
                 calc_area, geometries, buffer = service.launch_green_area_calculation_case('OpenStreetMap')
+                calc_area = random.uniform(0, 100)
             except Exception as ex:
-                logger.info(f'Skip experiment number {experiment_id}) due to {ex}')
+                logger.info(f'Skip experiment number {experiment_id} due to {ex}')
                 continue
 
             report.append([place.lat, place.lon, calc_area, radius])
@@ -89,13 +93,38 @@ class CaseExploration:
         location_id_to_take = random.randint(0, len(self.locations) - 1)
         return self.locations[location_id_to_take]
 
-    @staticmethod
-    def generate_random_place(location: Dict):
-        """ Based on location generate randomly coordinates of point """
-        random_x = random.uniform(location['min_x'], location['max_x'])
-        random_y = random.uniform(location['min_y'], location['max_y'])
+    def _convert_locations_into_geometries(self):
+        locations_as_geometries = []
+        for location in self.locations:
+            if isinstance(location, dict):
+                coordinates = [[location['min_x'], location['min_y']],
+                               [location['min_x'], location['max_y']],
+                               [location['max_x'], location['max_y']],
+                               [location['max_x'], location['min_y']]]
+                polygon = Polygon(coordinates).convex_hull
+            elif isinstance(location, str):
+                # Load data from OSM
+                boundaries = AdministrativeBoundaries(location)
+                polygon = boundaries.get_city_polygon()
+            else:
+                raise ValueError('Unsupported type for location')
+            locations_as_geometries.append(polygon)
 
-        return Place(lat=random_y, lon=random_x)
+        self.locations: List[Polygon] = locations_as_geometries
+
+    @staticmethod
+    def generate_random_place(location):
+        """
+        Based on location generate randomly coordinates of point, which
+        lies within polygon
+        """
+        min_x, min_y, max_x, max_y = location.bounds
+        while True:
+            random_x = random.uniform(min_x, max_x)
+            random_y = random.uniform(min_y, max_y)
+            point = Point(random_x, random_y)
+            if location.contains(point):
+                return Place(lat=random_y, lon=random_x)
 
     @staticmethod
     def choose_radius(radius_to_check: List[int]):
@@ -115,17 +144,19 @@ class CaseExploration:
         report = report.to_crs(3857)
         ax = report.plot(column='area', legend=True, alpha=1.0,
                          cmap='Greens', markersize=30, edgecolor="black",
-                         legend_kwds={'label': "Relative green area, %"})
+                         legend_kwds={'label': "Green index, %"})
         cx.add_basemap(ax)
         plt.show()
 
+        report = report.rename(columns={'area': 'Green index, %'})
+
         # Create histogram
         with sns.axes_style('darkgrid'):
-            sns.histplot(data=report, x="area",
+            sns.histplot(data=report, x="Green index, %", color='green',
                          kde=True)
             plt.show()
 
         with sns.axes_style('darkgrid'):
-            sns.histplot(data=report, x="area", kde=True,
-                         hue='area', hue_order=radius_to_check)
+            sns.histplot(data=report, x="Green index, %", kde=True, palette='Greens',
+                         hue='radius', hue_order=radius_to_check)
             plt.show()
