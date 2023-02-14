@@ -32,5 +32,20 @@ def calculate_green_area_for_several_objects_using_name():
     exploration.launch_green_experiment()
 
 
+def calculate_green_area_for_several_objects_using_buildings():
+    """
+    Launch experiments to calculate possible values of green index for different
+    locations
+
+    Set location for experiments using city name and administrative borders and
+    use only buildings extend for calculation
+    """
+    locations = 'Berlin_buildings'
+
+    exploration = CaseExploration(400, locations,
+                                  f'simple_green_scale_{locations}.gpkg', True)
+    exploration.launch_green_experiment()
+
+
 if __name__ == '__main__':
-    calculate_green_area_for_several_objects_using_name()
+    calculate_green_area_for_several_objects_using_buildings()
