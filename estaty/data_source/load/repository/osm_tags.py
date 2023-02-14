@@ -9,3 +9,5 @@ PARKS_TAGS = {'boundary': ['national_park', 'forest'],
 
 LIGHTS_TAGS = {'highway': ['street_lamp'],
                'lit': ['yes']}
+
+MUNICIPALITY_TAGS = {'place': ['municipality']}

@@ -13,8 +13,7 @@ from loguru import logger
 from estaty.data.data import CommonData, VectorData
 from estaty.data_source.load.osm_save_load import save_geodataframe_into_file, \
     load_geodataframe_from_file
-from estaty.data_source.load.repository.osm_tags import WATER_TAGS, PARKS_TAGS, \
-    LIGHTS_TAGS
+from estaty.data_source.load.repository.osm_tags import *
 from estaty.engine.vector.clip import clip_dataframe_by_polygon
 from estaty.engine.vector.convert import create_polygon_from_point
 from estaty.paths import get_tmp_folder_path
@@ -31,15 +30,22 @@ class LoadOSMStage(Stage):
 
     tags_by_category = {'water': WATER_TAGS,
                         'parks': PARKS_TAGS,
-                        'lights': LIGHTS_TAGS}
+                        'lights': LIGHTS_TAGS,
+                        'municipality': MUNICIPALITY_TAGS}
 
     # Several spatial objects must include only particular geometries types
     allowed_geom_by_category = {'water': ['LineString', 'Polygon', 'MultiPolygon'],
-                                'parks': ['Polygon', 'MultiPolygon']}
+                                'parks': ['Polygon', 'MultiPolygon'],
+                                'municipality': ['Polygon', 'MultiPolygon']}
 
     def __init__(self, **params):
         super().__init__(**params)
         self.category = params['category']
+
+        self.local_cache = params.get('local_cache')
+        if self.local_cache is None:
+            self.local_cache = True
+
         analysis_point = params['object_for_analysis']
         self.object_for_analysis = analysis_point
 
@@ -84,12 +90,13 @@ class LoadOSMStage(Stage):
             osm_data = osm_data.reset_index()
             logger.debug(f'Successfully get data via osmnx')
 
-            # Save data into gpkg file
-            if self.category == 'lights':
-                save_geodataframe_into_file(osm_data, file_path,
-                                            save_only_geometries=True)
-            else:
-                save_geodataframe_into_file(osm_data, file_path)
+            # Save data into gpkg file (if it is required)
+            if self.local_cache:
+                if self.category == 'lights':
+                    save_geodataframe_into_file(osm_data, file_path,
+                                                save_only_geometries=True)
+                else:
+                    save_geodataframe_into_file(osm_data, file_path)
 
         # Always load vector data
         vector_data = self.compose_vector_data(osm_data)

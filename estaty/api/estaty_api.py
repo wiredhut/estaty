@@ -30,7 +30,8 @@ class Estaty:
         Launch green area case calculation
         """
         if mode_name == 'OpenStreetMap':
-            osm_source = DataSource('osm', params={'category': 'parks'})
+            osm_source = DataSource('osm', params={'category': 'parks',
+                                                   'local_cache': False})
             osm_reprojected = Preprocessor('reproject', params={'to': 'auto'},
                                            from_actions=[osm_source])
             analysis = Analyzer('area', from_actions=[osm_reprojected])
@@ -45,7 +46,8 @@ class Estaty:
 
         elif mode_name == 'OpenStreetMap_Landsat':
             # Launch advanced pipeline
-            osm_source = DataSource('osm', params={'category': 'parks'})
+            osm_source = DataSource('osm', params={'category': 'parks',
+                                                   'local_cache': False})
             osm_reprojected = Preprocessor('reproject', params={'to': 'auto'},
                                            from_actions=[osm_source])
             landsat_source = DataSource('ndvi_local')
