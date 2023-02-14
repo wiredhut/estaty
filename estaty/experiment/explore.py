@@ -72,7 +72,6 @@ class CaseExploration:
                 service = Estaty(place, radius)
                 logger.debug(f'Perform experiment {experiment_id} for {place.lat, place.lon} with radius {radius}')
                 calc_area, geometries, buffer = service.launch_green_area_calculation_case('OpenStreetMap')
-                calc_area = random.uniform(0, 100)
             except Exception as ex:
                 logger.info(f'Skip experiment number {experiment_id} due to {ex}')
                 continue
