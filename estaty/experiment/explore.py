@@ -2,11 +2,13 @@ from pathlib import Path
 from typing import List, Union, Dict
 import random
 
+import numpy as np
 import geopandas
+
 import pandas as pd
 from geopandas import GeoDataFrame
 from loguru import logger
-from shapely.geometry import Polygon, Point
+from shapely.geometry import Polygon, MultiPoint
 
 from app.main import Place
 from estaty.api.estaty_api import Estaty
@@ -44,6 +46,7 @@ class CaseExploration:
         self.file_to_save_results = file_to_save_results
 
         self.vis = vis
+        self.checked_points = []
 
     def launch_green_experiment(self, radius_to_check: List[int] = None):
         """
@@ -68,9 +71,9 @@ class CaseExploration:
             # Choose radius for experiment
             radius = self.choose_radius(radius_to_check)
 
+            logger.debug(f'Perform experiment {experiment_id} for {place.lat, place.lon} with radius {radius}')
             try:
                 service = Estaty(place, radius)
-                logger.debug(f'Perform experiment {experiment_id} for {place.lat, place.lon} with radius {radius}')
                 calc_area, geometries, buffer = service.launch_green_area_calculation_case('OpenStreetMap')
             except Exception as ex:
                 logger.info(f'Skip experiment number {experiment_id} due to {ex}')
@@ -111,19 +114,29 @@ class CaseExploration:
 
         self.locations: List[Polygon] = locations_as_geometries
 
-    @staticmethod
-    def generate_random_place(location):
+    def generate_random_place(self, location):
         """
         Based on location generate randomly coordinates of point, which
         lies within polygon
         """
+        number_of_points_per_axis = 400
         min_x, min_y, max_x, max_y = location.bounds
+        x = np.linspace(min_x, max_x, number_of_points_per_axis)
+        y = np.linspace(min_y, max_y, number_of_points_per_axis)
+        points = MultiPoint(np.transpose([np.tile(x, len(y)), np.repeat(y, len(x))]))
+
+        points_within_polygon = points.intersection(location)
+
+        logger.debug(f'Generate {len(points_within_polygon)} points for current experiment')
         while True:
-            random_x = random.uniform(min_x, max_x)
-            random_y = random.uniform(min_y, max_y)
-            point = Point(random_x, random_y)
-            if location.contains(point):
-                return Place(lat=random_y, lon=random_x)
+            point_id_to_take = random.randint(0, len(points_within_polygon) - 1)
+            point = points_within_polygon[point_id_to_take]
+
+            if f'{point.y}_{point.x}' not in self.checked_points:
+                break
+
+        self.checked_points.append(f'{point.y}_{point.x}')
+        return Place(lat=point.y, lon=point.x)
 
     @staticmethod
     def choose_radius(radius_to_check: List[int]):
