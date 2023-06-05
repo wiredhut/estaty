@@ -296,6 +296,20 @@ requests = ["urllib3 (>=1.24.2)", "requests (>=2.16.2)"]
 timezone = ["pytz"]
 
 [[package]]
+name = "gunicorn"
+version = "20.1.0"
+description = "WSGI HTTP Server for UNIX"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.extras]
+eventlet = ["eventlet (>=0.24.1)"]
+gevent = ["gevent (>=1.4.0)"]
+setproctitle = ["setproctitle"]
+tornado = ["tornado (>=0.2)"]
+
+[[package]]
 name = "h11"
 version = "0.14.0"
 description = "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1"
@@ -857,7 +871,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "3228ec2695bcfcd43275e2f75159e7326f868231564d86a515506a2cd3a86243"
+content-hash = "6ce186ba1fcd4f2ab23fdf7a71ad28fc788b9de634f424693933a08e9543dbd7"
 
 [metadata.files]
 affine = []
@@ -884,6 +898,7 @@ future = [
 geographiclib = []
 geopandas = []
 geopy = []
+gunicorn = []
 h11 = []
 idna = []
 iniconfig = []
