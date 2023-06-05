@@ -13,6 +13,7 @@ RUN poetry config virtualenvs.create false \
 # Copy necessary code
 COPY ./app /code/app
 COPY ./estaty /code/estaty
+COPY ./start.sh /start.sh
 
 # Socket configuration
-CMD gunicorn --bind 0.0.0.0:$PORT /code/app/launch
+CMD ["./start.sh"]
