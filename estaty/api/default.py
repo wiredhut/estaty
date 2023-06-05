@@ -1,7 +1,7 @@
 import numpy as np
 
 
-DEFAULT_ADDRESS = 'put here your address'
+DEFAULT_ADDRESS = "Berlin, Neustädtische Kirchstraße 4-7"
 DEFAULT_LAT = 52.5171411
 DEFAULT_LON = 13.3857187
 
