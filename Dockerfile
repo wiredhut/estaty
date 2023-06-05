@@ -15,4 +15,4 @@ COPY ./app /code/app
 COPY ./estaty /code/estaty
 
 # Socket configuration
-CMD ["gunicorn", "app.main:app", "--host", "0.0.0.0", "--port", "$PORT"]
+CMD gunicorn --bind 0.0.0.0:$PORT /code/app/launch
