@@ -11,11 +11,11 @@ RUN poetry config virtualenvs.create false \
   && poetry install $(test "estaty" == production && echo "--no-dev") --no-interaction --no-ansi
 
 # Copy necessary code
-COPY ./app /app
-COPY ./estaty /estaty
-COPY ./start.sh /start.sh
+COPY ./app /code/app
+COPY ./estaty /code/estaty
+COPY ./start.sh /code/start.sh
 
-RUN chmod +x /start.sh
+RUN chmod +x /code/start.sh
 
 # Socket configuration
-CMD ["./start.sh"]
+CMD ["./code/start.sh"]
