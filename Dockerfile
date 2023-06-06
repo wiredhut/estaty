@@ -18,4 +18,4 @@ COPY ./start.sh /code/start.sh
 RUN chmod +x /code/start.sh
 
 # Socket configuration
-CMD ["./code/start.sh"]
+CMD ["./start.sh"]
