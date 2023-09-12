@@ -23,12 +23,6 @@ class Place(BaseModel):
                                    description="String object. For example 'Berlin, Neustädtische Kirchstraße 4-7'. "
                                                "If coordinates are set together with the address, the coordinates "
                                                "will be used (have higher priority)")
-    lat: Optional[float] = Query(default=DEFAULT_LAT,
-                                 title="Latitude (CRS: WGS84) of desired place for analysis",
-                                 description="Float object - latitude coordinate. Longitude coordinate is also reqiured")
-    lon: Optional[float] = Query(default=DEFAULT_LON,
-                                 title="Longitude (CRS: WGS84) of desired place for analysis",
-                                 description="Float object - longitude coordinate. Latitude coordinate is also reqiured")
 
     @root_validator(pre=True)
     def check_parameters_correctness(cls, values: Dict):
@@ -68,11 +62,13 @@ def green_case(mode: ModeName, place: Place,
                                    gt=100, le=2000)):
     """
     Launch green area calculation for desired place. The analysis can be
-    launched in two different modes - 'OpenStreetMap' and 'OpenStreetMap_Landsat'.
-    'OpenStreetMap' mode include area calculation with usage Open Street Map data
-    'as is'. For 'OpenStreetMap_Landsat' mode more complicated processing pipeline
-    is launched: load data from OSM, prepare NDVI data from Landsat and launch
-    polygons clarification
+    launched in two different modes:
+
+    - **"OpenStreetMap"** - include area calculation with usage Open Street Map data 'as is'
+    - **"OpenStreetMap_Landsat"** - more complicated processing pipeline is launched: load data
+    from OSM, prepare NDVI data from Landsat and launch polygons clarification
+
+    Return geometries of obtained green areas and calculated green index (percentage)
     """
     exception_for_advanced_case(mode, place)
     service = Estaty(place, radius)
@@ -85,13 +81,10 @@ def exception_for_advanced_case(mode: ModeName, place: Place):
     if mode == 'OpenStreetMap':
         return
 
-    property_info = {'lat': place.lat, 'lon': place.lon}
-    if place.address != DEFAULT_ADDRESS and are_coordinates_default(place.lat,
-                                                                    place.lon):
-        # New address was assigned
-        property_info = place.address
-        preparer = PropertyObjectConfiguration(None, property_info)
-        property_info = preparer.configure_object()
+    # New address was assigned
+    property_info = place.address
+    preparer = PropertyObjectConfiguration(None, property_info)
+    property_info = preparer.configure_object()
 
     message = f'For desired extend it is impossible to apply advanced approach. ' \
               f'Please, try choose area nearby Berlin'

@@ -18,11 +18,7 @@ class Estaty:
         self.radius = radius
 
         # Parse information about spatial coordinates or related info
-        self.property_info = {'lat': place.lat, 'lon': place.lon}
-        if place.address != DEFAULT_ADDRESS and are_coordinates_default(place.lat, place.lon):
-            # New address were assigned
-            self.property_info = place.address
-
+        self.property_info = place.address
         logger.info(f'Start processing case for object {self.property_info} with radius {self.radius} metres')
 
     def launch_green_area_calculation_case(self, mode_name: str):

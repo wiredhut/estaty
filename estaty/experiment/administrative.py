@@ -42,5 +42,4 @@ class AdministrativeBoundaries:
         # Perform polygons merging into single geometry
         bbox_info['new_column'] = 0
         bbox_info = bbox_info.dissolve(by='new_column')
-
         return bbox_info.geometry.iloc[0]
