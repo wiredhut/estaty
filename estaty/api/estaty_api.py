@@ -1,7 +1,6 @@
 from loguru import logger
 
 from estaty.analysis.action import Analyzer
-from estaty.api.default import *
 from estaty.constants import WGS_EPSG
 from estaty.data_source.action import DataSource
 from estaty.main import EstateModel
@@ -21,13 +20,12 @@ class Estaty:
         self.property_info = place.address
         logger.info(f'Start processing case for object {self.property_info} with radius {self.radius} metres')
 
-    def launch_green_area_calculation_case(self, mode_name: str):
+    def launch_green_area_calculation_case(self, mode_name: str = 'OpenStreetMap'):
         """
-        Launch green area case calculation
+        Launch green area case calculation. Default mode name is 'OpenStreetMap'.
         """
         if mode_name == 'OpenStreetMap':
-            osm_source = DataSource('osm', params={'category': 'parks',
-                                                   'local_cache': False})
+            osm_source = DataSource('osm', params={'category': 'parks', 'local_cache': False})
             osm_reprojected = Preprocessor('reproject', params={'to': 'auto'},
                                            from_actions=[osm_source])
             analysis = Analyzer('area', from_actions=[osm_reprojected])
