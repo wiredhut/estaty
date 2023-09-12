@@ -43,15 +43,4 @@ check folder [cases](./cases):
 - [green_area_simple.py](./cases/green_area_simple.py) - calculate "green" are nearby property 
   using only open street map data.
 - [green_area_advanced.py](./cases/green_area_advanced.py) - calculate "green" are nearby property 
-  using open street map data and Landsat NDVi fields.
-    
-## Docker image
-
-For advanced green are case calculation put NDVI rasters into the folder `estaty/repository/local_data/landsat/ndvi`
-
-To compose docker image and run container follow instructions:
-* Open terminal: set directory with source code, for example `D:/work/estaty>`
-* Image creation command: `docker build -t estatyimage .`
-* Launch container: `docker run -d --name greencaseconntainer -p 80:80 estatyimage`
-* Check running containers: `docker ps -a`
-* Check link with Swagger documentation at localhost: `http://127.0.0.1/docs`
+  using open street map data and Landsat NDVI fields.
