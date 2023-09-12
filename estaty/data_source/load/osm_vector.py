@@ -7,7 +7,6 @@ import pandas as pd
 
 import warnings
 
-from fastapi import HTTPException
 from loguru import logger
 
 from estaty.data.data import CommonData, VectorData
@@ -122,8 +121,7 @@ class LoadOSMStage(Stage):
                 osm_data.append(g_bbox)
 
         if len(osm_data) < 1:
-            message = 'There are no requested category data for desired area according to OSM'
-            raise HTTPException(status_code=404, detail=message)
+            raise ValueError('There are no requested category data for desired area according to OSM')
         osm_data = pd.concat(osm_data)
         return osm_data
 
