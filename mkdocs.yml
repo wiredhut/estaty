@@ -11,5 +11,5 @@ nav:
     - Services which use estaty:
           - 'GREENDEX': 'services/greendex.md'
 theme:
-    name: estaty
+    name: readthedocs
     logo: https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/estaty_logo.png
