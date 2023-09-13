@@ -1,0 +1,15 @@
+site_name: estaty
+site_url: https://estaty.readthedocs.io/en/latest/
+site_author: Red5 team
+repo_url: https://github.com/red5ai/estaty
+
+nav:
+    - Home: index.md
+    - Common description:
+          - 'Why you should try estaty': 'common/faq.md'
+          - 'Functionality review': 'common/functionality_review.md'
+    - Services which use estaty:
+          - 'GREENDEX': 'services/greendex.md'
+theme:
+    name:
+    logo: https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/estaty_logo.png
