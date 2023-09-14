@@ -27,7 +27,7 @@ and generalising the data. So, there are exists the following 5 layers:
 - `DataSource`  - load and cache data,  reduce data to known and commonly used types;
 - `Preprocessor` - preprocessing operation to prepare data for merging. For example, assign new CRS (re-projection);
 - `Merger`  - merge raster and vector data if it is required;
-- `Analyzer` - core of the system - use simple data representations and primitives to constract sequential analysis pipelines;
+- `Analyzer` - core of the system - use simple data representations and primitives to construct sequential analysis pipelines;
 - `Report` - submodule for preparing PDF reports, data visualization and data send operations (for example POST request to desired service)
 
 All above submodules can be flexibly configured to create custom data analysis pipelines:
