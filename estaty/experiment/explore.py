@@ -1,5 +1,6 @@
+from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Union, Dict
+from typing import List, Union, Dict, Optional
 import random
 
 import numpy as np
@@ -9,11 +10,19 @@ import pandas as pd
 from geopandas import GeoDataFrame
 from loguru import logger
 from shapely.geometry import Polygon, MultiPoint
+from tqdm import tqdm
 
-from app.main import Place
 from estaty.api.estaty_api import Estaty
 from estaty.constants import WGS_EPSG
 from estaty.experiment.administrative import AdministrativeBoundaries
+
+
+class Place:
+
+    def __init__(self, lat: Optional[float], lon: Optional[float], address: Optional[Union[str, None]] = None):
+        self.lat = lat
+        self.lon = lon
+        self.address = address
 
 
 class CaseExploration:
@@ -64,7 +73,9 @@ class CaseExploration:
             return
 
         report = []
-        for experiment_id in range(self.number_of_experiments):
+        pbar = tqdm(np.arange(self.number_of_experiments), colour='green')
+        for experiment_id in pbar:
+            pbar.set_description(f'Green index experiment calculation number: {experiment_id}')
             # Randomly choose location to perform launch
             location = self.choose_location()
             place = self.generate_random_place(location)
@@ -82,9 +93,8 @@ class CaseExploration:
             report.append([place.lat, place.lon, calc_area, radius])
 
         report = pd.DataFrame(report, columns=['lat', 'lon', 'area', 'radius'])
-        report = geopandas.GeoDataFrame(report, geometry=geopandas.points_from_xy(report.lon, report.lat),
-                                        crs=WGS_EPSG)
-        report.to_file(self.file_to_save_results, driver='GPKG')
+        report = geopandas.GeoDataFrame(report, geometry=geopandas.points_from_xy(report.lon, report.lat), crs=WGS_EPSG)
+        report.to_file(str(self.file_to_save_results), driver='GPKG')
         if self.vis:
             self.show_green_index_plot(report, radius_to_check)
 

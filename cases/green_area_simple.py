@@ -1,6 +1,5 @@
 import contextily as cx
 import matplotlib.pyplot as plt
-from geopandas.geodataframe import GeoDataFrame
 
 from estaty.analysis.action import Analyzer
 from estaty.data_source.action import DataSource

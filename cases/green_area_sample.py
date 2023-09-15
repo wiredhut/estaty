@@ -42,7 +42,7 @@ def calculate_green_area_for_several_objects_using_buildings():
     """
     locations = 'Berlin_buildings'
 
-    exploration = CaseExploration(400, locations,
+    exploration = CaseExploration(500, locations,
                                   f'simple_green_scale_{locations}.gpkg', True)
     exploration.launch_green_experiment()
 
