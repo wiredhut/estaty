@@ -37,7 +37,9 @@ Histogram of green index values for Berlin:
 
 In this way, the obtained value can be compared with other buildings in Berlin and it is possible to figure out whether it is "greener" than other objects.
 
-## Privacy policy
+---
+
+## <span style="color:green">Privacy policy</span>
 
 *Last update: September 18, 2023*
 
@@ -91,12 +93,32 @@ or by placing a prominent notice on [our website](https://wiredhut.com/).
 
 ### Contact Us
 
-If you have any questions about this Privacy Policy, please contact us.
+If you have any questions about this Privacy Policy, please contact us support@wiredhut.com.
 
+---
 
-## Terms of service
+## <span style="color:green">Terms of service</span>
 
 *Last update: September 18, 2023*
+
+These Terms and Conditions (“Terms”, “Terms and Conditions”) govern your relationship with greendex’s web application and Google Sheets add-on
+operated by Wiredhut company (“us”, “we”, or “our”).
+
+Please read these Terms and Conditions carefully before using the Service.
+
+Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. 
+These Terms apply to all visitors, users and others who access or use the Service.
+
+By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service.
+
+### Registration & Passwords
+
+To use some of the features on the **greendex** services, including the https://api.greendex.wiredhut.com API, you may be 
+required to create an account. 
+Any required fields that are submitted as part of the registration process must be accurate and complete. 
+
+You are solely responsible for activity that occurs on your account. You should keep your password and/or API key confidential 
+and agree to notify us immediately of any unauthorized use of your account.
 
 ## Contacts 
 
