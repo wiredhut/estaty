@@ -49,12 +49,6 @@ The Service hereinafter is the [https://api.greendex.wiredhut.com/docs](https://
 We use your Personal Information only for providing and improving the service. 
 By using the service, you agree to the collection and use of information in accordance with this policy.
 
-### Information Collection And Use
-
-While using our service, we may ask you to provide us with certain personally identifiable 
-information that can be used to contact or identify you. 
-Personally identifiable information may include, but is not limited to your name ("Personal Information").
-
 ### Log Data
 
 Like many services operators, we collect information that your browser (or third party 
