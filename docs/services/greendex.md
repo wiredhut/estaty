@@ -120,6 +120,38 @@ Any required fields that are submitted as part of the registration process must 
 You are solely responsible for activity that occurs on your account. You should keep your password and/or API key confidential 
 and agree to notify us immediately of any unauthorized use of your account.
 
+### Use of Data and Content
+
+By using the service you represent and warrant that any User Content posted by you does not contain material or links 
+to material that infringes upon a third party’s intellectual property or proprietary rights including, without limitation, 
+copyright, patent, trademark, trade secrets, or rights of publicity or privacy. 
+You agree to accept full liability and responsibility for all User Content submitted by you or on your behalf for passing into Service.
+
+### Subscriptions
+
+Some parts of the Service are billed on a subscription basis (“Subscription(s)”). You will be 
+billed in advance on a recurring and periodic basis (“Billing Cycle”). Billing cycles can be set 
+as 10 days, monthly, quarterly or annually, depending on the type of subscription plan you select 
+when purchasing a Subscription.
+
+At the end of each Billing Cycle, your Subscription will automatically renew unless you cancel it or 
+Wiredhut cancels it. You may cancel your Subscription renewal either 
+through your online account management page or by contacting Wiredhut’s customer support team.
+
+A valid payment method, including credit card, is required to process the payment for your Subscription. 
+You shall provide Wiredhut with accurate and complete billing information. 
+By submitting such payment information, you automatically authorize Wiredhut to charge all Subscription fees incurred 
+through your account to any such payment instruments.
+
+
+### Communication
+The following methods may be used to contact us:
+
+Email address: support@wiredhut.com
+
+Any notification and communication between users and the Wiredhut shall be considered effective, for any purposes, 
+whenever conducted through any of the aforementioned methods.
+
 ## Contacts 
 
 If you want to ask questions to the developers personally or learn about custom development, 
