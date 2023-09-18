@@ -113,7 +113,7 @@ By accessing or using the Service you agree to be bound by these Terms. If you d
 
 ### Registration & Passwords
 
-To use some of the features on the **greendex** services, including the https://api.greendex.wiredhut.com API, you may be 
+To use some of the features on the **greendex** services, including the [https://api.greendex.wiredhut.com](https://api.greendex.wiredhut.com) API, you may be 
 required to create an account. 
 Any required fields that are submitted as part of the registration process must be accurate and complete. 
 
