@@ -20,6 +20,8 @@ Use function `=GREENDEX(P1, P2)` with two parameters:
 - `P1`. First parameter, address as text. Example: `Berlin, Neustädtische Kirchstraße 4-7`
 - `P2`. Second parameter, radius for area in meters. Example: `500`
 
+<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/greendex_usage_example.png" width="650"/>
+
 ## How to understand is the obtained green value good or not 
 
 As is clear from the description of the indicator, it can vary from 0 to 100. 
