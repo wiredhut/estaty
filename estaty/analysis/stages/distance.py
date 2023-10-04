@@ -115,6 +115,10 @@ class DistanceAnalysisStage(Stage):
         # Generate new vector data with lines objects (founded paths)
         input_data = VectorData(lines=pd.concat(paths), epsg=WGS_EPSG)
         if self.visualize and source_geometries is not None:
+            color = 'red'
+            if self.params.get('color') is not None:
+                color = self.params.get('color')
+
             # Prepare visualizations with founded routes
             source_geometries.to_crs(3857)
             input_data.to_crs(3857)
@@ -124,7 +128,7 @@ class DistanceAnalysisStage(Stage):
             target_point = GeoDataFrame(crs=f"EPSG:{WGS_EPSG}", geometry=[geometry])
             target_point = target_point.to_crs(epsg=3857)
 
-            ax = source_geometries.all.plot(color='green')
+            ax = source_geometries.all.plot(color=color)
             ax = input_data.lines.plot(ax=ax, column='Length', alpha=0.6, legend=True,
                                        cmap='Reds', legend_kwds={'label': "Route length, m"},
                                        zorder=1)

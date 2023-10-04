@@ -113,5 +113,5 @@ def polygons_aggregation(dataframe: GeoDataFrame):
 
     # Split multipolygon into separate zones
     # https://stackoverflow.com/questions/58173369/explanding-geopandas-multipolygon-dataframe-to-one-poly-per-line
-    dataframe = dataframe.explode()
+    dataframe = dataframe.explode(index_parts=True)
     return dataframe

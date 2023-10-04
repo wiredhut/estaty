@@ -102,7 +102,7 @@ class LoadOSMStage(Stage):
         vector_data.area_of_interest = polygon
 
         # Does not allow multipolygons presence
-        vector_data.polygons = vector_data.polygons.explode()
+        vector_data.polygons = vector_data.polygons.explode(index_parts=True)
         return vector_data
 
     def filter_data_by_category(self, bbox_info: geopandas.geodataframe.DataFrame):

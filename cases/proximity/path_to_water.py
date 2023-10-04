@@ -7,7 +7,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-def launch_parks_proximity_analysis():
+def launch_parks_proximity_analysis_for_water_objects():
     """
     Aim: To assess the accessibility of parks for the selected property
 
@@ -20,20 +20,14 @@ def launch_parks_proximity_analysis():
         * Report - analysis results visualization or reporting
     """
 
-    # 1 Stage - define data sources and get data from them
-    osm_source = DataSource('osm', params={'category': 'parks'})
+    osm_source = DataSource('osm', params={'category': 'water'})
 
-    # 2 Stage - re project layers obtained from OSM: UTM zone 33N - EPSG:32633
-    osm_reprojected = Preprocessor('reproject',
-                                   params={'to': 32633},
-                                   from_actions=[osm_source])
+    osm_reprojected = Preprocessor('reproject', params={'to': 'auto'}, from_actions=[osm_source])
 
-    # 4 Stage - calculate distances from open source
-    analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': 'green'},
+    analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': 'blue'},
                         from_actions=[osm_reprojected])
 
-    # Launch model for desired location
-    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187}, radius=1000)
+    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187}, radius=2000)
     founded_routes = model.compose(analysis)
 
     print(founded_routes.lines)
@@ -43,4 +37,4 @@ def launch_parks_proximity_analysis():
 
 
 if __name__ == '__main__':
-    launch_parks_proximity_analysis()
+    launch_parks_proximity_analysis_for_water_objects()
