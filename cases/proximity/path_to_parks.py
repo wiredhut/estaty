@@ -7,19 +7,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-def launch_green_case_analysis_for_property():
-    """
-    Demonstration of estaty functionality on green case simple version with
-    parks for particular real estate object (property)
-    """
-    # Example for 'Berlin, Neustädtische Kirchstraße 4-7'
-    model = EstateModel().for_property({'lat': 52.5171411,
-                                        'lon': 13.3857187},
-                                       radius=1000)
-    model.compose('green')
-
-
-def launch_green_case_analysis_for_property_manually():
+def launch_parks_proximity_analysis():
     """
     Aim: To assess the accessibility of parks for the selected property
 
@@ -56,4 +44,4 @@ def launch_green_case_analysis_for_property_manually():
 
 
 if __name__ == '__main__':
-    launch_green_case_analysis_for_property_manually()
+    launch_parks_proximity_analysis()
