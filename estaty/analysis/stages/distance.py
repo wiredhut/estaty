@@ -128,7 +128,7 @@ class DistanceAnalysisStage(Stage):
             ax = target_point.plot(ax=ax, color='red', alpha=1.0, markersize=40,
                                    edgecolor='black')
             # TODO fix visualization basemap issues
-            # cx.add_basemap(ax, crs=target_point.crs.to_string(), zoom=6)
+            cx.add_basemap(ax, crs=target_point.crs.to_string(), source=cx.providers.CartoDB.Voyager)
             plt.show()
 
             # Return WGS 84 projection

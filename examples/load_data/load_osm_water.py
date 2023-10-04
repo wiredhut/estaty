@@ -30,8 +30,7 @@ def load_data_with_water_from_osm():
     print(loaded_data.polygons)
     loaded_data.to_crs(3857)
     ax = loaded_data.all.plot(color='blue', alpha=0.5, edgecolor='k')
-    # TODO fix visualization basemap issues
-    # cx.add_basemap(ax)
+    cx.add_basemap(ax, crs=loaded_data.polygons.crs.to_string(), source=cx.providers.CartoDB.Voyager)
     plt.suptitle('Water objects according to Open Street Map data')
     plt.show()
 

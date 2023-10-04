@@ -57,8 +57,7 @@ def calculate_green_area_advanced_approach(radius: int = 1000):
     ax = calculated_areas.polygons.plot(ax=ax, column='area', legend=False, color='green', zorder=1)
     ax = target_point.plot(ax=ax, color='red', alpha=1.0, markersize=40, edgecolor='black')
     plt.suptitle(msg)
-    # TODO fix visualization basemap issues
-    # cx.add_basemap(ax, crs=target_point.crs.to_string(), zoom=6)
+    cx.add_basemap(ax, crs=target_point.crs.to_string(), source=cx.providers.CartoDB.Voyager)
     plt.show()
 
 
