@@ -29,13 +29,11 @@ def launch_parks_proximity_analysis():
                                    from_actions=[osm_source])
 
     # 4 Stage - calculate distances from open source
-    analysis = Analyzer('distance', params={'network_type': 'walk',
-                                            'visualize': True},
+    analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True},
                         from_actions=[osm_reprojected])
 
     # Launch model for desired location
-    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187},
-                                       radius=1000)
+    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187}, radius=1000)
     founded_routes = model.compose(analysis)
 
     print(founded_routes.lines)

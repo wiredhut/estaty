@@ -100,3 +100,18 @@ def transform_coordinates_in_dataframe(dataframe: Union[pd.DataFrame, GeoDataFra
 
     dataframe = dataframe.drop_duplicates()
     return dataframe
+
+
+def polygons_aggregation(dataframe: GeoDataFrame):
+    """
+    Apply when one polygon lies within another.
+    Function will assimilate polygons if they lie within others
+    """
+    # Merge all polygons into one big multipolygon
+    dataframe['new_column'] = 0
+    dataframe = dataframe.dissolve(by='new_column')
+
+    # Split multipolygon into separate zones
+    # https://stackoverflow.com/questions/58173369/explanding-geopandas-multipolygon-dataframe-to-one-poly-per-line
+    dataframe = dataframe.explode()
+    return dataframe

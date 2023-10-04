@@ -14,6 +14,7 @@ from shapely.geometry import LineString, Point
 
 from estaty.constants import WGS_EPSG
 from estaty.data.data import VectorData, CommonData
+from estaty.engine.vector.convert import polygons_aggregation
 from estaty.engine.vector.points_representation.to_point import \
     VectorToPointsRepresentation
 from estaty.stages import Stage, SPATIAL_DATA_LIST
@@ -55,6 +56,8 @@ class DistanceAnalysisStage(Stage):
         """
         source_geometries = None
         input_data = self.take_first_element_from_list(input_data)
+        input_data.polygons = polygons_aggregation(input_data.polygons)
+
         if self.visualize:
             # Get copy of source data
             source_geometries = deepcopy(input_data)
@@ -129,7 +132,7 @@ class DistanceAnalysisStage(Stage):
                                    edgecolor='black')
             # TODO fix visualization basemap issues
             cx.add_basemap(ax, crs=target_point.crs.to_string(), source=cx.providers.CartoDB.Voyager)
-            plt.show()
+            plt.savefig(f'parks_paths.svg')
 
             # Return WGS 84 projection
             input_data.to_crs(WGS_EPSG)
