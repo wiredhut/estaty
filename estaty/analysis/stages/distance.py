@@ -132,7 +132,7 @@ class DistanceAnalysisStage(Stage):
                                    edgecolor='black')
             # TODO fix visualization basemap issues
             cx.add_basemap(ax, crs=target_point.crs.to_string(), source=cx.providers.CartoDB.Voyager)
-            plt.savefig(f'parks_paths.svg')
+            plt.show()
 
             # Return WGS 84 projection
             input_data.to_crs(WGS_EPSG)
