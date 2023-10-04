@@ -9,18 +9,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-def launch_green_case_analysis_for_property():
-    """
-    Demonstration of estaty functionality on green case advanced version with
-    parks for particular real estate object (property)
-    """
-    # Example for Berlin, Neustädtische Kirchstraße 4-7
-    model = EstateModel().for_property({'lat': 52.5171411,
-                                        'lon': 13.3857187})
-    model.compose('green_advanced')
-
-
-def launch_green_case_analysis_for_property_manually():
+def launch_parks_with_ambrosia_proximity_analysis():
     """
     Demonstration how to launch green case advanced version manually from nodes.
     There are using several data sources to perform analysis
@@ -63,4 +52,4 @@ def launch_green_case_analysis_for_property_manually():
 
 
 if __name__ == '__main__':
-    launch_green_case_analysis_for_property_manually()
+    launch_parks_with_ambrosia_proximity_analysis()

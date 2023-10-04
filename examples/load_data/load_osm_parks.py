@@ -31,7 +31,8 @@ def load_data_with_parks_from_osm():
     print(loaded_data.polygons)
     loaded_data.to_crs(3857)
     ax = loaded_data.all.plot(color='green', alpha=0.3, edgecolor='k')
-    cx.add_basemap(ax)
+    # TODO fix visualization basemap issues
+    # cx.add_basemap(ax)
     plt.suptitle('Parks according to Open Street Map data')
     plt.show()
 

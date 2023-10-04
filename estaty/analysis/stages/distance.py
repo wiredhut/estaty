@@ -127,7 +127,8 @@ class DistanceAnalysisStage(Stage):
                                        zorder=1)
             ax = target_point.plot(ax=ax, color='red', alpha=1.0, markersize=40,
                                    edgecolor='black')
-            cx.add_basemap(ax)
+            # TODO fix visualization basemap issues
+            # cx.add_basemap(ax, crs=target_point.crs.to_string(), zoom=6)
             plt.show()
 
             # Return WGS 84 projection

@@ -20,8 +20,7 @@ def load_data_with_water_from_osm():
     osm_source = DataSource('osm', params={'category': 'water'})
 
     # Launch data loading
-    model = EstateModel().for_property({'lat': 52.518168945198845,
-                                        'lon': 13.385957678169396},
+    model = EstateModel().for_property({'lat': 52.518168945198845, 'lon': 13.385957678169396},
                                        radius=1000)
 
     loaded_data = model.compose(osm_source)
@@ -31,7 +30,8 @@ def load_data_with_water_from_osm():
     print(loaded_data.polygons)
     loaded_data.to_crs(3857)
     ax = loaded_data.all.plot(color='blue', alpha=0.5, edgecolor='k')
-    cx.add_basemap(ax)
+    # TODO fix visualization basemap issues
+    # cx.add_basemap(ax)
     plt.suptitle('Water objects according to Open Street Map data')
     plt.show()
 

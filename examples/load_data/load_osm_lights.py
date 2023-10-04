@@ -33,7 +33,8 @@ def load_data_with_lights_from_osm():
     poly = loaded_data.polygons.plot(color='#F1FF4C', alpha=0.9)
     lines = loaded_data.lines.plot(ax=poly, color='#F1FF4C', alpha=0.5)
     ax = loaded_data.points.plot(ax=lines, color='orange', alpha=0.5, markersize=5)
-    cx.add_basemap(ax)
+    # TODO fix visualization basemap issues
+    # cx.add_basemap(ax)
     plt.suptitle('Street lights according to Open Street Map data')
     plt.show()
 

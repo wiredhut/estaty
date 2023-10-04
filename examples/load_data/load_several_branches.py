@@ -20,8 +20,7 @@ def load_data_in_several_branches():
                                        from_actions=[parks_source, lights_source])
 
     # Launch data loading (may be time consuming)
-    model = EstateModel().for_property({'lat': 52.518168945198845,
-                                        'lon': 13.385957678169396},
+    model = EstateModel().for_property({'lat': 52.518168945198845, 'lon': 13.385957678169396},
                                        radius=500)
 
     loaded_data = model.compose(dummy_preprocessing)

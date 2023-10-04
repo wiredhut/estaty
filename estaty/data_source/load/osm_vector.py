@@ -135,7 +135,7 @@ class LoadOSMStage(Stage):
             geom_df = osm_data.loc[osm_data.geometry.geometry.type == geom_type]
             if geom_type == 'Point':
                 vector_data.points = geom_df
-            elif geom_type == 'LineString':
+            elif geom_type == 'LineString' or geom_type == 'MultiLineString':
                 vector_data.lines = geom_df
             elif geom_type == 'Polygon' or geom_type == 'MultiPolygon':
                 if vector_data.polygons is not None:
