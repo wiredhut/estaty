@@ -11,3 +11,6 @@ LIGHTS_TAGS = {'highway': ['street_lamp'],
                'lit': ['yes']}
 
 MUNICIPALITY_TAGS = {'place': ['municipality']}
+
+SCHOOL_TAGS = {'amenity': ['school']}
+DRIVING_SCHOOL_TAGS = {'amenity': ['driving_school']}

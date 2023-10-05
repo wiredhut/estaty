@@ -1,10 +1,11 @@
 # Proximity use case
 
-In progress
+A crucial characteristic of a real estate object is its proximity to important infrastructural elements 
+of the urban environment.
 
 ## Calculation description 
 
-In progress
+<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/proximity_parks_water_example.png" width="650"/>
 
 ## Scripts 
 

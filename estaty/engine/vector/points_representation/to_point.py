@@ -87,8 +87,7 @@ class VectorToPointsRepresentation:
         updated_rows = []
         for row_id, row in vector_dataframe.iterrows():
             if isinstance(row.geometry, MultiPolygon):
-                logger.debug(f'Multipolygon was detected during vector to '
-                             f'points representation procedure')
+                logger.debug(f'Multipolygon was detected during vector to points representation procedure')
                 continue
             updated_row = reducer.reduce_to_point(row, nodes_information)
             updated_rows.append(updated_row)

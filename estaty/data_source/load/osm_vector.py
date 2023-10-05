@@ -30,7 +30,9 @@ class LoadOSMStage(Stage):
     tags_by_category = {'water': WATER_TAGS,
                         'parks': PARKS_TAGS,
                         'lights': LIGHTS_TAGS,
-                        'municipality': MUNICIPALITY_TAGS}
+                        'municipality': MUNICIPALITY_TAGS,
+                        'school': SCHOOL_TAGS,
+                        'driving_school': DRIVING_SCHOOL_TAGS}
 
     # Several spatial objects must include only particular geometries types
     allowed_geom_by_category = {'water': ['LineString', 'Polygon', 'MultiPolygon'],
