@@ -8,6 +8,17 @@ nav:
     - Common description:
           - 'Why you should try estaty': 'common/faq.md'
           - 'Functionality review': 'common/functionality_review.md'
+    - Documentation:
+          - 'Quickstart': 'documentation/quickstart.md'
+          - 'Data source': 'documentation/data_source.md'
+          - 'Preprocessing': 'documentation/preprocessor.md'
+          - 'Merge': 'documentation/merger.md'
+          - 'Analysis': 'documentation/analyzer.md'
+          - 'Report': 'documentation/report.md'
+          - 'Advanced examples': 'documentation/advanced_examples.md'
+    - Use cases:
+          - 'Green area': 'cases/green_area.md'
+          - 'Proximity analysis': 'cases/proximity.md'
     - Services which use estaty:
           - 'GREENDEX': 'services/greendex.md'
 theme:
