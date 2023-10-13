@@ -70,23 +70,23 @@ class VectorToPointsRepresentation:
                                                                        ['x_target', 'y_target'],
                                                                        dist_column)
 
-        # if vector_data.points is not None:
-        #     # Points to points reducer
-        #     vector_data.points = self.use_reducer(self.reducer_by_type['Point'](metric_epsg),
-        #                                           vector_data.points, gdf_nodes)
-        #
-        # #########################################################################
-        # # Apply transformation on polygons - they will be converted into points #
-        # #########################################################################
-        # if vector_data.polygons is not None:
-        #     updated_rows = self.use_reducer(self.reducer_by_type['Polygon'](metric_epsg),
-        #                                     vector_data.polygons, gdf_nodes)
-        #     if vector_data.points is None:
-        #         vector_data.points = updated_rows
-        #         vector_data.polygons = None
-        #     else:
-        #         vector_data.points = pd.concat([vector_data.points, updated_rows])
-        #         vector_data.polygons = None
+        if vector_data.points is not None:
+            # Points to points reducer
+            vector_data.points = self.use_reducer(self.reducer_by_type['Point'](metric_epsg),
+                                                  vector_data.points, gdf_nodes)
+
+        #########################################################################
+        # Apply transformation on polygons - they will be converted into points #
+        #########################################################################
+        if vector_data.polygons is not None:
+            updated_rows = self.use_reducer(self.reducer_by_type['Polygon'](metric_epsg),
+                                            vector_data.polygons, gdf_nodes)
+            if vector_data.points is None:
+                vector_data.points = updated_rows
+                vector_data.polygons = None
+            else:
+                vector_data.points = pd.concat([vector_data.points, updated_rows])
+                vector_data.polygons = None
 
         ######################################################################
         # Apply transformation on lines - they will be converted into points #

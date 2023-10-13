@@ -16,22 +16,37 @@ class LineToPointReducer(ReducerToPoint):
         super().__init__(epsg, **params)
 
     def reduce_to_point(self, row: pd.Series, additional_info: Union[Any, None]) -> GeoDataFrame:
-        point = row.geometry
-        x_coord, y_coord = point.x, point.y
+        line = row.geometry
+        x_coordinates, y_coordinates = line.xy
+
+        # TODO set range between points
+        line_points = pd.DataFrame({'line_x': x_coordinates.tolist(),
+                                    'line_y': y_coordinates.tolist()})
+        line_points['index'] = np.arange(0, len(line_points))
 
         # Put point coordinates and calculate the distance
-        additional_info['point_x'] = x_coord
-        additional_info['point_y'] = y_coord
-        distance_calculator = DistanceToPointsCalculator(additional_info)
+        # Create table with pairwise
+        common_table = []
+        for i, line_point in line_points.iterrows():
+            additional_info = additional_info.copy()
+            additional_info['line_x'] = [line_point.line_x] * len(additional_info)
+            additional_info['line_y'] = [line_point.line_y] * len(additional_info)
+            common_table.append(additional_info)
+
+        common_table = pd.concat(common_table)
+        distance_calculator = DistanceToPointsCalculator(common_table)
         dist_column = 'distance_from_node_to_point'
-        df = distance_calculator.calculate_euclidean_by_columns(['x', 'y'],['point_x', 'point_y'], dist_column)
+        df = distance_calculator.calculate_euclidean_by_columns(['x', 'y'],
+                                                                ['line_x', 'line_y'],
+                                                                dist_column)
+
         df['common_distance'] = df['distance_from_node_to_point'] + df['distance_from_target_to_nodes']
         df = df.reset_index()
         nearest_point = df['common_distance'].argmin()
-        point_representation = df.iloc[nearest_point]
-        point_representation = pd.DataFrame(point_representation).T[['point_x', 'point_y', 'distance_from_node_to_point']]
+        line_representation = df.iloc[nearest_point]
+        line_representation = pd.DataFrame(line_representation).T[['line_x', 'line_y', 'distance_from_node_to_point']]
 
-        geometry = geopandas.points_from_xy(point_representation.point_x, point_representation.point_y)
-        gdf = GeoDataFrame(point_representation, crs=f"EPSG:{self.epsg}", geometry=geometry)
-        gdf = gdf.rename(columns={'point_x': 'x', 'point_y': 'y', 'distance_from_node_to_point': 'residual_distance'})
+        geometry = geopandas.points_from_xy(line_representation.line_x, line_representation.line_y)
+        gdf = GeoDataFrame(line_representation, crs=f"EPSG:{self.epsg}", geometry=geometry)
+        gdf = gdf.rename(columns={'line_x': 'x', 'line_y': 'y', 'distance_from_node_to_point': 'residual_distance'})
         return gdf
