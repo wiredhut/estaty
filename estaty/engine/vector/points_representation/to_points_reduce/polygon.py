@@ -17,7 +17,10 @@ class PolygonToPointReducer(ReducerToPoint):
         super().__init__(epsg, **params)
 
     def reduce_to_point(self, row: pd.Series, additional_info: Union[Any, None]) -> GeoDataFrame:
-        """ Method allows reducing geometry to a single point """
+        """ Method allows reducing geometry to a single point
+
+        additional_info in this method is geo dataframe with nodes
+        """
         polygon = row.geometry
         xx, yy = polygon.exterior.coords.xy
 
