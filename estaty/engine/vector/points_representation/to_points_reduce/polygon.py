@@ -40,8 +40,7 @@ class PolygonToPointReducer(ReducerToPoint):
         common_table = distance_calculator.calculate_euclidean_by_columns(['x', 'y'],
                                                                           ['polygon_x', 'polygon_y'],
                                                                           dist_column)
-        common_table['common_distance'] = common_table['distance_from_node_to_point'] + \
-                                          common_table['distance_from_target_to_nodes']
+        common_table['common_distance'] = common_table['distance_from_node_to_point'] + common_table['distance_from_target_to_nodes']
         common_table = common_table.reset_index()
         # Find suitable point for path search problem
         nearest_point = common_table['common_distance'].argmin()

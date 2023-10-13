@@ -15,7 +15,7 @@ def launch_proximity_analysis_for_school_objects():
     analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': 'black'},
                         from_actions=[osm_reprojected])
 
-    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187}, radius=1000)
+    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187}, radius=1500)
     founded_routes = model.compose(analysis)
 
     print(founded_routes.lines)

@@ -67,16 +67,34 @@ class VectorToPointsRepresentation:
                                                                        ['x_target', 'y_target'],
                                                                        dist_column)
 
-        # Apply transformation on polygons
+        if vector_data.points is not None:
+            vector_data.points['residual_distance'] = 0
+
+        #########################################################################
+        # Apply transformation on polygons - they will be converted into points #
+        #########################################################################
         if vector_data.polygons is not None:
             updated_rows = self.use_reducer(self.reducer_by_type['Polygon'](metric_epsg),
                                             vector_data.polygons, gdf_nodes)
-            vector_data.polygons = updated_rows
+            if vector_data.points is None:
+                vector_data.points = updated_rows
+                vector_data.polygons = None
+            else:
+                vector_data.points = pd.concat([vector_data.points, updated_rows])
+                vector_data.polygons = None
 
+        ######################################################################
+        # Apply transformation on lines - they will be converted into points #
+        ######################################################################
         if vector_data.lines is not None:
             updated_rows = self.use_reducer(self.reducer_by_type['LineString'](metric_epsg),
                                             vector_data.lines, gdf_nodes)
-            vector_data.polygons = updated_rows
+            if vector_data.points is None:
+                vector_data.points = updated_rows
+                vector_data.lines = None
+            else:
+                vector_data.points = pd.concat([vector_data.points, updated_rows])
+                vector_data.lines = None
 
         return vector_data
 
