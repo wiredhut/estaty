@@ -13,6 +13,7 @@ from estaty.engine.vector.convert import transform_coordinates_in_dataframe
 from estaty.engine.vector.point.distance import DistanceToPointsCalculator
 from estaty.engine.vector.points_representation.to_points_reduce.common import \
     ReducerToPoint
+from estaty.engine.vector.points_representation.to_points_reduce.point import PointToPointReducer
 from estaty.engine.vector.points_representation.to_points_reduce.polygon import \
     PolygonToPointReducer
 
@@ -29,7 +30,8 @@ class VectorToPointsRepresentation:
     """
 
     reducer_by_type = {'LineString': None,
-                       'Polygon': PolygonToPointReducer}
+                       'Polygon': PolygonToPointReducer,
+                       'Point': PointToPointReducer}
 
     def __init__(self, **params):
         self.params = params
@@ -68,7 +70,9 @@ class VectorToPointsRepresentation:
                                                                        dist_column)
 
         if vector_data.points is not None:
-            vector_data.points['residual_distance'] = 0
+            # Points to points reducer
+            vector_data.points = self.use_reducer(self.reducer_by_type['Point'](metric_epsg),
+                                                  vector_data.points, gdf_nodes)
 
         #########################################################################
         # Apply transformation on polygons - they will be converted into points #
