@@ -16,7 +16,7 @@ def launch_proximity_analysis_for_water_objects():
                                             'title': 'Water objects'},
                         from_actions=[osm_reprojected])
 
-    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187}, radius=2000)
+    model = EstateModel().for_property({'lat': 59.944843895537566, 'lon': 30.294778398601856}, radius=2000)
     founded_routes = model.compose(analysis)
 
     print(founded_routes.lines)

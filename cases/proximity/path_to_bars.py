@@ -16,13 +16,12 @@ def launch_proximity_analysis_for_bars_objects():
                                             'edgecolor': 'black', 'title': 'Bars'},
                         from_actions=[osm_reprojected])
 
-    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187}, radius=2000)
+    model = EstateModel().for_property({'lat': 59.944843895537566, 'lon': 30.294778398601856}, radius=2000)
     founded_routes = model.compose(analysis)
 
     print(founded_routes.lines)
     print(f'Min length: {founded_routes.lines["Length"].min():.2f}, m')
     print(f'Mean length: {founded_routes.lines["Length"].mean():.2f}, m')
-    print(f'Max length: {founded_routes.lines["Length"].max():.2f}, m')
 
 
 if __name__ == '__main__':

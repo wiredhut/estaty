@@ -7,13 +7,13 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-def launch_proximity_analysis_for_school_objects():
-    osm_source = DataSource('osm', params={'category': 'school'})
+def launch_proximity_analysis_for_waste_disposal_objects():
+    osm_source = DataSource('osm', params={'category': 'waste_disposal'})
 
     osm_reprojected = Preprocessor('reproject', params={'to': 'auto'}, from_actions=[osm_source])
 
-    analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': '#C67E00',
-                                            'edgecolor': 'black', 'title': 'Schools'},
+    analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': 'black',
+                                            'title': 'Waste disposal'},
                         from_actions=[osm_reprojected])
 
     model = EstateModel().for_property({'lat': 59.944843895537566, 'lon': 30.294778398601856}, radius=2000)
@@ -26,4 +26,4 @@ def launch_proximity_analysis_for_school_objects():
 
 
 if __name__ == '__main__':
-    launch_proximity_analysis_for_school_objects()
+    launch_proximity_analysis_for_waste_disposal_objects()

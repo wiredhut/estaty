@@ -24,8 +24,7 @@ def launch_parks_proximity_analysis():
     osm_source = DataSource('osm', params={'category': 'parks'})
 
     # 2 Stage - re project layers obtained from OSM: UTM zone 33N - EPSG:32633
-    osm_reprojected = Preprocessor('reproject',
-                                   params={'to': 32633},
+    osm_reprojected = Preprocessor('reproject', params={'to': 'auto'},
                                    from_actions=[osm_source])
 
     # 4 Stage - calculate distances from open source
@@ -34,7 +33,7 @@ def launch_parks_proximity_analysis():
                         from_actions=[osm_reprojected])
 
     # Launch model for desired location
-    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187}, radius=2000)
+    model = EstateModel().for_property({'lat': 59.944843895537566, 'lon': 30.294778398601856}, radius=2000)
     founded_routes = model.compose(analysis)
 
     print(founded_routes.lines)
