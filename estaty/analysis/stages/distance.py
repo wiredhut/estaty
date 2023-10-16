@@ -128,12 +128,13 @@ class DistanceAnalysisStage(Stage):
             target_point = GeoDataFrame(crs=f"EPSG:{WGS_EPSG}", geometry=[geometry])
             target_point = target_point.to_crs(epsg=3857)
 
-            ax = source_geometries.all.plot(color=color)
+            ax = source_geometries.area_of_interest_as_dataframe.plot(color='#ffffff', edgecolor='black', alpha=0.1,
+                                                                      linewidth=2)
+            ax = source_geometries.all.plot(ax=ax, color=color)
             ax = input_data.lines.plot(ax=ax, column='Length', alpha=0.6, legend=True,
                                        cmap='Reds', legend_kwds={'label': "Route length, m"},
                                        zorder=1)
-            ax = target_point.plot(ax=ax, color='red', alpha=1.0, markersize=40,
-                                   edgecolor='black')
+            ax = target_point.plot(ax=ax, color='red', alpha=1.0, markersize=40, edgecolor='black')
             cx.add_basemap(ax, crs=target_point.crs.to_string(), source=cx.providers.CartoDB.Voyager)
             plt.show()
 

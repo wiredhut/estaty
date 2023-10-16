@@ -14,3 +14,4 @@ MUNICIPALITY_TAGS = {'place': ['municipality']}
 
 SCHOOL_TAGS = {'amenity': ['school']}
 DRIVING_SCHOOL_TAGS = {'amenity': ['driving_school']}
+BARS_TAGS = {'amenity': ['bar']}
