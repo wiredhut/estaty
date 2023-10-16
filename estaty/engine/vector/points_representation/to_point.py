@@ -13,6 +13,7 @@ from estaty.engine.vector.convert import transform_coordinates_in_dataframe
 from estaty.engine.vector.point.distance import DistanceToPointsCalculator
 from estaty.engine.vector.points_representation.to_points_reduce.common import \
     ReducerToPoint
+from estaty.engine.vector.points_representation.to_points_reduce.line import LineToPointReducer
 from estaty.engine.vector.points_representation.to_points_reduce.point import PointToPointReducer
 from estaty.engine.vector.points_representation.to_points_reduce.polygon import \
     PolygonToPointReducer
@@ -29,7 +30,7 @@ class VectorToPointsRepresentation:
     convert each row into point geometry
     """
 
-    reducer_by_type = {'LineString': None,
+    reducer_by_type = {'LineString': LineToPointReducer,
                        'Polygon': PolygonToPointReducer,
                        'Point': PointToPointReducer}
 
