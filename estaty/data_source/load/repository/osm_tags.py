@@ -15,4 +15,6 @@ MUNICIPALITY_TAGS = {'place': ['municipality']}
 SCHOOL_TAGS = {'amenity': ['school']}
 DRIVING_SCHOOL_TAGS = {'amenity': ['driving_school']}
 WASTE_DISPOSAL_TAGS = {'amenity': ['waste_disposal']}
+TOILETS_TAGS = {'amenity': ['toilets']}
+POLICE = {'amenity': ['police']}
 BARS_TAGS = {'amenity': ['bar']}
