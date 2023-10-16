@@ -29,7 +29,8 @@ def launch_parks_proximity_analysis():
                                    from_actions=[osm_source])
 
     # 4 Stage - calculate distances from open source
-    analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': 'green'},
+    analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': 'green',
+                                            'title': 'Parks'},
                         from_actions=[osm_reprojected])
 
     # Launch model for desired location

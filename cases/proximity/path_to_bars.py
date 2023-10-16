@@ -12,7 +12,8 @@ def launch_proximity_analysis_for_bars_objects():
 
     osm_reprojected = Preprocessor('reproject', params={'to': 'auto'}, from_actions=[osm_source])
 
-    analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': 'red'},
+    analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': 'orange',
+                                            'edgecolor': 'black', 'title': 'Bars'},
                         from_actions=[osm_reprojected])
 
     model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187}, radius=2000)

@@ -119,6 +119,10 @@ class DistanceAnalysisStage(Stage):
             if self.params.get('color') is not None:
                 color = self.params.get('color')
 
+            edgecolor = None
+            if self.params.get('edgecolor') is not None:
+                edgecolor = self.params.get('edgecolor')
+
             # Prepare visualizations with founded routes
             source_geometries.to_crs(3857)
             input_data.to_crs(3857)
@@ -130,11 +134,13 @@ class DistanceAnalysisStage(Stage):
 
             ax = source_geometries.area_of_interest_as_dataframe.plot(color='#ffffff', edgecolor='black', alpha=0.1,
                                                                       linewidth=2)
-            ax = source_geometries.all.plot(ax=ax, color=color)
+            ax = source_geometries.all.plot(ax=ax, color=color, edgecolor=edgecolor)
             ax = input_data.lines.plot(ax=ax, column='Length', alpha=0.6, legend=True,
                                        cmap='Reds', legend_kwds={'label': "Route length, m"},
                                        zorder=1)
             ax = target_point.plot(ax=ax, color='red', alpha=1.0, markersize=40, edgecolor='black')
+            if self.params.get('title') is not None:
+                plt.suptitle(self.params.get('title'))
             cx.add_basemap(ax, crs=target_point.crs.to_string(), source=cx.providers.CartoDB.Voyager)
             plt.show()
 

@@ -12,7 +12,8 @@ def launch_proximity_analysis_for_water_objects():
 
     osm_reprojected = Preprocessor('reproject', params={'to': 'auto'}, from_actions=[osm_source])
 
-    analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': 'blue'},
+    analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': 'blue',
+                                            'title': 'Water objects'},
                         from_actions=[osm_reprojected])
 
     model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187}, radius=2000)

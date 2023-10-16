@@ -12,10 +12,11 @@ def launch_proximity_analysis_for_school_objects():
 
     osm_reprojected = Preprocessor('reproject', params={'to': 'auto'}, from_actions=[osm_source])
 
-    analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': 'black'},
+    analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': '#C67E00',
+                                            'edgecolor': 'black', 'title': 'Schools'},
                         from_actions=[osm_reprojected])
 
-    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187}, radius=1500)
+    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187}, radius=2000)
     founded_routes = model.compose(analysis)
 
     print(founded_routes.lines)
