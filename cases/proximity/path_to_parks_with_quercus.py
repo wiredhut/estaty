@@ -30,7 +30,7 @@ def launch_parks_with_quercus_proximity_analysis():
 
     # 4 Stage - calculate distances from open source
     analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': 'green',
-                                            'edgecolor': 'black', 'title': 'Bars'},
+                                            'edgecolor': 'black', 'title': 'Parks with Quercus robur'},
                         from_actions=[merged_vector])
 
     # 5 Stage - display all prepared output calculations into console
