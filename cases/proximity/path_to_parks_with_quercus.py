@@ -15,7 +15,7 @@ def launch_parks_with_quercus_proximity_analysis():
     GBIF.org (20 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.f487j5
     """
     # 1 Stage - define data sources and get data from them
-    osm_source = DataSource('osm', params={'category': 'parks'})
+    osm_source = DataSource('osm', params={'category': 'park'})
     bio_source = DataSource('csv', params={'path': './data/quercus_berlin.csv',
                                            'lat': 'decimalLatitude', 'lon': 'decimalLongitude',
                                            'crs': 4326, 'sep': '\t'})

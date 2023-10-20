@@ -22,7 +22,7 @@ def calculate_green_area_advanced_approach(radius: int = 1000):
     """
 
     # Branch 1 - prepare vector data
-    osm_source = DataSource('osm', params={'category': 'parks'})
+    osm_source = DataSource('osm', params={'category': 'park'})
     osm_reprojected = Preprocessor('reproject', params={'to': 'auto'},
                                    from_actions=[osm_source])
 

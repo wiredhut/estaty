@@ -25,7 +25,7 @@ def calculate_green_area(radius: int = 1000):
     """
 
     # 1 Stage - load data about parks
-    osm_source = DataSource('osm', params={'category': 'parks'})
+    osm_source = DataSource('osm', params={'category': 'park'})
 
     # 2 Stage - re project layers obtained from OSM into UTM zone 33N (defined automatically)
     osm_reprojected = Preprocessor('reproject', params={'to': 'auto'},

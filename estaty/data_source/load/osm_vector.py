@@ -28,19 +28,19 @@ class LoadOSMStage(Stage):
     """
 
     tags_by_category = {'water': WATER_TAGS,
-                        'parks': PARKS_TAGS,
-                        'lights': LIGHTS_TAGS,
+                        'park': PARKS_TAGS,
+                        'light': LIGHTS_TAGS,
                         'municipality': MUNICIPALITY_TAGS,
                         'school': SCHOOL_TAGS,
                         'driving_school': DRIVING_SCHOOL_TAGS,
                         'bar': BARS_TAGS,
                         'waste_disposal': WASTE_DISPOSAL_TAGS,
-                        'toilets': TOILETS_TAGS,
+                        'toilet': TOILETS_TAGS,
                         'police': POLICE}
 
     # Several spatial objects must include only particular geometries types
     allowed_geom_by_category = {'water': ['LineString', 'Polygon', 'MultiPolygon'],
-                                'parks': ['Polygon', 'MultiPolygon'],
+                                'park': ['Polygon', 'MultiPolygon'],
                                 'municipality': ['Polygon', 'MultiPolygon']}
 
     def __init__(self, **params):
@@ -97,7 +97,7 @@ class LoadOSMStage(Stage):
 
             # Save data into gpkg file (if it is required)
             if self.local_cache:
-                if self.category == 'lights':
+                if self.category == 'light':
                     save_geodataframe_into_file(osm_data, file_path,
                                                 save_only_geometries=True)
                 else:

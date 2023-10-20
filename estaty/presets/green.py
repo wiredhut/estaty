@@ -12,7 +12,7 @@ class GreenCaseAdvancedPreset(Preset):
     def return_final_action(self):
         """ Using predefined structure of pipeline for analysis """
         # 1 Stage - define data sources and get data from them
-        osm_source = DataSource('osm', params={'category': 'parks'})
+        osm_source = DataSource('osm', params={'category': 'park'})
         bio_source = DataSource('gbif', params={'species': ['ambrosia']})
 
         # 2 Stage - re project layers into metric projection

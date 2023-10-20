@@ -12,8 +12,8 @@ def load_data_in_several_branches():
     """
     Demonstration how to construct processing model with several branches
     """
-    parks_source = DataSource('osm', params={'category': 'parks'})
-    lights_source = DataSource('osm', params={'category': 'lights'})
+    parks_source = DataSource('osm', params={'category': 'park'})
+    lights_source = DataSource('osm', params={'category': 'light'})
 
     # set dummy action just to pass data through it
     dummy_preprocessing = Preprocessor('dummy', {},

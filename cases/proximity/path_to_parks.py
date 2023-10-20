@@ -9,7 +9,7 @@ warnings.filterwarnings('ignore')
 
 def launch_parks_proximity_analysis():
     # 1 Stage - define data sources and get data from them
-    osm_source = DataSource('osm', params={'category': 'parks'})
+    osm_source = DataSource('osm', params={'category': 'park'})
 
     # 2 Stage - re project layers obtained from OSM: UTM zone 33N - EPSG:32633
     osm_reprojected = Preprocessor('reproject', params={'to': 'auto'}, from_actions=[osm_source])

@@ -9,8 +9,8 @@ class DataSource(Action):
         * 'osm' - Open Street Map data loader.
         Support the following configurations:
         {'category': 'water'} to load water objects geometries,
-        {'category': 'parks'} to load parks objects geometries,
-        {'category': 'lights'} to load lights objects geometries
+        {'category': 'park'} to load parks objects geometries,
+        {'category': 'light'} to load lights objects geometries
 
         * 'csv' - csv file with coordinates
     """

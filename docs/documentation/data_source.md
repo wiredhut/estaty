@@ -14,14 +14,14 @@ Parameters:
 
 - `category`: category of data to load. Possible options:
   - `water`: water objects 
-  - `parks`: parks,
-  - `lights`: streetlights,
+  - `park`: parks,
+  - `light`: streetlights,
   - `municipality` : administrative borders,
   - `school`: schools,
   - `driving_school`: driving school,
   - `bar`: bars,
   - `waste_disposal`: waste disposal,
-  - `toilets`: public toilets,
+  - `toilet`: public toilets,
   - `police`: police
 - `local_cache`: bool. is there a need to use local caching for OSM data or not (save downloaded data into files)
 
@@ -30,7 +30,7 @@ Usage example:
 ```Python
 from estaty.data_source.action import DataSource
 
-osm_source = DataSource('osm', params={'category': 'parks'})
+osm_source = DataSource('osm', params={'category': 'park'})
 ```
 
 ## csv
@@ -70,7 +70,7 @@ warnings.filterwarnings('ignore')
 
 
 def load_data_from_osm():
-    osm_source = DataSource('osm', params={'category': 'parks'})
+    osm_source = DataSource('osm', params={'category': 'park'})
     model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187}, radius=2000)
     loaded_data = model.compose(osm_source)
 

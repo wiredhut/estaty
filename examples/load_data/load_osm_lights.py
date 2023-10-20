@@ -17,7 +17,7 @@ def load_data_with_lights_from_osm():
     Munich: {'lat': 48.13884230541626, 'lon': 11.568211350731131}
     """
     # Define data sources and get data from it as parks
-    osm_source = DataSource('osm', params={'category': 'lights'})
+    osm_source = DataSource('osm', params={'category': 'light'})
 
     # Launch data loading (may be time consuming)
     model = EstateModel().for_property({'lat': 52.518168945198845,
