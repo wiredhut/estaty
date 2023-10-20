@@ -7,6 +7,7 @@ of the urban environment.
 
 <img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/proximity_parks_water_example.png" width="650"/>
 
+
 ## Scripts 
 
 In progress

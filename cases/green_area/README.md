@@ -1,7 +1,7 @@
 # Green area calculation 
 
 In this section scripts for "Green area calculation" use case are prepared. 
-Grean area (or **greendex**) is an estimation of how green the area around a property is.
+Green area (or **greendex**) is an estimation of how green the area around a property is.
 
 ## Calculation description 
 

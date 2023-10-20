@@ -14,7 +14,7 @@ The variety of spatial data can be reduced to two large groups: raster and vecto
 Vector data can be presented as follows: point data, lines, polygons (Figure 1). So, 
 **estaty** reduces completely all assimilated data to the following four types.
 
-<img src="./docs/media/spatial_data.png" width="650"/>
+<img src="./docs/media/spatial_data.png" width="700"/>
 
 Figure 1. Possible types of spatial data
 
@@ -32,7 +32,7 @@ and generalising the data. So, there are exists the following 5 layers:
 
 All above submodules can be flexibly configured to create custom data analysis pipelines:
 
-<img src="./docs/media/arc_animation.gif" width="650"/>
+<img src="./docs/media/arc_animation.gif" width="700"/>
 
 ## Usage examples 
 
@@ -40,9 +40,10 @@ Some use cases presented in a form of Python scripts - check [examples](./exampl
 
 ## Cases 
 
-The service is designed to provide a cases. Therefore, all existing demonstration cases are located separately:
-check folder [cases](./cases):
-- [green_area_simple.py](./cases/green_area_simple.py) - calculate "green" are nearby property 
-  using only open street map data.
-- [green_area_advanced.py](./cases/green_area_advanced.py) - calculate "green" are nearby property 
-  using open street map data and Landsat NDVI fields.
+<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/proximity_preview_spb.png" width="700"/>
+
+The service is designed to create a separate approaches for analysis (we call it use cases). All of them can be found in
+the [cases folder](./cases):
+
+* area calculation - example of using the library to compare areas
+* proximity analysis - example of using the library to build routes to POIs (points of interest) of the required category and providing proximity analysis

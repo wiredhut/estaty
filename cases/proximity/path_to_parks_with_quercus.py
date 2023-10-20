@@ -10,17 +10,6 @@ warnings.filterwarnings('ignore')
 
 
 def launch_parks_with_quercus_proximity_analysis():
-    """
-    Demonstration how to launch green case advanced version manually from nodes.
-    There are using several data sources to perform analysis
-    There are several actions to construct analysis pipelines from:
-        * DataSource - sources of data, API or files
-        * Preprocessor - preprocessing obtained data
-        * Merger - how to merge data
-        * Analyzer - launch desired spatial analysis
-        * Report - analysis results visualization or reporting
-    """
-
     # 1 Stage - define data sources and get data from them
     osm_source = DataSource('osm', params={'category': 'parks'})
     bio_source = DataSource('csv', params={'path': './data/quercus_data.csv',
