@@ -45,5 +45,7 @@ Some use cases presented in a form of Python scripts - check [examples](./exampl
 The service is designed to create a separate approaches for analysis (we call it use cases). All of them can be found in
 the [cases folder](./cases):
 
-* area calculation - example of using the library to compare areas
-* proximity analysis - example of using the library to build routes to POIs (points of interest) of the required category and providing proximity analysis
+* [area calculation](./cases/green_area) - example of using the library to compare areas
+* [proximity analysis](./cases/proximity) - example of using the library to build routes to POIs (points of interest) of the required category and providing proximity analysis
+
+Some release-related cases can be found via link [https://github.com/red5ai/estaty_examples](https://github.com/red5ai/estaty_examples)

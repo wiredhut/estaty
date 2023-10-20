@@ -12,9 +12,7 @@ def launch_parks_proximity_analysis():
     osm_source = DataSource('osm', params={'category': 'parks'})
 
     # 2 Stage - re project layers obtained from OSM: UTM zone 33N - EPSG:32633
-    osm_reprojected = Preprocessor('reproject',
-                                   params={'to': 32633},
-                                   from_actions=[osm_source])
+    osm_reprojected = Preprocessor('reproject', params={'to': 'auto'}, from_actions=[osm_source])
 
     # 4 Stage - calculate distances from open source
     analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': 'green',

@@ -10,6 +10,7 @@ import contextily as cx
 
 from estaty.constants import WGS_EPSG
 from estaty.data.data import VectorData
+from estaty.engine.vector.convert import polygons_aggregation
 from estaty.stages import Stage
 
 

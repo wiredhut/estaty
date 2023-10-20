@@ -3,7 +3,6 @@ from typing import Union
 
 import pandas as pd
 
-from estaty.constants import WGS_EPSG
 from estaty.data.data import CommonData, VectorData
 from estaty.engine.vector.crop import crop_points_by_polygon
 from estaty.engine.vector.convert import prepare_points_layer, \

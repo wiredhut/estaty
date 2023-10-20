@@ -10,9 +10,13 @@ warnings.filterwarnings('ignore')
 
 
 def launch_parks_with_quercus_proximity_analysis():
+    """
+    Calculate proximity to parks using OpenStreetMap data and
+    GBIF.org (20 October 2023) GBIF Occurrence Download https://doi.org/10.15468/dl.f487j5
+    """
     # 1 Stage - define data sources and get data from them
     osm_source = DataSource('osm', params={'category': 'parks'})
-    bio_source = DataSource('csv', params={'path': './data/quercus_data.csv',
+    bio_source = DataSource('csv', params={'path': './data/quercus_berlin.csv',
                                            'lat': 'decimalLatitude', 'lon': 'decimalLongitude',
                                            'crs': 4326, 'sep': '\t'})
 
@@ -33,7 +37,7 @@ def launch_parks_with_quercus_proximity_analysis():
     report = Report('stdout', from_actions=[analysis])
 
     # Launch model
-    model = EstateModel().for_property({'lat': 59.944843895537566, 'lon': 30.294778398601856}, radius=2000)
+    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187}, radius=2000)
 
     model.compose(report)
 
