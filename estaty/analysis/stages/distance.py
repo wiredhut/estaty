@@ -137,7 +137,7 @@ class DistanceAnalysisStage(Stage):
             ax = source_geometries.all.plot(ax=ax, color=color, edgecolor=edgecolor)
             ax = input_data.lines.plot(ax=ax, column='Length', alpha=0.6, legend=True,
                                        cmap='Reds', legend_kwds={'label': "Route length, m"},
-                                       zorder=1)
+                                       zorder=1, vmin=0)
             ax = target_point.plot(ax=ax, color='red', alpha=1.0, markersize=40, edgecolor='black')
             if self.params.get('title') is not None:
                 plt.suptitle(self.params.get('title'))
