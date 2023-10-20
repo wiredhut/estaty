@@ -8,38 +8,36 @@ from estaty.data.data import CommonData, VectorData
 from estaty.engine.vector.crop import crop_points_by_polygon
 from estaty.engine.vector.convert import prepare_points_layer, \
     create_polygon_from_point
-from estaty.paths import get_local_files_storage_path
 from estaty.stages import Stage
 
 import warnings
 warnings.filterwarnings('ignore')
 
 
-class LoadGBIFLocallyStage(Stage):
-    """ Load GBIF data which already was prepared and stored in csv locally """
+class LoadCsvVectorStage(Stage):
+    """ Load data and stored in csv locally """
 
     def __init__(self, **params):
         super().__init__(**params)
         self.object_for_analysis = params['object_for_analysis']
-        # TODO improve to allow several species processing
-        self.plant = params['species'][0]
-        path_to_files = Path(get_local_files_storage_path(), 'gbif')
+        self.path = Path(params['path']).resolve()
+        self.lat = params['lat']
+        self.lon = params['lon']
 
-        # Get path to file with species data
-        self.path_to_file = None
-        for file in path_to_files.iterdir():
-            if self.plant in file.name:
-                self.path_to_file = file
-                break
+        # Optional parameters
+        self.crs = params.get('crs')
+        self.separator = params.get('sep')
 
-    def apply(self, input_data: Union[CommonData, None]) -> CommonData:
+    def apply(self, input_data: Union[CommonData, None]) -> VectorData:
         """ Load data from local file """
-        dataframe = pd.read_csv(self.path_to_file, sep='\t')
-        dataframe = prepare_points_layer(dataframe,
-                                         lon='decimalLongitude',
-                                         lat='decimalLatitude')
+        if self.separator is None:
+            dataframe = pd.read_csv(self.path, sep='\t')
+        else:
+            dataframe = pd.read_csv(self.path, sep=self.separator)
+
+        dataframe = prepare_points_layer(dataframe, lon=self.lon, lat=self.lat)
         # Coordinates must be in WGS
-        dataframe = dataframe.to_crs(WGS_EPSG)
+        dataframe = dataframe.to_crs(self.crs)
 
         # Crop geo dataframe by location polygon
         polygon = create_polygon_from_point(self.object_for_analysis,

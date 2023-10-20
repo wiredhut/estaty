@@ -13,3 +13,8 @@ class Merger(SecondaryAction):
 
     def execute(self):
         data = self.execute_previous_actions()
+
+        # Launch merging on obtained data
+        params = {**self.params, **{'object_for_analysis': self.object_for_analysis}}
+        data = self.execution_pool(**params).apply(data)
+        return data

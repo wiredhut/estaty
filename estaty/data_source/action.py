@@ -12,8 +12,7 @@ class DataSource(Action):
         {'category': 'parks'} to load parks objects geometries,
         {'category': 'lights'} to load lights objects geometries
 
-        * 'gbif_local' - local GBIF data storage with information about
-        different species of plants and animals
+        * 'csv' - csv file with coordinates
     """
 
     def __init__(self, action_name: str, params: dict = None):

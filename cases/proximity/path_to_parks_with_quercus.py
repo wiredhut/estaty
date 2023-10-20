@@ -9,7 +9,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-def launch_parks_with_ambrosia_proximity_analysis():
+def launch_parks_with_quercus_proximity_analysis():
     """
     Demonstration how to launch green case advanced version manually from nodes.
     There are using several data sources to perform analysis
@@ -23,33 +23,31 @@ def launch_parks_with_ambrosia_proximity_analysis():
 
     # 1 Stage - define data sources and get data from them
     osm_source = DataSource('osm', params={'category': 'parks'})
-    bio_source = DataSource('gbif_local', params={'species': ['ambrosia']})
+    bio_source = DataSource('csv', params={'path': './data/quercus_data.csv',
+                                           'lat': 'decimalLatitude', 'lon': 'decimalLongitude',
+                                           'crs': 4326, 'sep': '\t'})
 
     # 2 Stage - re project layers into metric projection
-    osm_reprojected = Preprocessor('reproject',
-                                   params={'to': 32633},
-                                   from_actions=[osm_source])
-    bio_reprojected = Preprocessor('reproject',
-                                   params={'to': 32633},
-                                   from_actions=[bio_source])
+    osm_reprojected = Preprocessor('reproject', params={'to': 'auto'}, from_actions=[osm_source])
+    bio_reprojected = Preprocessor('reproject', params={'to': 'auto'}, from_actions=[bio_source])
 
     # 3 Stage - merge data into OSM polygons (method match) - order is important
-    merged_vector = Merger('vector', params={'method': 'match'},
+    merged_vector = Merger('vector', params={'method': 'match', 'buffer': 10},
                            from_actions=[osm_reprojected, bio_reprojected])
 
     # 4 Stage - calculate distances from open source
-    analysis = Analyzer('distance', params={'restriction': 'only_roads',
-                                            'radius': 500},
+    analysis = Analyzer('distance', params={'network_type': 'walk', 'visualize': True, 'color': 'green',
+                                            'edgecolor': 'black', 'title': 'Bars'},
                         from_actions=[merged_vector])
 
     # 5 Stage - display all prepared output calculations into console
     report = Report('stdout', from_actions=[analysis])
 
     # Launch model
-    model = EstateModel().for_property({'lat': 52.5171411, 'lon': 13.3857187})
+    model = EstateModel().for_property({'lat': 59.944843895537566, 'lon': 30.294778398601856}, radius=2000)
 
     model.compose(report)
 
 
 if __name__ == '__main__':
-    launch_parks_with_ambrosia_proximity_analysis()
+    launch_parks_with_quercus_proximity_analysis()
