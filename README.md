@@ -6,6 +6,22 @@ Module for spatial data fusion and processing for real estate objects.
 **estaty** is Python-based platform to obtain and merge open spatial data with not very open and not very spatial to create “real estate use cases”.
 Library provide tools for loaded data merging, pairwise source verification, proximity analysis, etc. 
 
+## Installation
+
+Use the following commands to install this module
+
+Using pip:
+
+```Bash
+pip install estaty
+```
+
+Using poetry:
+
+```Bash
+poetry add estaty
+```
+
 ## Documentation 
 
 ### Brief dive into spatial data processing
