@@ -10,9 +10,17 @@ class DataSource(Action):
         Support the following configurations:
         {'category': 'water'} to load water objects geometries,
         {'category': 'park'} to load parks objects geometries,
-        {'category': 'light'} to load lights objects geometries
+        {'category': 'light'} to load streetlights objects geometries
+        {'category': 'municipality'} to load municipality borders geometries
+        {'category': 'school'} to load schools objects geometries
+        {'category': 'driving_school'} to load driving school objects geometries
+        {'category': 'bar'} to load bar objects geometries
+        {'category': 'waste_disposal'} to load waste disposal objects geometries
+        {'category': 'toilet'} to load toilet objects geometries
+        {'category': 'police'} to load police objects geometries
 
         * 'csv' - csv file with coordinates
+        * 'gpkg' - gpkg file
     """
 
     def __init__(self, action_name: str, params: dict = None):

@@ -14,16 +14,16 @@ Parameters:
 
 - `category`: category of data to load. Possible options:
 
-  - `water`: water objects 
-  - `park`: parks,
-  - `light`: streetlights,
-  - `municipality` : administrative borders,
-  - `school`: schools,
-  - `driving_school`: driving school,
-  - `bar`: bars,
-  - `waste_disposal`: waste disposal,
-  - `toilet`: public toilets,
-  - `police`: police
+    - `water`: water objects;
+    - `park`: parks;
+    - `light`: streetlights;
+    - `municipality`: administrative borders;
+    - `school`: schools;
+    - `driving_school`: driving school;
+    - `bar`: bars;
+    - `waste_disposal`: waste disposal;
+    - `toilet`: public toilets;
+    - `police`: police
 
 - `local_cache`: bool. is there a need to use local caching for OSM data or not (save downloaded data into files)
 
@@ -58,6 +58,26 @@ file_source = DataSource('csv', params={'path': './data/quercus_berlin.csv',
                                         'lat': 'decimalLatitude', 'lon': 'decimalLongitude',
                                         'crs': 4326, 'sep': '\t'})
 ```
+
+## gpkg
+
+Action name: `gpkg`
+
+Description: Load data from geopackage file
+
+Parameters: 
+
+- `path`: path to the file
+- `layer`: layer to read
+
+Usage example: 
+
+```Python
+from estaty.data_source.action import DataSource
+
+file_source = DataSource('gpkg', params={'path': './package.gpkg', 'layer': 'countries'})
+```
+
 
 ## Usage example
 

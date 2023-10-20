@@ -13,3 +13,7 @@ class Report(SecondaryAction):
 
     def execute(self):
         data = self.execute_previous_actions()
+
+        params = {**self.params, **{'object_for_analysis': self.object_for_analysis}}
+        data = self.execution_pool(**params).apply(data)
+        return data
