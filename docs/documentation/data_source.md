@@ -13,6 +13,7 @@ Description: Load data directly from OpenStreetMap using `osmnx` module
 Parameters: 
 
 - `category`: category of data to load. Possible options:
+
   - `water`: water objects 
   - `park`: parks,
   - `light`: streetlights,
@@ -23,6 +24,7 @@ Parameters:
   - `waste_disposal`: waste disposal,
   - `toilet`: public toilets,
   - `police`: police
+
 - `local_cache`: bool. is there a need to use local caching for OSM data or not (save downloaded data into files)
 
 Usage example: 
