@@ -56,7 +56,7 @@ Some use cases presented in a form of Python scripts - check [examples](./exampl
 
 ## Cases 
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/proximity_preview_spb.png" width="700"/>
+<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/proximity_preview_berlin.png" width="700"/>
 
 The service is designed to create a separate approaches for analysis (we call it use cases). All of them can be found in
 the [cases folder](./cases):
