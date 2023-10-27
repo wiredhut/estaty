@@ -25,4 +25,5 @@ Three scripts have been prepared for this use case:
 
 ## Related materials
 
-In progress
+- [Proximity Analysis to Find the Nearest Bar Using Python](https://medium.com/towards-data-science/proximity-analysis-to-find-the-nearest-bar-using-python-a29d29a3754d) (eng)
+- [“Ну и долго мне ещё до магазина?” Или пара слов о геоинформационном анализе с помощью Python](https://habr.com/ru/articles/770216/) (rus)
