@@ -4,6 +4,12 @@ The first node that every pipelines starts with is the DataSource.
 Using DataSource it is possible to get data directly from third-party services with which **estaty** has integrations, 
 for example OpenStreetMap. Or spatial data can be loaded from files. 
 
+DataSource node  loads data from the required source, brings the data to a common standard 
+(vector and raster). No matter what the source was, the output from this node will be only 
+in two possible variations, which allows to unify their further processing:
+
+<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/data_source.png" width="700"/>
+
 ## osm
 
 Action name: `osm`

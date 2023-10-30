@@ -7,6 +7,7 @@ and merge open spatial data with not very open and not very spatial to create â€
 ## Get started
 
 There are examples of how to run the library in the ["examples"](https://github.com/red5ai/estaty/tree/main/examples) folder in the github repository.
+Or you can check [Quick start page](./documentation/quickstart.md) to become familiar with a tool
 
 ## Services 
 

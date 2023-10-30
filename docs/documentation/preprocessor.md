@@ -2,6 +2,10 @@
 
 An intermediate node that allows preparing data for further interactions (for merging or analysis)
 
+<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/preprocessing.png" width="700"/>
+
+*Raster data spatial resolution is under development
+
 ## reproject
 
 Action name: `reproject`
