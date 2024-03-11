@@ -56,7 +56,7 @@ Some use cases presented in a form of Python scripts - check [examples](./exampl
 
 ## Cases 
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/proximity_preview_berlin.png" width="700"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/proximity_preview_berlin.png" width="700"/>
 
 The service is designed to create a separate approaches for analysis (we call it use cases). All of them can be found in
 the [cases folder](./cases):
@@ -64,4 +64,4 @@ the [cases folder](./cases):
 * [area calculation](./cases/green_area) - example of using the library to compare areas
 * [proximity analysis](./cases/proximity) - example of using the library to build routes to POIs (points of interest) of the required category and providing proximity analysis
 
-Some release-related cases can be found via link [https://github.com/red5ai/estaty_examples](https://github.com/red5ai/estaty_examples)
+Some release-related cases can be found via link [https://github.com/wiredhut/estaty_examples](https://github.com/red5ai/estaty_examples)

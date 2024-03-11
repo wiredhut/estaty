@@ -8,7 +8,7 @@ If you don't have a good understanding of how to work with spatial data - don't 
 The variety of spatial data can be reduced to two large groups: raster and vector. Vector data can be presented as follows: point data, lines, polygons (Figure 1). 
 So, estaty reduces completely all assimilated data to the following four types.
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/spatial_data.png" width="800"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/spatial_data.png" width="800"/>
 
 Figure 1. Possible types of spatial data
 

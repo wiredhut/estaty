@@ -36,7 +36,8 @@ class LoadOSMStage(Stage):
                         'bar': BARS_TAGS,
                         'waste_disposal': WASTE_DISPOSAL_TAGS,
                         'toilet': TOILETS_TAGS,
-                        'police': POLICE}
+                        'police': POLICE,
+                        'railway': {'railway': ['rail']}}
 
     # Several spatial objects must include only particular geometries types
     allowed_geom_by_category = {'water': ['LineString', 'Polygon', 'MultiPolygon'],

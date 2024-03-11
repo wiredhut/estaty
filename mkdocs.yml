@@ -1,7 +1,7 @@
 site_name: estaty
 site_url: https://estaty.readthedocs.io/en/latest/
-site_author: Red5 team
-repo_url: https://github.com/red5ai/estaty
+site_author: Wiredhut
+repo_url: https://github.com/wiredhut/estaty
 
 nav:
     - Home: index.md
@@ -23,4 +23,4 @@ nav:
           - 'GREENDEX': 'services/greendex.md'
 theme:
     name: readthedocs
-    logo: https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/estaty_logo_inversed.png
+    logo: https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/estaty_logo_inversed.png

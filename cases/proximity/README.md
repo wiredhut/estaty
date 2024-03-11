@@ -7,11 +7,11 @@ Proximity analysis is an analysis of the availability of infrastructural facilit
 
 Proximity analysis allows finding the distance to objects, to police stations, for example.
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/proximity_preview_spb.png" width="700"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/proximity_preview_spb.png" width="700"/>
 
 The calculation is based on the OSM road graph. Using this graph, routes to each geographical object are created
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/spb_graph.png" width="500"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/spb_graph.png" width="500"/>
 
 ## Scripts 
 

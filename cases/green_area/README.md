@@ -12,7 +12,7 @@ To obtain the green area value, two important components need to be calculated:
 
 Then: *Green area percentage = (B / A) x 100*
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/greendex_example.png" width="650"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/greendex_example.png" width="650"/>
 
 ## Scripts 
 
@@ -25,7 +25,7 @@ Three scripts have been prepared for this use case:
 - [benchmark.py](benchmark.py) - launch simple version of the calculations for several locations to obtain scale. 
     Results of benchmark script can be visualized as follows:
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/greendex_berlin_benchmark_map.png" width="650"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/greendex_berlin_benchmark_map.png" width="650"/>
 
 
 ## Related materials
