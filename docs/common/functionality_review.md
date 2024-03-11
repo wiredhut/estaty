@@ -16,20 +16,20 @@ For each vector object, information about its properties (attributes) is
 stored into specific table - attributes table. It is the common format of spatial data storage (Figure 2). 
 Thus it is possible to analyse not only the geometry of the vector layers, but also their quantitative characteristics. 
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/attributes_table.png" width="800"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/attributes_table.png" width="800"/>
 
 Figure 2. Attributes table for spatial vector objects
 
 Esaty is capable to obtain data via API from different services, but the basic one is 
 [Open Street Map](https://en.wikipedia.org/wiki/OpenStreetMap) (OSM). Some examples of vector data obtained  from OSM can be seen on Figure 3.
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/osm_data_example.png" width="800"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/osm_data_example.png" width="800"/>
 
 Figure 3. Examples of OSM data for Berlin and Munich
 
 Take a closer look at the lighting data in Berlin (Figure 4). In the figure we can see that the lighting data is represented by both polygons and lines (yellow) and points (orange).
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/lights.png" width="800"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/lights.png" width="800"/>
 
 Figure 4. Berlin streetlights with different geometries
 
@@ -45,7 +45,7 @@ The module thus downloads spatial data in just four formats (1 raster fields and
 
 All above submodules can be flexibly configured to create custom data analysis pipelines (Animation 1).
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/arc_animation.gif" width="800"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/arc_animation.gif" width="800"/>
 
 Animation 1. Key concept of estaty platform for data aggregation and use cases
 
@@ -55,7 +55,7 @@ The module implements a system of presets that allows to run template use cases 
 
 An important note: the sequence of actions as well as the structure of the pipeline is not limited (only your imagination is the limit). For example, we can build the following pipeline for the analysis (Figure 5).
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/pipeline_example.png" width="800"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/pipeline_example.png" width="800"/>
 
 Figure 5. Flexible pipeline example with different action types in structure
 

@@ -9,13 +9,13 @@ Spatial data is something that has coordinates. Such data can be of two types:
 - Vector data - geometries with assigned attributed data
 - Raster data - pictures where each pixel has it's own spatial location 
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/spatial_data.png" width="700"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/spatial_data.png" width="700"/>
 
 Raster data is usually a matrix of values, where each cell contains a single number.
 Vector data is a "geometry - attributes" pair, where for each polygon / line / point there are entries 
 in a table (such tables are called attribute tables) with some characteristics:
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/attributes_table.png" width="700"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/attributes_table.png" width="700"/>
 
 The estaty library allows such data to be processed to get some insights
 
@@ -54,6 +54,6 @@ In progress
 
 ## Proximity analysis 
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/proximity_preview_spb.png" width="700"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/proximity_preview_spb.png" width="700"/>
 
 In progress 

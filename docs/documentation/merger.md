@@ -6,4 +6,4 @@ Combining data in the required way. Possible combinations:
 - raster with raster;
 - vector data with raster data.
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/merger.png" width="700"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/merger.png" width="700"/>

@@ -8,7 +8,7 @@ DataSource node  loads data from the required source, brings the data to a commo
 (vector and raster). No matter what the source was, the output from this node will be only 
 in two possible variations, which allows to unify their further processing:
 
-<img src="https://raw.githubusercontent.com/red5ai/estaty/main/docs/media/data_source.png" width="700"/>
+<img src="https://raw.githubusercontent.com/wiredhut/estaty/main/docs/media/data_source.png" width="700"/>
 
 ## osm
 
